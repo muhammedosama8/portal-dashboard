@@ -76,7 +76,7 @@ const Permission = () => {
       if (res?.status === 200) {
         dispatch(changeAdminRules(formData.rules));
         localStorage.setItem(
-          "AssociationAdminRules",
+          "PortalAdminRules",
           JSON.stringify(formData.rules)
         );
         toast.success(`Added Rules for ${formData?.admin?.label}`);

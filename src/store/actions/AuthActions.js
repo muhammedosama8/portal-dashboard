@@ -18,7 +18,7 @@ export const CHANGE_PROFILE_DATA = "change profile data";
 
 export function Logout() {
   localStorage.removeItem("userDetails");
-  localStorage.removeItem("AssociationAdminRules");
+  localStorage.removeItem("PortalAdminRules");
 
   isAuthenticated(false);
 
