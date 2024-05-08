@@ -15,6 +15,14 @@ export const MenuList = [
     to: "rules",
     text: "rules",
   },
+  // Assets
+  {
+    title: "Assets",
+    classsChange: "mm-collapse",
+    iconStyle: <i className="flaticon-381-notepad"></i>,
+    to: "assets",
+    text: "assets",
+  },
   // Employees
   {
     title: "Employees",
@@ -38,6 +46,14 @@ export const MenuList = [
     iconStyle: <i className="la la-cubes"></i>,
     to: "projects",
     text: "projects",
+  },
+  // Salary
+  {
+    title: "Salaries",
+    classsChange: "mm-collapse",
+    iconStyle: <i className="la la-money"></i>,
+    to: "salaries",
+    text: "salaries",
   },
   // Setting
 //   {

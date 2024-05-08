@@ -21,6 +21,8 @@ import Profile from "./pages/Profile";
 import Projects from "./pages/Projects";
 import Employees from "./pages/Employees";
 import Departments from "./pages/Departments";
+import Assets from "./pages/Assets";
+import Salaries from "./pages/Salaries";
 
 const Markup = () => {
   const allroutes = [
@@ -33,13 +35,20 @@ const Markup = () => {
     { url: "rules", component: <Permission /> },
     { url: "rules/:id", component: <Permission /> },
 
+    // Assets
+    { url: "assets", component: <Assets /> },
+
     // Employees
     { url: "employees", component: <Employees /> },
 
     // Projects
     { url: "projects", component: <Projects /> },
+
     // Departments
     { url: "departments", component: <Departments /> },
+    
+    // Salaries
+    { url: "salaries", component: <Salaries /> },
 
     //Profile
     { url: "profile", component: <Profile /> },
