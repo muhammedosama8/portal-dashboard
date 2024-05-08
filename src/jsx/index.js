@@ -20,6 +20,7 @@ import Permission from "./pages/Rules";
 import Profile from "./pages/Profile";
 import Projects from "./pages/Projects";
 import Employees from "./pages/Employees";
+import Departments from "./pages/Departments";
 
 const Markup = () => {
   const allroutes = [
@@ -37,6 +38,8 @@ const Markup = () => {
 
     // Projects
     { url: "projects", component: <Projects /> },
+    // Departments
+    { url: "departments", component: <Departments /> },
 
     //Profile
     { url: "profile", component: <Profile /> },

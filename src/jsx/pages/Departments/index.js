@@ -15,12 +15,12 @@ import { Translate } from "../../Enums/Tranlate";
 import CardItem from "./CardItem";
 import './style.scss'
 import ProjectsService from "../../../services/ProjectsService";
-import AddProjectsModal from "./AddProjectsModal";
+import AddProjectsModal from "./AddDepartmentsModal";
 
-const Projects = () => {
+const Departments = () => {
     const [data, setData] = useState([
-      {id: 1, name: 'test', department: 'test1', client_name: 'mu', client_phone: '435235', cost: '133', works_day: '5', price: '144', maintaince: '5'},
-      {id: 2, name: 'test1', department: 'test2', client_name: 'os', client_phone: '324234', cost: '113', works_day: '4', price: '124', maintaince: '3'},
+      {id: 1, name: 'Department 1', number_of_people: '5'},
+      {id: 2, name: 'Department 2', number_of_people: '6'},
     ])
     const [addModal, setAddModal] = useState(false)
     const [item, setItem] = useState({})
@@ -56,7 +56,7 @@ const Projects = () => {
               setAddModal(true) 
             }}>
               <i className="la la-plus mx-1"></i>
-              {Translate[lang]?.add} {Translate[lang]?.projects}
+              {Translate[lang]?.add} {Translate[lang]?.department}
             </Button>
           </div>
         </Card.Body >
@@ -79,25 +79,7 @@ const Projects = () => {
                       <strong>{Translate[lang]?.name}</strong>
                     </th>
                     <th>
-                      <strong>{Translate[lang]?.cost}</strong>
-                    </th>
-                    <th>
-                      <strong>{Translate[lang]?.department}</strong>
-                    </th>
-                    <th>
-                      <strong>{Translate[lang]?.client_name}</strong>
-                    </th>
-                    <th>
-                      <strong>{Translate[lang]?.client_phone}</strong>
-                    </th>
-                    <th>
-                      <strong>{Translate[lang]?.works_day}</strong>
-                    </th>
-                    <th>
-                      <strong>{Translate[lang]?.price}</strong>
-                    </th>
-                    <th>
-                      <strong>{Translate[lang]?.maintaince}</strong>
+                      <strong>{Translate[lang]?.number_of_people}</strong>
                     </th>
                     <th></th>
                   </tr>
@@ -142,4 +124,4 @@ const Projects = () => {
   );
 };
 
-export default Projects;
+export default Departments;

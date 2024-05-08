@@ -20,15 +20,7 @@ const CardItem = ({item, setItem, index, setAddModal, setShouldUpdate}) =>{
             <td>
                 {item?.name}
             </td>
-            <td>{item.cost}</td>
-            <td>
-                {item?.department}
-            </td>
-            <td>{item.client_name}</td>
-            <td>{item.client_phone}</td>
-            <td>{item.works_day}</td>
-            <td>{item.price}</td>
-            <td>{item.maintaince}</td>
+            <td>{item.number_of_people}</td>
             <td>
                 <Dropdown>
                     <Dropdown.Toggle

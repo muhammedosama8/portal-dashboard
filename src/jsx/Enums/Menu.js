@@ -23,6 +23,14 @@ export const MenuList = [
     to: "employees",
     text: "employees",
   },
+  // Departments
+  {
+    title: "Departments",
+    classsChange: "mm-collapse",
+    iconStyle: <i className="la la-slack"></i>,
+    to: "departments",
+    text: "departments",
+  },
   // Project
   {
     title: "Projects",
