@@ -13,12 +13,14 @@ const AddEmployeesModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
         name: '',
         civil_id: '',
         job_title: "",
+        department: "",
         start_date: "",
         salary: "",
         assets: [],
     })
     const [isAdd, setIsAdd] = useState(false)
     const [assetsOptions, setAssetsOptions] = useState([])
+    const [departmentOptions, setDepartmentOptions] = useState([])
     const [loading, setLoading] = useState(false)
     const employeesService = new EmployeesService()
     const lang = useSelector(state=> state.auth.lang)
@@ -92,7 +94,7 @@ const AddEmployeesModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
             </Modal.Header>
             <Modal.Body>
                     <Row>
-                        <Col md={6}>
+                        <Col md={12}>
                             <AvField
                                 label={Translate[lang]?.name}
                                 type='text'
@@ -141,6 +143,19 @@ const AddEmployeesModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
                                 }}
                                 value={formData.job_title}
                                 onChange={(e) => setFormData({...formData, job_title: e.target.value})}
+                            />
+                        </Col>
+                        <Col md={6}>
+                            <label className="text-label">
+                                {Translate[lang].department}
+                            </label>
+                            <Select
+                                placeholder={Translate[lang]?.select}
+                                options={departmentOptions}
+                                value={formData.department}
+                                onChange={(e) => {
+                                    setFormData({...formData, department: e});
+                                }}
                             />
                         </Col>
                         <Col md={6}>

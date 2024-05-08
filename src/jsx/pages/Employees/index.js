@@ -19,8 +19,8 @@ import AddEmployeesModal from "./AddEmployeesModal";
 
 const Employees = () => {
     const [data, setData] = useState([
-      {id: 1, name: 'test', civil_id: '234234', job_title: 'developer', start_date: '5', salary: '144', assets: ''},
-      {id: 2, name: 'test2', civil_id: '2222', job_title: 'developer', start_date: '5', salary: '144', assets: ''},
+      {id: 1, name: 'test', civil_id: '234234', job_title: 'developer', department: "te", start_date: '5', salary: '144', assets: ''},
+      {id: 2, name: 'test2', civil_id: '2222', job_title: 'developer', department: "te", start_date: '5', salary: '144', assets: ''},
     ])
     const [addModal, setAddModal] = useState(false)
     const [item, setItem] = useState({})
@@ -83,6 +83,9 @@ const Employees = () => {
                     </th>
                     <th>
                       <strong>{Translate[lang]?.job_title}</strong>
+                    </th>
+                    <th>
+                      <strong>{Translate[lang]?.department}</strong>
                     </th>
                     <th>
                       <strong>{Translate[lang]?.start_date}</strong>

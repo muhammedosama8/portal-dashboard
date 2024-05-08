@@ -24,6 +24,7 @@ const CardItem = ({item, setItem, index, setAddModal, setShouldUpdate}) =>{
                 {item?.civil_id}
             </td>
             <td>{item.job_title}</td>
+            <td>{item.department}</td>
             <td>{item.start_date}</td>
             <td>{item.salary}</td>
             <td>{item.assets}</td>
