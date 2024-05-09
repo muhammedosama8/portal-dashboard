@@ -17,11 +17,17 @@ import './style.scss'
 import SalariesService from "../../../services/SalariesService";
 import TotalSalariesModal from "./TotalSalariesModal";
 
+const monthNames = [
+  "January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"
+];
+
 const Salaries = () => {
     const [data, setData] = useState([
       {id: 1, employee_name: 'os', salary: '123'},
       {id: 2, employee_name: 'df', salary: '123'},
     ])
+    const month = new Date().getMonth();
     const [modal, setModal] = useState(false)
     const [item, setItem] = useState({})
     const [hasData, setHasData] = useState(1)
@@ -68,7 +74,7 @@ const Salaries = () => {
                 <Loader />
               </div>}
               <div className="d-flex align-items-baseline mb-3 justify-content-between">
-                <p>May</p>
+                <p className="m-0 text-primary">{monthNames[month]}</p>
                 <Button variant="outline-primary">{Translate[lang].print}</Button>
               </div>
               {(hasData === 1 && !loading) && <Table responsive>
