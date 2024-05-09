@@ -30,6 +30,8 @@ const AddProductsModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
         cost: "",
         works_day: "",
         maintaince: "",
+        client_name: "",
+        client_phone: ""
     })
     const [isAdd, setIsAdd] = useState(false)
     const [loading, setLoading] = useState(false)
@@ -155,6 +157,40 @@ const AddProductsModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
                                 }}
                                 value={formData.cost}
                                 onChange={(e) => setFormData({...formData, cost: e.target.value})}
+                            />
+                        </Col>
+                        <Col md={6}>
+                            <AvField
+                                label={Translate[lang]?.client_name}
+                                type='text'
+                                placeholder={Translate[lang]?.client_name}
+                                bsSize="lg"
+                                name='client_name'
+                                validate={{
+                                    required: {
+                                        value: true,
+                                        errorMessage: Translate[lang].field_required
+                                    }
+                                }}
+                                value={formData.client_name}
+                                onChange={(e) => setFormData({...formData, client_name: e.target.value})}
+                            />
+                        </Col>
+                        <Col md={6}>
+                            <AvField
+                                label={Translate[lang]?.client_phone}
+                                type='text'
+                                placeholder={Translate[lang]?.client_phone}
+                                bsSize="lg"
+                                name='client_phone'
+                                validate={{
+                                    required: {
+                                        value: true,
+                                        errorMessage: Translate[lang].field_required
+                                    }
+                                }}
+                                value={formData.client_phone}
+                                onChange={(e) => setFormData({...formData, client_phone: e.target.value})}
                             />
                         </Col>
                         <Col md={6}>
