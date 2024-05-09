@@ -7,6 +7,8 @@ import Select from "react-select";
 import uploadImg from '../../../../images/upload-img.png';
 import EmployeesService from "../../../../services/EmployeesService";
 import { Translate } from "../../../Enums/Tranlate";
+import BaseService from "../../../../services/BaseService";
+import Loader from "../../../common/Loader";
 
 const AddEmployeesModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
     const [formData, setFormData] = useState({
@@ -17,6 +19,7 @@ const AddEmployeesModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
         start_date: "",
         salary: "",
         assets: [],
+        attachments: []
     })
     const [isAdd, setIsAdd] = useState(false)
     const [assetsOptions, setAssetsOptions] = useState([])
@@ -41,6 +44,26 @@ const AddEmployeesModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
             })
         }
     },[item])
+
+    const fileHandler = (e, ind) => {
+        let files = e.target.files
+        const filesData = Object.values(files)
+
+        if (filesData?.length) {
+            new BaseService().postUpload(filesData[0]).then(res=>{
+                if(res?.status === 200){
+                    let update = formData.shareholder_attach?.map((att, index)=>{
+                        if(index === ind){
+                            return res?.data?.url 
+                        } else{
+                            return att
+                        }
+                    })
+                    setFormData({...formData, shareholder_attach: [...update]})
+                }
+            })
+        }
+    }
 
     const submit = (e) =>{
         e.preventDefault();
@@ -205,6 +228,29 @@ const AddEmployeesModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
                                     setFormData({...formData, assets: e});
                                 }}
                             />
+                        </Col>
+                        <Col md={6} className='mt-3'>
+                            <div className='form-group w-100'>
+                                <label className="m-0">{Translate[lang]?.attachments}</label>
+                                <div className="image-placeholder">	
+                                    <div className="avatar-edit">
+                                        <input type="file" accept=".pdf" onChange={(e) => fileHandler(e)} id={`imageUpload1`} /> 					
+                                        <label htmlFor={`imageUpload1`}  name=''></label>
+                                    </div>
+                                    <div className="avatar-preview2 m-auto">
+                                        <div id={`imagePreview`}>
+                                        {!loading && 
+                                            <img  
+                                                src={uploadImg} alt='icon'
+                                                style={{
+                                                    width: '80px', height: '80px',
+                                                }}
+                                            />}
+                                            {loading && <Loader />}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </Col>
                     </Row>
             </Modal.Body>

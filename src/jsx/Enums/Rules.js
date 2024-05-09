@@ -4,5 +4,5 @@ export const Rules = [
   { label: "Assets", value: "assets" },
   { label: "Employees", value: "employees" },
   { label: "Projects", value: "projects" },
-  { label: "Salary", value: "salary" },
+  // { label: "Salary", value: "salary" },
 ];

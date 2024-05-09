@@ -7,7 +7,7 @@ import Select from "react-select";
 import uploadImg from '../../../../images/upload-img.png';
 import ProjectsService from "../../../../services/ProjectsService";
 import { Translate } from "../../../Enums/Tranlate";
-import Loader from "../../../common/Loader";
+
 import BaseService from "../../../../services/BaseService";
 
 const AddProductsModal = ({addModal, setAddModal, item, setShouldUpdate})=>{

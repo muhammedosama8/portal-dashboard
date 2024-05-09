@@ -6,6 +6,21 @@
         text-wrap: nowrap;
     }
 }
+.tabs-div {
+    padding-bottom: 5px;
+    border-bottom: 1px solid #e8eaeb;
+    padding-top: 1rem;
+    padding-right: 1.2rem;
+    padding-left: 1.2rem;
+    display: flex;
+
+    p {
+      padding: 2px 13px;
+      font-size: 15px;
+      cursor: pointer;
+      font-weight: 500;
+    }
+  }
 .addProduct{
     svg{
         max-width: 100%;

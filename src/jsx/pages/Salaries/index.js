@@ -67,6 +67,10 @@ const Salaries = () => {
             {loading && <div style={{height: '300px'}}>
                 <Loader />
               </div>}
+              <div className="d-flex align-items-baseline mb-3 justify-content-between">
+                <p>May</p>
+                <Button variant="outline-primary">{Translate[lang].print}</Button>
+              </div>
               {(hasData === 1 && !loading) && <Table responsive>
                 <thead>
                   <tr className='text-center'>

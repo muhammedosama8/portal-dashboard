@@ -86,6 +86,7 @@ export const Arabic = {
   shareholders_requests: "طلبات المساهمين",
   attachments: "مرفقات",
   number_of_people: "عدد الافراد",
+  print: "طباعه",
   membership_number: "رقم العضويه",
   item_no: "رقم الصنف",
   item: "صنف",

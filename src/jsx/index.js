@@ -47,8 +47,8 @@ const Markup = () => {
     // Departments
     { url: "departments", component: <Departments /> },
     
-    // Salaries
-    { url: "salaries", component: <Salaries /> },
+    // // Salaries
+    // { url: "salaries", component: <Salaries /> },
 
     //Profile
     { url: "profile", component: <Profile /> },

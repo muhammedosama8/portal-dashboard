@@ -16,12 +16,15 @@ import CardItem from "./CardItem";
 import './style.scss'
 import EmployeesService from "../../../services/EmployeesService";
 import AddEmployeesModal from "./AddEmployeesModal";
+import Salaries from "../Salaries";
 
+const tabs = ['employees', 'salaries']
 const Employees = () => {
     const [data, setData] = useState([
       {id: 1, name: 'test', civil_id: '234234', job_title: 'developer', department: "te", start_date: '5', salary: '144', assets: ''},
       {id: 2, name: 'test2', civil_id: '2222', job_title: 'developer', department: "te", start_date: '5', salary: '144', assets: ''},
     ])
+    const [selectTab, setSelectTab] = useState('employees')
     const [addModal, setAddModal] = useState(false)
     const [item, setItem] = useState({})
     const [hasData, setHasData] = useState(1)
@@ -33,6 +36,26 @@ const Employees = () => {
 
   return (
     <Fragment>
+      <Card className="mb-3">
+        <Card.Body className="p-3">
+        <div className="tabs-div">
+          {tabs?.map((tab,index)=>{
+            return <p
+            key={index}
+            style={{
+              color: tab === selectTab ? "var(--primary)" : "#7E7E7E",
+              borderBottom: tab === selectTab ? "2px solid" : "none",
+            }}
+            onClick={() => setSelectTab(tab)}
+          >
+            {Translate[lang][tab]}
+          </p>
+          })}
+      </div>
+         </Card.Body>
+      </Card>
+
+      {selectTab === 'employees' && <>
       <Card className="mb-3">
         <Card.Body className="d-flex justify-content-between p-3 align-items-center">
           <div className="input-group w-50">
@@ -134,7 +157,9 @@ const Employees = () => {
           setShouldUpdate={setShouldUpdate}
           setAddModal={()=> setAddModal(false)}
       />}
+      </>}
 
+      {selectTab === 'salaries' && <Salaries />}
     </Fragment>
   );
 };

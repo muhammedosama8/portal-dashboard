@@ -31,6 +31,7 @@ export const English = {
   variant: "Variant",
   dynamic_variant: "Dynamic Variant",
   products: "Products",
+  print: "Print",
   product: "Product",
   digital_products: "Digital Products",
   item_no: "Item No",
