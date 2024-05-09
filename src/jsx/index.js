@@ -27,6 +27,7 @@ import Salaries from "./pages/Salaries";
 const Markup = () => {
   const allroutes = [
     // Admins
+    { url: "/", component: <Admins /> },
     { url: "admins", component: <Admins /> },
     { url: "admins/add-admins", component: <AddAdmin /> },
     { url: "admins/edit-admin/:id/:name", component: <AddAdmin /> },
