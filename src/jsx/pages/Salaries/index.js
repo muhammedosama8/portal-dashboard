@@ -60,7 +60,7 @@ const Salaries = () => {
             <Button variant="primary" className='me-2 h-75' onClick={()=> { 
               setModal(true) 
             }}>
-                {Translate[lang]?.total_salary}
+                {Translate[lang]?.total_salaries}
             </Button>
           </div>
         </Card.Body >
