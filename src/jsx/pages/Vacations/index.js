@@ -14,50 +14,25 @@ import Pagination from "../../common/Pagination/Pagination";
 import { Translate } from "../../Enums/Tranlate";
 import CardItem from "./CardItem";
 import './style.scss'
-import EmployeesService from "../../../services/EmployeesService";
-import AddEmployeesModal from "./AddEmployeesModal";
-import Salaries from "../Salaries";
-import Vacations from "../Vacations";
+import VacationsService from "../../../services/VacationsService";
+import AddVacationsModal from "./AddVacationsModal";
 
-const tabs = ['employees', 'salaries', "vacations"]
-const Employees = () => {
+const Vacations = () => {
     const [data, setData] = useState([
-      {id: 1, name: 'test', civil_id: '234234', job_title: 'developer', department: "te", start_date: '5', salary: '144', assets: ''},
-      {id: 2, name: 'test2', civil_id: '2222', job_title: 'developer', department: "te", start_date: '5', salary: '144', assets: ''},
+      {id: 1, employee_name: 'os', job_title: 'dev', department: 'is', accrued_leave: "9"},
+      {id: 2, employee_name: 'mu', job_title: 'dev', department: 'it', accrued_leave: "2"},
     ])
-    const [selectTab, setSelectTab] = useState('employees')
-    const [addModal, setAddModal] = useState(false)
+    const [modal, setModal] = useState(false)
     const [item, setItem] = useState({})
     const [hasData, setHasData] = useState(1)
     const [search, setSearch] = useState(null)
     const [loading, setLoading] = useState(false)
     const [shouldUpdate, setShouldUpdate] = useState(false)
     const lang = useSelector(state=> state.auth?.lang)
-    const employeesService = new EmployeesService()
+    const vacationsService = new VacationsService()
 
   return (
     <Fragment>
-      <Card className="mb-3">
-        <Card.Body className="p-0">
-        <div className="tabs-div">
-          {tabs?.map((tab,index)=>{
-            return <p
-            key={index}
-            className='mb-0'
-            style={{
-              color: tab === selectTab ? "var(--primary)" : "#7E7E7E",
-              borderBottom: tab === selectTab ? "2px solid" : "none",
-            }}
-            onClick={() => setSelectTab(tab)}
-          >
-            {Translate[lang][tab]}
-          </p>
-          })}
-      </div>
-         </Card.Body>
-      </Card>
-
-      {selectTab === 'employees' && <>
       <Card className="mb-3">
         <Card.Body className="d-flex justify-content-between p-3 align-items-center">
           <div className="input-group w-50">
@@ -78,10 +53,9 @@ const Employees = () => {
           <div>
             <Button variant="primary" className='me-2 h-75' onClick={()=> { 
               setItem({})
-              setAddModal(true) 
+              setModal(true) 
             }}>
-              <i className="la la-plus mx-1"></i>
-              {Translate[lang]?.add} {Translate[lang]?.employees}
+                {Translate[lang]?.add} {Translate[lang]?.vacation} 
             </Button>
           </div>
         </Card.Body >
@@ -94,6 +68,7 @@ const Employees = () => {
             {loading && <div style={{height: '300px'}}>
                 <Loader />
               </div>}
+
               {(hasData === 1 && !loading) && <Table responsive>
                 <thead>
                   <tr className='text-center'>
@@ -101,10 +76,7 @@ const Employees = () => {
                       <strong>I.D</strong>
                     </th>
                     <th>
-                      <strong>{Translate[lang]?.name}</strong>
-                    </th>
-                    <th>
-                      <strong>{Translate[lang]?.civil_id}</strong>
+                      <strong>{Translate[lang]?.employee_name}</strong>
                     </th>
                     <th>
                       <strong>{Translate[lang]?.job_title}</strong>
@@ -113,13 +85,7 @@ const Employees = () => {
                       <strong>{Translate[lang]?.department}</strong>
                     </th>
                     <th>
-                      <strong>{Translate[lang]?.start_date}</strong>
-                    </th>
-                    <th>
-                      <strong>{Translate[lang]?.salary}</strong>
-                    </th>
-                    <th>
-                      <strong>{Translate[lang]?.assets}</strong>
+                      <strong>{Translate[lang]?.accrued_leave}</strong>
                     </th>
                     <th></th>
                   </tr>
@@ -132,7 +98,7 @@ const Employees = () => {
                             key= {index}
                             item={item}
                             setItem={setItem}
-                            setAddModal={setAddModal}
+                            setModal={setModal}
                             setShouldUpdate={setShouldUpdate}
                         />
                     })}
@@ -141,7 +107,7 @@ const Employees = () => {
               {hasData === 0 && <NoData />}
               {/* <Pagination
                   setData={setData}
-                  service={EmployeesService}
+                  service={VacationsService}
                   shouldUpdate={shouldUpdate}
                   setHasData={setHasData}
                   setLoading={setLoading}
@@ -152,20 +118,16 @@ const Employees = () => {
         </Col>
       </Row>
 
-      {addModal && 
-        <AddEmployeesModal
-          item={item} 
-          addModal={addModal} 
+      {modal && 
+        <AddVacationsModal
+          modal={modal} 
+          item={item}
           setShouldUpdate={setShouldUpdate}
-          setAddModal={()=> setAddModal(false)}
+          setModal={()=> setModal(false)}
       />}
-      </>}
 
-      {selectTab === 'salaries' && <Salaries />}
-
-      {selectTab === 'vacations' && <Vacations />}
     </Fragment>
   );
 };
 
-export default Employees;
+export default Vacations;
