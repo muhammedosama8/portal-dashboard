@@ -23,6 +23,7 @@ import Employees from "./pages/Employees";
 import Departments from "./pages/Departments";
 import Assets from "./pages/Assets";
 import Salaries from "./pages/Salaries";
+import Payment from "./pages/Payment";
 
 const Markup = () => {
   const allroutes = [
@@ -48,8 +49,8 @@ const Markup = () => {
     // Departments
     { url: "departments", component: <Departments /> },
     
-    // // Salaries
-    // { url: "salaries", component: <Salaries /> },
+    // Payment
+    { url: "payment", component: <Payment /> },
 
     //Profile
     { url: "profile", component: <Profile /> },

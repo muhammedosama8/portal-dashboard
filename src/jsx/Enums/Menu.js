@@ -47,14 +47,14 @@ export const MenuList = [
     to: "projects",
     text: "projects",
   },
-  // Salary
-  // {
-  //   title: "Salaries",
-  //   classsChange: "mm-collapse",
-  //   iconStyle: <i className="la la-money"></i>,
-  //   to: "salaries",
-  //   text: "salaries",
-  // },
+  // Payment
+  {
+    title: "Payment",
+    classsChange: "mm-collapse",
+    iconStyle: <i className="la la-money"></i>,
+    to: "payment",
+    text: "payment",
+  },
   // Setting
 //   {
 //     title:'control',
