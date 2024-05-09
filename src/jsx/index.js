@@ -30,9 +30,8 @@ const Markup = () => {
   const allroutes = [
     // Admins
     { url: "/", component: <Admins /> },
-    { url: "admins", component: <Admins /> },
-    { url: "admins/add-admins", component: <AddAdmin /> },
-    { url: "admins/edit-admin/:id/:name", component: <AddAdmin /> },
+    { url: "add-admins", component: <AddAdmin /> },
+    { url: "edit-admin/:id/:name", component: <AddAdmin /> },
 
     // Rules
     { url: "rules", component: <Permission /> },

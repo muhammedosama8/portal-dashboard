@@ -81,7 +81,7 @@ const AddAdmin = () => {
          adminService.update(location.state?.id, data).then((response) =>{
             if(response?.status === 200){
                toast.success('Admin Updated Successfully')
-               navigate('/admins')
+               navigate('/')
             }
             setLoading(false)
          })
@@ -98,7 +98,7 @@ const AddAdmin = () => {
          adminService.create(data).then((response) =>{
             if(response?.status === 201){
                toast.success(`${Translate[lang].added} ${Translate[lang].admin} ${Translate[lang].successfully}`)
-               navigate('/admins')
+               navigate('/')
             }
             setLoading(false)
          })
@@ -261,7 +261,7 @@ const AddAdmin = () => {
                 </Table>
          </div>
          <div className="d-flex justify-content-between mt-4">
-            <Button variant="secondary" type="button" onClick={()=> navigate('/admins')}>{Translate[lang]?.cancel}</Button>
+            <Button variant="secondary" type="button" onClick={()=> navigate('/')}>{Translate[lang]?.cancel}</Button>
             <Button variant="primary" type="submit" disabled={loading}>{Translate[lang]?.submit}</Button>
          </div>
       </AvForm>

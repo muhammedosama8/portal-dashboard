@@ -84,7 +84,7 @@ const Permission = () => {
         setFormData({ admin: "", rules: [] });
         if (!!id) {
           setShouldUpdate((prev) => !prev);
-          navigate("/admins");
+          navigate("/");
         }
       }
     });

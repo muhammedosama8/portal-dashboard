@@ -80,7 +80,7 @@ const CardItem = ({ item, index, setShouldUpdate }) => {
             <Dropdown.Menu>
               <Dropdown.Item
                 onClick={() =>
-                  navigate(`/admins/edit-admin/${item.id}/${item?.f_name}`, {
+                  navigate(`/edit-admin/${item.id}/${item?.f_name}`, {
                     state: { edit: true, id: item.id, item: item },
                   })
                 }

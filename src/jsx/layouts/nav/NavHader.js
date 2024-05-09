@@ -19,7 +19,7 @@ const NavHader = () => {
 
    return (
       <div className="nav-header">
-         <Link to="/admins" className="brand-logo">
+         <Link to="/" className="brand-logo">
             <img 
                className="brand-title" 
                src={logoImg} 

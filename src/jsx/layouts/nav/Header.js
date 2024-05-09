@@ -30,9 +30,7 @@ const Header = ({ onNote }) => {
                 className="dashboard_bar d-flex"
                 style={{ textTransform: "capitalize", alignItems: "center" }}
               >
-                {finalName[0] === ""
-                  ? Translate[lang].dashboard
-                  : Translate[lang][finalName.join("_")]}
+                {Translate[lang][finalName.join("_")]}
               </div>
             </div>
             <ul className="navbar-nav header-right p-0">

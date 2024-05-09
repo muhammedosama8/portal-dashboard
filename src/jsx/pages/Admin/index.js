@@ -75,27 +75,12 @@ const Admins = () => {
             ></div>
           </div>
           <div>
-            {/* {isExist("admin") && (
-              <Button
-                variant="light"
-                style={{ fontWeight: "400" }}
-                className="mx-2 h-75 radius-30 "
-                onClick={() => navigate("/admins/add-admins")}
-              >
-                <i
-                  class={`la ${
-                    lang === "en" ? "mr-2" : "ml-2"
-                  } la-cloud-download-alt`}
-                ></i>
-                {Translate[lang]?.export}
-              </Button>
-            )} */}
             {isExist("admin") && (
               <Button
                 variant="primary"
                 style={{ fontWeight: "400" }}
                 className="me-2 h-75 radius-30 "
-                onClick={() => navigate("/admins/add-admins")}
+                onClick={() => navigate("/add-admins")}
               >
                 <i
                   className={`la la-plus ${

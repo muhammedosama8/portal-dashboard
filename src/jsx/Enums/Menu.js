@@ -4,7 +4,7 @@ export const MenuList = [
     title: "Admins Management",
     classsChange: "mm-collapse",
     iconStyle: <i className="la la-user-shield"></i>,
-    to: "admins",
+    to: "",
     text: "admins",
   },
   // Rules
