@@ -6,6 +6,7 @@ export const Arabic = {
   freeze: "تجميد",
   profits: "الأرباح",
   after: "بعد",
+  payment_link: "رابط الدفع",
   projects: "مشاريع",
   personal_email: "بريد الكتروني الشخصي",
   company_email: "بريد الكتروني الشركه",

@@ -25,6 +25,7 @@ import Assets from "./pages/Assets";
 import Salaries from "./pages/Salaries";
 import Payment from "./pages/Payment";
 import Deduction from "./pages/Deduction";
+import PaymentLink from "./pages/PaymentLink";
 
 const Markup = () => {
   const allroutes = [
@@ -42,6 +43,9 @@ const Markup = () => {
 
     // Employees
     { url: "employees", component: <Employees /> },
+
+    //Payment Link
+    { url: "payment-link", component: <PaymentLink /> },
 
     // Projects
     { url: "projects", component: <Projects /> },

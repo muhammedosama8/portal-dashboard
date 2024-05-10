@@ -16,6 +16,8 @@ import CardItem from "./CardItem";
 import './style.scss'
 import SalariesService from "../../../services/SalariesService";
 import TotalSalariesModal from "./TotalSalariesModal";
+import MonthDropDown, { months } from "../../Enums/MonthDropDown";
+import YearDropDown from "../../Enums/YearDropDown";
 
 const monthNames = [
   "January", "February", "March", "April", "May", "June",
@@ -27,15 +29,28 @@ const Salaries = () => {
       {id: 1, employee_name: 'os', salary: '123'},
       {id: 2, employee_name: 'df', salary: '123'},
     ])
-    const month = new Date().getMonth();
+    const lang = useSelector(state=> state.auth?.lang)
+    const [params, setParams] = useState({
+      month: {
+        label: Translate[lang][months[new Date().getMonth()].toLocaleLowerCase()],
+        value: months[new Date().getMonth()].toLocaleLowerCase()
+    },
+      year: {
+        label: `${new Date().getFullYear()}`,
+        value: new Date().getFullYear()
+      }
+    })
     const [modal, setModal] = useState(false)
     const [item, setItem] = useState({})
     const [hasData, setHasData] = useState(1)
     const [search, setSearch] = useState(null)
     const [loading, setLoading] = useState(false)
     const [shouldUpdate, setShouldUpdate] = useState(false)
-    const lang = useSelector(state=> state.auth?.lang)
     const salariesService = new SalariesService()
+
+    const changeParams = (e, name) => {
+      setParams({...params, [name]: e})
+    } 
 
   return (
     <Fragment>
@@ -74,9 +89,20 @@ const Salaries = () => {
             {loading && <div style={{height: '300px'}}>
                 <Loader />
               </div>}
-              <div className="d-flex align-items-baseline mb-3 justify-content-between">
-                <p className="m-0 text-primary">{monthNames[month]}</p>
-              </div>
+              <Row className="mb-3">
+                <Col md={2} sm={5}>
+                  <MonthDropDown 
+                    params={params} 
+                    changeParams={changeParams} 
+                  />
+                </Col>
+                <Col md={2} sm={5}>
+                  <YearDropDown 
+                    params={params} 
+                    changeParams={changeParams} 
+                  />
+                </Col>
+              </Row>
               {(hasData === 1 && !loading) && <Table responsive>
                 <thead>
                   <tr className='text-center'>
@@ -114,6 +140,7 @@ const Salaries = () => {
                   setHasData={setHasData}
                   setLoading={setLoading}
                   search={search}
+                  params={params}
               /> */}
             </Card.Body>
           </Card>
