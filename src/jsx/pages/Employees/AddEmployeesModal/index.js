@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, Col, Modal, Row } from "react-bootstrap"
+import { Button, Col, Modal, Row, Form } from "react-bootstrap"
 import {AvField, AvForm} from "availity-reactstrap-validation";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
@@ -15,9 +15,13 @@ const AddEmployeesModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
         name: '',
         civil_id: '',
         job_title: "",
+        personal_email: "",
+        company_email: "",
+        full_time: true,
         department: "",
         start_date: "",
         salary: "",
+        iban: "",
         assets: [],
         attachments: []
     })
@@ -168,7 +172,7 @@ const AddEmployeesModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
                                 onChange={(e) => setFormData({...formData, job_title: e.target.value})}
                             />
                         </Col>
-                        <Col md={6}>
+                        <Col md={4}>
                             <label className="text-label">
                                 {Translate[lang].department}
                             </label>
@@ -181,7 +185,7 @@ const AddEmployeesModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
                                 }}
                             />
                         </Col>
-                        <Col md={6}>
+                        <Col md={4}>
                             <AvField
                                 label={Translate[lang]?.start_date}
                                 type='date'
@@ -198,7 +202,7 @@ const AddEmployeesModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
                                 onChange={(e) => setFormData({...formData, start_date: e.target.value})}
                             />
                         </Col>
-                        <Col md={6}>
+                        <Col md={4}>
                             <AvField
                                 label={Translate[lang]?.salary}
                                 type='number'
@@ -229,7 +233,68 @@ const AddEmployeesModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
                                 }}
                             />
                         </Col>
-                        <Col md={6} className='mt-3'>
+                        <Col md={6}>
+                            <AvField
+                                label={Translate[lang]?.personal_email}
+                                type='text'
+                                placeholder={Translate[lang]?.personal_email}
+                                bsSize="lg"
+                                name='personal_email'
+                                validate={{
+                                    required: {
+                                        value: true,
+                                        errorMessage: Translate[lang].field_required
+                                    }
+                                }}
+                                value={formData.personal_email}
+                                onChange={(e) => setFormData({...formData, personal_email: e.target.value})}
+                            />
+                        </Col>
+                        <Col md={6}>
+                            <AvField
+                                label={Translate[lang]?.company_email}
+                                type='text'
+                                placeholder={Translate[lang]?.company_email}
+                                bsSize="lg"
+                                name='company_email'
+                                validate={{
+                                    required: {
+                                        value: true,
+                                        errorMessage: Translate[lang].field_required
+                                    }
+                                }}
+                                value={formData.company_email}
+                                onChange={(e) => setFormData({...formData, company_email: e.target.value})}
+                            />
+                        </Col>
+                        <Col md={6}>
+                            <AvField
+                                label={Translate[lang]?.iban}
+                                type='text'
+                                placeholder={Translate[lang]?.iban}
+                                bsSize="lg"
+                                name='iban'
+                                validate={{
+                                    required: {
+                                        value: true,
+                                        errorMessage: Translate[lang].field_required
+                                    }
+                                }}
+                                value={formData.iban}
+                                onChange={(e) => setFormData({...formData, iban: e.target.value})}
+                            />
+                        </Col>
+                        <Col md={6} className='mt-3 d-flex align-items-center' style={{gap: '18px'}}>
+                            {lang==='en' ? Translate[lang]?.part_time : Translate[lang]?.full_time}
+                            <Form.Check
+                                type="switch"
+                                id={`custom-switch`}
+                                checked={formData.full_time}
+                                onChange={(e) => console.log(e)}
+                            />
+                            {lang==='en' ? Translate[lang]?.full_time : Translate[lang]?.part_time}
+                        </Col>
+                        <Col md={12} className='mt-3'>
                             <div className='form-group w-100'>
                                 <label className="m-0">{Translate[lang]?.attachments}</label>
                                 <div className="image-placeholder">	

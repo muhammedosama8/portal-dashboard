@@ -20,7 +20,7 @@ const CardItem = ({item, setItem, index, setAddModal, setShouldUpdate}) =>{
             <td>
                 {item?.employee_name}
             </td>
-            <td>{item.job_title}</td>
+            <td>{item.deduction}</td>
             <td>{item.department}</td>
             <td>{item.accrued_leave}</td>
             <td>

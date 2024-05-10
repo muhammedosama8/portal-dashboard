@@ -1,4 +1,5 @@
 export const Arabic = {
+  custody: "العهده",
   att_alert: "يرجي ادخال صورتين",
   from_front: "من الأمام",
   from_back: "من الخلف",
@@ -6,6 +7,8 @@ export const Arabic = {
   profits: "الأرباح",
   after: "بعد",
   projects: "مشاريع",
+  personal_email: "بريد الكتروني الشخصي",
+  company_email: "بريد الكتروني الشركه",
   project: "مشروع",
   deduction: "الخصم",
   project_name: "اسم المشروع",
@@ -114,6 +117,8 @@ export const Arabic = {
   status: "حالة",
   details: 'تفاصيل',
   rule: "إذن",
+  full_time: "دوام كامل",
+  part_time: "دوام جزئي",
   full_permissions: "أذونات كاملة",
   civil_id: "الرقم المدني",
   box_number: "رقم الصندوق",

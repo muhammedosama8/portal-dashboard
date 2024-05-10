@@ -57,6 +57,7 @@ const Salaries = () => {
             ></div>
           </div>
           <div>
+            <Button variant="secondary mx-2">{Translate[lang].print}</Button>
             <Button variant="primary" className='me-2 h-75' onClick={()=> { 
               setModal(true) 
             }}>
@@ -75,7 +76,6 @@ const Salaries = () => {
               </div>}
               <div className="d-flex align-items-baseline mb-3 justify-content-between">
                 <p className="m-0 text-primary">{monthNames[month]}</p>
-                <Button variant="outline-primary">{Translate[lang].print}</Button>
               </div>
               {(hasData === 1 && !loading) && <Table responsive>
                 <thead>

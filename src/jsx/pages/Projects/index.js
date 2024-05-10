@@ -78,9 +78,9 @@ const Projects = () => {
                     <th>
                       <strong>{Translate[lang]?.name}</strong>
                     </th>
-                    <th>
+                    {/* <th>
                       <strong>{Translate[lang]?.cost}</strong>
-                    </th>
+                    </th> */}
                     <th>
                       <strong>{Translate[lang]?.department}</strong>
                     </th>

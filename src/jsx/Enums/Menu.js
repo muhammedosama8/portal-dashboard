@@ -15,13 +15,13 @@ export const MenuList = [
     to: "rules",
     text: "rules",
   },
-  // Assets
+  // Custody
   {
-    title: "Assets",
+    title: "Custody",
     classsChange: "mm-collapse",
     iconStyle: <i className="flaticon-381-notepad"></i>,
-    to: "assets",
-    text: "assets",
+    to: "custody",
+    text: "custody",
   },
   // Employees
   {

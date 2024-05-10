@@ -27,7 +27,6 @@ const AddProductsModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
         name: '',
         department: '',
         price: "",
-        cost: "",
         works_day: "",
         maintaince: "",
         client_name: "",
@@ -35,6 +34,7 @@ const AddProductsModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
     })
     const [isAdd, setIsAdd] = useState(false)
     const [loading, setLoading] = useState(false)
+    const [departmentOptions, setDepartmentOptions] = useState([])
     const projectsService = new ProjectsService()
     const lang = useSelector(state=> state.auth.lang)
 
@@ -48,7 +48,6 @@ const AddProductsModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
                 name: item?.name,
                 department: item.department,
                 price: item?.price,
-                cost: item?.cost,
                 works_day: item?.works_day,
                 maintaince: item?.maintaince
             })
@@ -93,7 +92,7 @@ const AddProductsModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
                     className='form-horizontal'
                     onValidSubmit={submit}>
             <Modal.Header>
-            <Modal.Title>{isAdd ? Translate[lang]?.add : Translate[lang]?.edit} {Translate[lang]?.product}</Modal.Title>
+            <Modal.Title>{isAdd ? Translate[lang]?.add : Translate[lang]?.edit} {Translate[lang]?.project}</Modal.Title>
             <Button
                 variant=""
                 className="close"
@@ -125,38 +124,16 @@ const AddProductsModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
                             />
                         </Col>
                         <Col md={6}>
-                            <AvField
-                                label={Translate[lang]?.department}
-                                type='text'
-                                placeholder={Translate[lang]?.department}
-                                bsSize="lg"
-                                name='department'
-                                validate={{
-                                    required: {
-                                        value: true,
-                                        errorMessage: Translate[lang].field_required
-                                    }
-                                }}
+                            <label className="text-label">
+                                {Translate[lang].department}
+                            </label>
+                            <Select
+                                placeholder={Translate[lang]?.select}
+                                options={departmentOptions}
                                 value={formData.department}
-                                onChange={(e) => setFormData({...formData, department: e.target.value})}
-                            />
-                        </Col>
-                        <Col md={6}>
-                            <AvField
-                                label={Translate[lang]?.cost}
-                                type='number'
-                                min='0'
-                                placeholder={Translate[lang]?.cost}
-                                bsSize="lg"
-                                name='cost'
-                                validate={{
-                                    required: {
-                                        value: true,
-                                        errorMessage: Translate[lang].field_required
-                                    }
+                                onChange={(e) => {
+                                    setFormData({...formData, department: e});
                                 }}
-                                value={formData.cost}
-                                onChange={(e) => setFormData({...formData, cost: e.target.value})}
                             />
                         </Col>
                         <Col md={6}>

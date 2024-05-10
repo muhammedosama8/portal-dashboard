@@ -20,7 +20,7 @@ const CardItem = ({item, setItem, index, setAddModal, setShouldUpdate}) =>{
             <td>
                 {item?.name}
             </td>
-            <td>{item.cost}</td>
+            {/* <td>{item.cost}</td> */}
             <td>
                 {item?.department}
             </td>
