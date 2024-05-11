@@ -25,6 +25,7 @@ import Assets from "./pages/Assets";
 import Payment from "./pages/Payment";
 import Deduction from "./pages/Deduction";
 import PaymentLink from "./pages/PaymentLink";
+import Financial from "./pages/Financial";
 
 const Markup = () => {
   const allroutes = [
@@ -38,7 +39,10 @@ const Markup = () => {
     { url: "rules/:id", component: <Permission /> },
 
     // Assets
-    { url: "assets", component: <Assets /> },
+    { url: "custody", component: <Assets /> },
+
+    // Financial
+    { url: "financial", component: <Financial /> },
 
     // Employees
     { url: "employees", component: <Employees /> },

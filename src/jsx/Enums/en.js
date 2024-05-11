@@ -1,5 +1,6 @@
 export const English = {
   custody: "Custody",
+  financial: "Financial",
   client_email: "Client Email",
   contract_date: "Contract Date",
   upload_contract: "Upload Contract",

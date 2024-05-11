@@ -15592,7 +15592,7 @@ html[dir="rtl"]
 .deznav {
   width: 290px;
   padding: 24px;
-  padding-bottom: 0;
+  padding-bottom: 12px;
   height: calc(100vh - 62px);
   position: absolute;
   top: 62px;

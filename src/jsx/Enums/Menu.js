@@ -63,6 +63,14 @@ export const MenuList = [
     to: "payment",
     text: "payment",
   },
+  // Financial
+  {
+    title: "Financial",
+    classsChange: "mm-collapse",
+    iconStyle: <i className="la la-pie-chart"></i>,
+    to: "financial",
+    text: "financial",
+  },
   // Setting
 //   {
 //     title:'control',

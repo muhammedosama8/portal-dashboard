@@ -8,19 +8,20 @@ import {
   Button,
 } from "react-bootstrap";
 import { useSelector } from "react-redux";
-import Loader from "../../common/Loader";
-import NoData from "../../common/NoData";
-import Pagination from "../../common/Pagination/Pagination";
-import { Translate } from "../../Enums/Tranlate";
 import CardItem from "./CardItem";
 import './style.scss'
-import ProjectsService from "../../../services/ProjectsService";
-import AddProjectsModal from "./AddDepartmentsModal";
+import AddProjectsModal from "./AddProjectsModal";
+import ProjectsService from "../../../../services/ProjectsService";
+import MonthDropDown from "../../../Enums/MonthDropDown";
+import YearDropDown from "../../../Enums/YearDropDown";
+import NoData from "../../../common/NoData";
+import Loader from "../../../common/Loader";
+import { Translate } from "../../../Enums/Tranlate";
 
-const Departments = () => {
+const Projects = () => {
     const [data, setData] = useState([
-      {id: 1, name: 'Department 1', number_of_people: '5'},
-      {id: 2, name: 'Department 2', number_of_people: '6'},
+      {id: 1, name: 'test', department: 'test1', client_name: 'mu', client_phone: '435235', cost: '133', works_day: '5', price: '144', maintaince: '5'},
+      {id: 2, name: 'test1', department: 'test2', client_name: 'os', client_phone: '324234', cost: '113', works_day: '4', price: '124', maintaince: '3'},
     ])
     const [addModal, setAddModal] = useState(false)
     const [item, setItem] = useState({})
@@ -29,7 +30,24 @@ const Departments = () => {
     const [loading, setLoading] = useState(false)
     const [shouldUpdate, setShouldUpdate] = useState(false)
     const lang = useSelector(state=> state.auth?.lang)
+    const [params, setParams] = useState({
+      month: ""
+    //   {
+    //     label: Translate[lang][months[new Date().getMonth()].toLocaleLowerCase()],
+    //     value: months[new Date().getMonth()].toLocaleLowerCase()
+    // }
+    ,
+      year: ""
+      // {
+      //   label: `${new Date().getFullYear()}`,
+      //   value: new Date().getFullYear()
+      // }
+    })
     const projectsService = new ProjectsService()
+
+    const changeParams = (e, name) => {
+      setParams({...params, [name]: e})
+    } 
 
   return (
     <Fragment>
@@ -51,12 +69,8 @@ const Departments = () => {
             ></div>
           </div>
           <div>
-            <Button variant="primary" className='me-2 h-75' onClick={()=> { 
-              setItem({})
-              setAddModal(true) 
-            }}>
-              <i className="la la-plus mx-1"></i>
-              {Translate[lang]?.add} {Translate[lang]?.department}
+            <Button variant='secondary' className='mx-2 h-75'>
+              {Translate[lang].print}
             </Button>
           </div>
         </Card.Body >
@@ -69,6 +83,20 @@ const Departments = () => {
             {loading && <div style={{height: '300px'}}>
                 <Loader />
               </div>}
+              <Row className="mb-3">
+                <Col md={2} sm={5}>
+                  <MonthDropDown
+                    params={params} 
+                    changeParams={changeParams} 
+                  />
+                </Col>
+                <Col md={2} sm={5}>
+                  <YearDropDown
+                    params={params} 
+                    changeParams={changeParams} 
+                  />
+                </Col>
+              </Row>
               {(hasData === 1 && !loading) && <Table responsive>
                 <thead>
                   <tr className='text-center'>
@@ -78,8 +106,20 @@ const Departments = () => {
                     <th>
                       <strong>{Translate[lang]?.name}</strong>
                     </th>
+                    {/* <th>
+                      <strong>{Translate[lang]?.cost}</strong>
+                    </th> */}
                     <th>
-                      <strong>{Translate[lang]?.number_of_people}</strong>
+                      <strong>{Translate[lang]?.department}</strong>
+                    </th>
+                    <th>
+                      <strong>{Translate[lang]?.client_name}</strong>
+                    </th>
+                    <th>
+                      <strong>{Translate[lang]?.client_phone}</strong>
+                    </th>
+                    <th>
+                      <strong>{Translate[lang]?.cost}</strong>
                     </th>
                     <th></th>
                   </tr>
@@ -124,4 +164,4 @@ const Departments = () => {
   );
 };
 
-export default Departments;
+export default Projects;

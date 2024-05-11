@@ -22,8 +22,8 @@ const Pagination = ({
   useEffect(() => {
     setLoading(true);
     let params = {
-      offset: (page - 1) * 15,
-      limit: 15,
+      offset: (page - 1) * 40,
+      limit: 40,
       isDeleted: isDeleted,
     };
     if (!!type) params["type"] = type;
@@ -32,7 +32,7 @@ const Pagination = ({
     service?.getList({ ...params }).then((res) => {
       if (res?.status === 200) {
         setData([...res.data?.data?.data]);
-        let total = Math.ceil(res.data?.data?.totalItems / 15);
+        let total = Math.ceil(res.data?.data?.totalItems / 40);
         setTotalPages(total);
         if (res.data?.data?.totalItems > 0) {
           setHasData(1);
