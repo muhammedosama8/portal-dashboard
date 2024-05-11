@@ -21,7 +21,7 @@ const CardItem = ({item, setItem, index, setAddModal, setShouldUpdate}) =>{
                 {item?.employee_name}
             </td>
             <td>{item.deduction}</td>
-            <td>{item.department}</td>
+            <td>{item.total_salary}</td>
             <td>{item.accrued_leave}</td>
             <td>
                 <Dropdown>
@@ -31,10 +31,10 @@ const CardItem = ({item, setItem, index, setAddModal, setShouldUpdate}) =>{
                         <i className="la la-ellipsis-v" style={{fontSize: '27px'}}></i>
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
-                        {/* <Dropdown.Item onClick={()=> {
+                        <Dropdown.Item onClick={()=> {
                             setItem(item)
                             setAddModal(true)
-                        }}> {Translate[lang]?.edit}</Dropdown.Item> */}
+                        }}> {Translate[lang]?.edit}</Dropdown.Item>
                         <Dropdown.Item onClick={()=> setDeleteModal(true)}>{Translate[lang]?.delete}</Dropdown.Item>
                     </Dropdown.Menu>
                 </Dropdown>

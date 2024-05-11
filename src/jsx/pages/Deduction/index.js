@@ -19,8 +19,8 @@ import AddDeductionModal from "./AddDeductionModal";
 
 const Deduction = () => {
     const [data, setData] = useState([
-      {id: 1, employee_name: 'os', deduction: '22', department: 'is', accrued_leave: "9"},
-      {id: 2, employee_name: 'mu', deduction: '44', department: 'it', accrued_leave: "2"},
+      {id: 1, employee_name: 'os', deduction: '22', total_salary: '13', accrued_leave: "9"},
+      {id: 2, employee_name: 'mu', deduction: '44', total_salary: '4', accrued_leave: "2"},
     ])
     const [modal, setModal] = useState(false)
     const [item, setItem] = useState({})

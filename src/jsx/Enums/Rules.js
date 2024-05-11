@@ -20,9 +20,9 @@ export const customRules= [
   {
     label: "rules",
     rules:[
-      {label: "Add", value: 'add_rules'},
+      // {label: "Add", value: 'add_rules'},
       {label: "Edit", value: 'edit_rules'},
-      {label: "Delete", value: 'delete_rules'},
+      // {label: "Delete", value: 'delete_rules'},
       {label: "View", value: 'view_rules'},
     ]
   },
