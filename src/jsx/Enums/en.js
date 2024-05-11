@@ -1,5 +1,9 @@
 export const English = {
   custody: "Custody",
+  client_email: "Client Email",
+  contract_date: "Contract Date",
+  upload_contract: "Upload Contract",
+  client_civil_id: "Client Civil Id",
   att_alert: 'Please Enter Two Photos',
   from_front: "From Front",
   from_back: "From Back",
@@ -141,6 +145,7 @@ export const English = {
   cancel: "Cancel",
   submit: "Submit",
   add: "Add",
+  view: 'View',
   select: "Select",
   deleted: "Deleted",
   next: "Next",

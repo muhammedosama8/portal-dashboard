@@ -1,5 +1,9 @@
 export const Arabic = {
   custody: "العهده",
+  client_email: "بريد الكتوني العميل",
+  contract_date: "ميعاد العقد",
+  upload_contract: "تحميل العقد",
+  client_civil_id: "الرقم المدني للعميل",
   att_alert: "يرجي ادخال صورتين",
   from_front: "من الأمام",
   from_back: "من الخلف",
@@ -140,6 +144,7 @@ export const Arabic = {
   cancel: "إلغاء",
   submit: "إضافه",
   add: "إضافه",
+  view: "رؤية",
   select: "اختار",
   deleted: "تم الحذف",
   next: "التالي",

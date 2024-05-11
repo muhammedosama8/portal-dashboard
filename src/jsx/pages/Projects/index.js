@@ -16,6 +16,8 @@ import CardItem from "./CardItem";
 import './style.scss'
 import ProjectsService from "../../../services/ProjectsService";
 import AddProjectsModal from "./AddProjectsModal";
+import MonthDropDown, { months } from "../../Enums/MonthDropDown";
+import YearDropDown from "../../Enums/YearDropDown";
 
 const Projects = () => {
     const [data, setData] = useState([
@@ -29,7 +31,24 @@ const Projects = () => {
     const [loading, setLoading] = useState(false)
     const [shouldUpdate, setShouldUpdate] = useState(false)
     const lang = useSelector(state=> state.auth?.lang)
+    const [params, setParams] = useState({
+      month: ""
+    //   {
+    //     label: Translate[lang][months[new Date().getMonth()].toLocaleLowerCase()],
+    //     value: months[new Date().getMonth()].toLocaleLowerCase()
+    // }
+    ,
+      year: ""
+      // {
+      //   label: `${new Date().getFullYear()}`,
+      //   value: new Date().getFullYear()
+      // }
+    })
     const projectsService = new ProjectsService()
+
+    const changeParams = (e, name) => {
+      setParams({...params, [name]: e})
+    } 
 
   return (
     <Fragment>
@@ -51,6 +70,9 @@ const Projects = () => {
             ></div>
           </div>
           <div>
+            <Button variant='secondary' className='mx-2 h-75'>
+              {Translate[lang].print}
+            </Button>
             <Button variant="primary" className='me-2 h-75' onClick={()=> { 
               setItem({})
               setAddModal(true) 
@@ -69,6 +91,20 @@ const Projects = () => {
             {loading && <div style={{height: '300px'}}>
                 <Loader />
               </div>}
+              <Row className="mb-3">
+                <Col md={2} sm={5}>
+                  <MonthDropDown
+                    params={params} 
+                    changeParams={changeParams} 
+                  />
+                </Col>
+                <Col md={2} sm={5}>
+                  <YearDropDown
+                    params={params} 
+                    changeParams={changeParams} 
+                  />
+                </Col>
+              </Row>
               {(hasData === 1 && !loading) && <Table responsive>
                 <thead>
                   <tr className='text-center'>

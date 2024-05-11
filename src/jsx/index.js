@@ -16,13 +16,12 @@ import ScrollToTop from "./layouts/ScrollToTop";
 
 import Admins from "./pages/Admin";
 import AddAdmin from "./pages/Admin/AddAdmin";
-import Permission from "./pages/Rules";
+import Permission from "./pages/CustomRules";
 import Profile from "./pages/Profile";
 import Projects from "./pages/Projects";
 import Employees from "./pages/Employees";
 import Departments from "./pages/Departments";
 import Assets from "./pages/Assets";
-import Salaries from "./pages/Salaries";
 import Payment from "./pages/Payment";
 import Deduction from "./pages/Deduction";
 import PaymentLink from "./pages/PaymentLink";

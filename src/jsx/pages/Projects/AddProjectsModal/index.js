@@ -9,6 +9,7 @@ import ProjectsService from "../../../../services/ProjectsService";
 import { Translate } from "../../../Enums/Tranlate";
 
 import BaseService from "../../../../services/BaseService";
+import Loader from "../../../common/Loader";
 
 const AddProductsModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
     const maintainces = [
@@ -25,12 +26,16 @@ const AddProductsModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
     ]
     const [formData, setFormData] = useState({
         name: '',
-        department: '',
         price: "",
+        department: '',
         works_day: "",
         maintaince: "",
         client_name: "",
-        client_phone: ""
+        client_phone: "",
+        client_email: "",
+        client_civil_id: "",
+        contract_date: "",
+        contracts: [""],
     })
     const [isAdd, setIsAdd] = useState(false)
     const [loading, setLoading] = useState(false)
@@ -82,6 +87,26 @@ const AddProductsModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
         //         }
         //     })
         // }
+    }
+
+    const fileHandler = (e, ind) => {
+        let files = e.target.files
+        const filesData = Object.values(files)
+
+        if (filesData?.length) {
+            new BaseService().postUpload(filesData[0]).then(res=>{
+                if(res?.status === 200){
+                    let update = formData.contracts?.map((att, index)=>{
+                        if(index === ind){
+                            return res?.data?.url 
+                        } else{
+                            return att
+                        }
+                    })
+                    setFormData({...formData, shareholder_attach: [...update]})
+                }
+            })
+        }
     }
 
     return(
@@ -172,6 +197,75 @@ const AddProductsModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
                         </Col>
                         <Col md={6}>
                             <AvField
+                                label={Translate[lang]?.client_email}
+                                type='text'
+                                placeholder={Translate[lang]?.client_email}
+                                bsSize="lg"
+                                name='client_email'
+                                validate={{
+                                    required: {
+                                        value: true,
+                                        errorMessage: Translate[lang].field_required
+                                    }
+                                }}
+                                value={formData.client_email}
+                                onChange={(e) => setFormData({...formData, client_email: e.target.value})}
+                            />
+                        </Col>
+                        <Col md={6}>
+                            <AvField
+                                label={Translate[lang]?.client_civil_id}
+                                type='text'
+                                placeholder={Translate[lang]?.client_civil_id}
+                                bsSize="lg"
+                                name='client_civil_id'
+                                validate={{
+                                    required: {
+                                        value: true,
+                                        errorMessage: Translate[lang].field_required
+                                    }
+                                }}
+                                value={formData.client_civil_id}
+                                onChange={(e) => setFormData({...formData, client_civil_id: e.target.value})}
+                            />
+                        </Col>
+                        <Col md={6}>
+                            <AvField
+                                label={Translate[lang]?.contract_date}
+                                type='text'
+                                placeholder={Translate[lang]?.contract_date}
+                                bsSize="lg"
+                                name='contract_date'
+                                validate={{
+                                    required: {
+                                        value: true,
+                                        errorMessage: Translate[lang].field_required
+                                    }
+                                }}
+                                value={formData.contract_date}
+                                onChange={(e) => setFormData({...formData, contract_date: e.target.value})}
+                            />
+                        </Col>
+                        <Col md={6}>
+                            <AvField
+                                label={Translate[lang]?.price}
+                                type='number'
+                                min={0}
+                                placeholder={Translate[lang]?.price}
+                                bsSize="lg"
+                                name='price'
+                                validate={{
+                                    required: {
+                                        value: true,
+                                        errorMessage: Translate[lang].field_required
+                                    }
+                                }}
+                                value={formData.price}
+                                onChange={(e) => setFormData({...formData, price: e.target.value})}
+                            />
+                        </Col>
+                        <Col md={6}>
+                            <AvField
                                 label={Translate[lang]?.works_day}
                                 type='number'
                                 min='0'
@@ -189,24 +283,6 @@ const AddProductsModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
                             />
                         </Col>
                         <Col md={6}>
-                            <AvField
-                                label={Translate[lang]?.price}
-                                type='number'
-                                min='0'
-                                placeholder={Translate[lang]?.price}
-                                bsSize="lg"
-                                name='price'
-                                validate={{
-                                    required: {
-                                        value: true,
-                                        errorMessage: Translate[lang].field_required
-                                    }
-                                }}
-                                value={formData.price}
-                                onChange={(e) => setFormData({...formData, price: e.target.value})}
-                            />
-                        </Col>
-                        <Col md={6}>
                             <label className="text-label">
                                 {Translate[lang].maintaince}
                             </label>
@@ -218,6 +294,29 @@ const AddProductsModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
                                     setFormData({...formData, maintaince: e});
                                 }}
                             />
+                        </Col>
+                        <Col md={12} className='mt-3'>
+                            <div className='form-group w-100'>
+                                <label className="m-0">{Translate[lang]?.attachments}</label>
+                                <div className="image-placeholder">	
+                                    <div className="avatar-edit">
+                                        <input type="file" accept=".pdf" onChange={(e) => fileHandler(e)} id={`imageUpload1`} /> 					
+                                        <label htmlFor={`imageUpload1`}  name=''></label>
+                                    </div>
+                                    <div className="avatar-preview2 m-auto">
+                                        <div id={`imagePreview`}>
+                                        {!loading && 
+                                            <img  
+                                                src={uploadImg} alt='icon'
+                                                style={{
+                                                    width: '80px', height: '80px',
+                                                }}
+                                            />}
+                                            {loading && <Loader />}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </Col>
                     </Row>
             </Modal.Body>
