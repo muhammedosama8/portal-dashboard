@@ -4,9 +4,11 @@ import {
   } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { Translate } from "../../Enums/Tranlate";
+import Assets from "./Assets";
+import Expenses from "./Expenses";
 import Projects from "./Projects";
 
-const tabs = ['projects',]
+const tabs = ['projects', 'custody', 'expenses']
 const Financial = () => {
     const [selectTab, setSelectTab] = useState('projects')
     const lang = useSelector(state=> state.auth?.lang)
@@ -32,7 +34,11 @@ const Financial = () => {
             </Card.Body>
         </Card>
 
-        {selectTab === 'projects' && <Projects />}
+        {selectTab === 'projects' && <Projects />}\
+
+        {selectTab === 'custody' && <Assets />}
+
+        {selectTab === 'expenses' && <Expenses />}
     </>
 }
 export default Financial

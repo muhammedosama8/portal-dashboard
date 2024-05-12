@@ -14,14 +14,11 @@ import Pagination from "../../common/Pagination/Pagination";
 import { Translate } from "../../Enums/Tranlate";
 import CardItem from "./CardItem";
 import './style.scss'
-import ProjectsService from "../../../services/ProjectsService";
-import AddProjectsModal from "./AddDepartmentsModal";
+import AddDepartmentsModal from "./AddDepartmentsModal";
+import DepartmentService from "../../../services/DepartmentService";
 
 const Departments = () => {
-    const [data, setData] = useState([
-      {id: 1, name: 'Department 1', number_of_people: '5'},
-      {id: 2, name: 'Department 2', number_of_people: '6'},
-    ])
+    const [data, setData] = useState([])
     const [addModal, setAddModal] = useState(false)
     const [item, setItem] = useState({})
     const [hasData, setHasData] = useState(1)
@@ -29,7 +26,7 @@ const Departments = () => {
     const [loading, setLoading] = useState(false)
     const [shouldUpdate, setShouldUpdate] = useState(false)
     const lang = useSelector(state=> state.auth?.lang)
-    const projectsService = new ProjectsService()
+    const departmentService = new DepartmentService()
 
   return (
     <Fragment>
@@ -99,21 +96,21 @@ const Departments = () => {
                 </tbody>
               </Table>}
               {hasData === 0 && <NoData />}
-              {/* <Pagination
+              <Pagination
                   setData={setData}
-                  service={projectsService}
+                  service={departmentService}
                   shouldUpdate={shouldUpdate}
                   setHasData={setHasData}
                   setLoading={setLoading}
                   search={search}
-              /> */}
+              />
             </Card.Body>
           </Card>
         </Col>
       </Row>
 
       {addModal && 
-        <AddProjectsModal
+        <AddDepartmentsModal
           item={item} 
           addModal={addModal} 
           setShouldUpdate={setShouldUpdate}

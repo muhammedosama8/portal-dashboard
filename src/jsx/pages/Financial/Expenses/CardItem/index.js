@@ -1,16 +1,16 @@
 import { useState } from "react";
 import { Dropdown } from "react-bootstrap";
 import { useSelector } from "react-redux";
-import DepartmentService from "../../../../services/DepartmentService";
-import DeleteModal from "../../../common/DeleteModal";
-import { Translate } from "../../../Enums/Tranlate";
+import ProductsService from "../../../../../services/ProjectsService";
+import DeleteModal from "../../../../common/DeleteModal";
+import { Translate } from "../../../../Enums/Tranlate";
 
 const CardItem = ({item, setItem, index, setAddModal, setShouldUpdate}) =>{
     const [deleteModal, setDeleteModal] = useState(false)
     const Auth = useSelector(state=> state.auth?.auth)
     const lang = useSelector(state=> state.auth?.lang)
     const isExist = (data)=> Auth?.admin?.admin_roles?.includes(data)
-    const departmentService = new DepartmentService()
+    const productsService = new ProductsService()
 
     return(
         <tr key={index} className='text-center'>
@@ -20,7 +20,12 @@ const CardItem = ({item, setItem, index, setAddModal, setShouldUpdate}) =>{
             <td>
                 {item?.name}
             </td>
-            <td>{item.number_of_people}</td>
+            <td>
+                {item?.department}
+            </td>
+            <td>{item.client_name}</td>
+            <td>{item.client_phone}</td>
+            <td>{item?.cost || '-'}</td>
             <td>
                 <Dropdown>
                     <Dropdown.Toggle
@@ -32,16 +37,16 @@ const CardItem = ({item, setItem, index, setAddModal, setShouldUpdate}) =>{
                         <Dropdown.Item onClick={()=> {
                             setItem(item)
                             setAddModal(true)
-                        }}> {Translate[lang]?.edit}</Dropdown.Item>
-                        <Dropdown.Item onClick={()=> setDeleteModal(true)}>{Translate[lang]?.delete}</Dropdown.Item>
+                        }}> {Translate[lang]?.edit} {Translate[lang]?.cost}</Dropdown.Item>
+                        {/* <Dropdown.Item onClick={()=> setDeleteModal(true)}>{Translate[lang]?.delete}</Dropdown.Item> */}
                     </Dropdown.Menu>
                 </Dropdown>
             </td>
             {deleteModal && <DeleteModal
                       open={deleteModal}
-                      titleMsg={item?.name}
+                      titleMsg={item?.product_name}
                       deletedItem={item}
-                      modelService={departmentService}
+                      modelService={productsService}
                       onCloseModal={setDeleteModal}
                       setShouldUpdate={setShouldUpdate}
                     />}

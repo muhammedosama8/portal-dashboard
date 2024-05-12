@@ -7,40 +7,27 @@ import {
   Table,
   Button,
 } from "react-bootstrap";
-import Select from "react-select";
 import { useSelector } from "react-redux";
-import Loader from "../../common/Loader";
-import NoData from "../../common/NoData";
-import Pagination from "../../common/Pagination/Pagination";
-import { Translate } from "../../Enums/Tranlate";
+import Loader from "../../../common/Loader";
+import NoData from "../../../common/NoData";
+import Pagination from "../../../common/Pagination/Pagination";
+import { Translate } from "../../../Enums/Tranlate";
 import CardItem from "./CardItem";
 import './style.scss'
-import PaymentService from "../../../services/PaymentService";
-import PaymentModal from "./PaymentModal";
+import AssetsService from "../../../../services/AssetsService";
+import AddAssetsModal from "./AddAssetsModal";
 
-const Payment = () => {
-    const [paymentOptions, setPaymentOptions] = useState([
-      {label: 'One Payment', value: 'one'},
-      {label: 'Two Payment', value: 'two'},
-      {label: 'Three Payment', value: 'three'},
-      {label: 'Four Payment', value: 'four'},
-    ])
-    const [data, setData] = useState([
-      {id: 1, project_name: 'test', price: '123', client_name: 'mu', client_phone: '435235', payment: 'one'},
-      {id: 2, project_name: 'any', price: '345', client_name: 'os', client_phone: '342', payment: 'two'},
-      {id: 3, project_name: 'data', price: '657', client_name: 'fa', client_phone: '536', payment: 'three'},
-      {id: 4, project_name: 'pro', price: '134', client_name: 'na', client_phone: '234', payment: 'four'},
-      {id: 5, project_name: 'pro4', price: '134', client_name: 'na', client_phone: '234', payment: ''},
-    ])
+const Assets = () => {
+    const [data, setData] = useState([])
     const [addModal, setAddModal] = useState(false)
-    const [paymentSelected, setPaymentSelected] = useState('')
+    const [view, setView] = useState(false)
     const [item, setItem] = useState({})
-    const [hasData, setHasData] = useState(1)
+    const [hasData, setHasData] = useState(null)
     const [search, setSearch] = useState(null)
     const [loading, setLoading] = useState(false)
     const [shouldUpdate, setShouldUpdate] = useState(false)
     const lang = useSelector(state=> state.auth?.lang)
-    const paymentService = new PaymentService()
+    const assetsService = new AssetsService()
 
   return (
     <Fragment>
@@ -61,13 +48,17 @@ const Payment = () => {
               style={{position: 'absolute',zIndex:'1', right: lang === 'en' && '16px', left: lang === 'ar' && '16px', top: '50%', transform: 'translate(0, -50%)'}}
             ></div>
           </div>
-          <div className="w-25">
-            <Select
-                placeholder={Translate[lang]?.select}
-                options={paymentOptions}
-                value={paymentSelected}
-                onChange={(e) => setPaymentSelected(e)}
-            />
+          <div>
+            <Button variant="secondary" className='mx-2 h-75' onClick={()=> {}}>
+              {Translate[lang]?.print}
+            </Button>
+            <Button variant="primary" className='h-75' onClick={()=> { 
+              setItem({})
+              setAddModal(true) 
+            }}>
+              <i className="la la-plus mx-1"></i>
+              {Translate[lang]?.add} {Translate[lang]?.custody}
+            </Button>
           </div>
         </Card.Body >
       </Card>
@@ -86,21 +77,15 @@ const Payment = () => {
                       <strong>I.D</strong>
                     </th>
                     <th>
-                      <strong>{Translate[lang]?.project_name}</strong>
+                      <strong>{Translate[lang]?.name}</strong>
                     </th>
                     <th>
-                      <strong>{Translate[lang]?.price}</strong>
+                      <strong>{Translate[lang]?.type}</strong>
                     </th>
                     <th>
-                      <strong>{Translate[lang]?.client_name}</strong>
+                      <strong>{Translate[lang]?.view}</strong>
                     </th>
-                    <th>
-                      <strong>{Translate[lang]?.client_phone}</strong>
-                    </th>
-                    <th>
-                      <strong>{Translate[lang]?.payment}</strong>
-                    </th>
-                    {/* <th></th> */}
+                    <th></th>
                   </tr>
                 </thead>
 
@@ -110,6 +95,7 @@ const Payment = () => {
                             index= {index}
                             key= {index}
                             item={item}
+                            setView={setView}
                             setItem={setItem}
                             setAddModal={setAddModal}
                             setShouldUpdate={setShouldUpdate}
@@ -118,29 +104,33 @@ const Payment = () => {
                 </tbody>
               </Table>}
               {hasData === 0 && <NoData />}
-              {/* <Pagination
+              <Pagination
                   setData={setData}
-                  service={paymentService}
+                  service={assetsService}
                   shouldUpdate={shouldUpdate}
                   setHasData={setHasData}
                   setLoading={setLoading}
                   search={search}
-              /> */}
+              />
             </Card.Body>
           </Card>
         </Col>
       </Row>
 
       {addModal && 
-        <PaymentModal
+        <AddAssetsModal
           item={item} 
           addModal={addModal} 
           setShouldUpdate={setShouldUpdate}
-          setAddModal={()=> setAddModal(false)}
+          setAddModal={()=> {
+            setAddModal(false)
+            setView(false)
+          }}
+          view={view}
       />}
 
     </Fragment>
   );
 };
 
-export default Payment;
+export default Assets;

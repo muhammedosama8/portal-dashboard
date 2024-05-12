@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Card, Table } from "react-bootstrap";
+import { Button, Card, Col, Form, Row, Table } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import AdminService from "../../../../services/AdminService";
@@ -8,7 +8,7 @@ import Select from 'react-select';
 import {AvField, AvForm} from "availity-reactstrap-validation";
 import { useSelector } from "react-redux";
 import { Translate } from "../../../Enums/Tranlate";
-import { Rules } from "../../../Enums/Rules";
+import { customRules, Rules } from "../../../Enums/Rules";
 const countryCodes = require("country-codes-list");
 
 const AddAdmin = () => {
@@ -206,61 +206,39 @@ const AddAdmin = () => {
 						onChange={(e)=> inputHandler(e)}
 					/>
             </div>}
-            <Table className="w-50" responsive>
-                    <thead>
-                        <tr>
-                            <th className="w-50">
-                                <strong> {Translate[lang]?.rule}</strong>
-                            </th>
-                            <th className="w-25 text-center"> 
-                                <strong>{Translate[lang]?.full_permissions}</strong>
-                            </th>
-                            <th className="w-25 text-center">
-                                <strong>{Translate[lang]?.read_only}</strong>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {Rules?.map((rul,index)=>{
-                            return <tr key={index}>
-                                <th>
-                                    <strong>{Translate[lang][rul.value]}</strong>
-                                </th>
-                                <th className="text-center">
-                                    <input 
-                                        type='radio'
-                                        style={{
-                                            width: '20px',
-                                            height: '20px',
-                                            accentColor: 'var(--primary)'
-                                        }}
-                                        name={rul.value} 
-                                        checked={formData?.rules?.includes(rul?.value)}
-                                        onChange={()=> setFormData({...formData, rules: [...formData.rules, rul.value]})}
+            {customRules?.map((rul, index) => {
+                     return (
+                        <Col md={12} key={index} className='mt-4 rules'>
+                           <Row>
+                              <Col md={12} className='mb-3'>
+                                 <strong>{Translate[lang][rul.label]}</strong>
+                              </Col>
+                              {rul.rules?.map((rule, ind)=>{
+                                 return <Col md={2} sm={3} key={ind}>
+                                    <Form.Check
+                                       label={Translate[lang][rule?.label?.toLowerCase()]}
+                                       checked={formData.rules?.includes(rule.value)}
+                                       id={`${rul?.label}-${rule?.label}`}
+                                       onChange={e=> {
+                                       if(e.target.checked){
+                                          setFormData({
+                                             ...formData,
+                                             rules: [...formData.rules, rule.value]
+                                          })
+                                       } else {
+                                          let update = formData.rules?.filter(res=> res !== rule.value)
+                                          setFormData({...formData, rules: update})
+                                       }
+                                       }}
                                     />
-                                </th>
-                                <th className="text-center">
-                                    <input 
-                                        type='radio' 
-                                        style={{
-                                            width: '20px',
-                                            height: '20px',
-                                            accentColor: 'var(--primary)'
-                                        }}
-                                       //  checked={!formData.rules?.includes(rul.value)}
-                                        name={rul.value} 
-                                        onChange={()=> {
-                                            let update = formData?.rules?.filter(res=> res!==rul.value)
-                                            setFormData({...formData, rules: [...update ]})
-                                        }}
-                                    />
-                                </th>
-                            </tr>
-                        })}
-                    </tbody>
-                </Table>
+                                 </Col>
+                              })}
+                           </Row>
+                        </Col>
+                     );
+            })}
          </div>
-         <div className="d-flex justify-content-between mt-4">
+         <div className="d-flex justify-content-between mt-5">
             <Button variant="secondary" type="button" onClick={()=> navigate('/')}>{Translate[lang]?.cancel}</Button>
             <Button variant="primary" type="submit" disabled={loading}>{Translate[lang]?.submit}</Button>
          </div>

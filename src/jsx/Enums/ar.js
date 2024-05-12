@@ -1,5 +1,6 @@
 export const Arabic = {
   custody: "العهده",
+  expenses: "مصاريف",
   financial: "المالي",
   client_email: "بريد الكتوني العميل",
   contract_date: "ميعاد العقد",

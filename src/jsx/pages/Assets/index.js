@@ -20,8 +20,9 @@ import AddAssetsModal from "./AddAssetsModal";
 const Assets = () => {
     const [data, setData] = useState([])
     const [addModal, setAddModal] = useState(false)
+    const [view, setView] = useState(false)
     const [item, setItem] = useState({})
-    const [hasData, setHasData] = useState(0)
+    const [hasData, setHasData] = useState(null)
     const [search, setSearch] = useState(null)
     const [loading, setLoading] = useState(false)
     const [shouldUpdate, setShouldUpdate] = useState(false)
@@ -53,7 +54,7 @@ const Assets = () => {
               setAddModal(true) 
             }}>
               <i className="la la-plus mx-1"></i>
-              {Translate[lang]?.add} {Translate[lang]?.assets}
+              {Translate[lang]?.add} {Translate[lang]?.custody}
             </Button>
           </div>
         </Card.Body >
@@ -76,22 +77,10 @@ const Assets = () => {
                       <strong>{Translate[lang]?.name}</strong>
                     </th>
                     <th>
-                      <strong>{Translate[lang]?.civil_id}</strong>
+                      <strong>{Translate[lang]?.type}</strong>
                     </th>
                     <th>
-                      <strong>{Translate[lang]?.job_title}</strong>
-                    </th>
-                    <th>
-                      <strong>{Translate[lang]?.department}</strong>
-                    </th>
-                    <th>
-                      <strong>{Translate[lang]?.start_date}</strong>
-                    </th>
-                    <th>
-                      <strong>{Translate[lang]?.salary}</strong>
-                    </th>
-                    <th>
-                      <strong>{Translate[lang]?.assets}</strong>
+                      <strong>{Translate[lang]?.view}</strong>
                     </th>
                     <th></th>
                   </tr>
@@ -103,6 +92,7 @@ const Assets = () => {
                             index= {index}
                             key= {index}
                             item={item}
+                            setView={setView}
                             setItem={setItem}
                             setAddModal={setAddModal}
                             setShouldUpdate={setShouldUpdate}
@@ -111,14 +101,14 @@ const Assets = () => {
                 </tbody>
               </Table>}
               {hasData === 0 && <NoData />}
-              {/* <Pagination
+              <Pagination
                   setData={setData}
-                  service={AssetsService}
+                  service={assetsService}
                   shouldUpdate={shouldUpdate}
                   setHasData={setHasData}
                   setLoading={setLoading}
                   search={search}
-              /> */}
+              />
             </Card.Body>
           </Card>
         </Col>
@@ -129,7 +119,11 @@ const Assets = () => {
           item={item} 
           addModal={addModal} 
           setShouldUpdate={setShouldUpdate}
-          setAddModal={()=> setAddModal(false)}
+          setAddModal={()=> {
+            setAddModal(false)
+            setView(false)
+          }}
+          view={view}
       />}
 
     </Fragment>

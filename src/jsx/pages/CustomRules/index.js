@@ -14,7 +14,7 @@ import './style.scss'
 const Permission = () => {
   const [formData, setFormData] = useState({
     admin: "",
-    rules: [""],
+    rules: [],
   });
   const [adminsOptions, setAdminsOptions] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -39,9 +39,9 @@ const Permission = () => {
             rules: admin.admin_roles,
             data: admin,
           };
-  //         if (!!id && Number(id) === Number(admin.id)) {
-  //           setFormData({ rules: [], admin: { ...adminRes } });
-  //         }
+          if (!!id && Number(id) === Number(admin.id)) {
+            setFormData({ ...formData, admin: { ...adminRes } });
+          }
           return { ...adminRes };
         });
         setAdminsOptions(admins);
@@ -53,13 +53,8 @@ const Permission = () => {
   useEffect(() => {
     if (formData.admin.rules?.length !== 0) {
       let rules = formData.admin.rules?.map((rul) => rul["role"]);
-      console.log(rules)
-  //     const filterData = (value) => rules?.includes(value);
-  //     const update = Rules.filter(({ value }) => filterData(value))?.map(
-  //       (rul) => rul["value"]
-  //     );
 
-      // setFormData({ ...formData, rules: rules });
+      setFormData({ ...formData, rules: rules });
     }
   }, [formData.admin]);
 
@@ -91,7 +86,7 @@ const Permission = () => {
       }
     });
   };
-// console.log(formData.rules)
+
   if (loading) {
     return (
       <Card style={{ height: "300px" }}>

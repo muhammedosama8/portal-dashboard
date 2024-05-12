@@ -9,6 +9,7 @@ import ProjectsService from "../../../../services/ProjectsService";
 import { Translate } from "../../../Enums/Tranlate";
 
 import BaseService from "../../../../services/BaseService";
+import Loader from "../../../common/Loader";
 
 const PaymentModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
     const paymentOptions = [
@@ -40,16 +41,56 @@ const PaymentModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
                 (_, index) => index + 1
             )?.map(_=>{
                 return{
-                    status: false
+                    value: Number(item.price) / formData.payment?.num,
+                    status: false,
+                    img: '',
+                    loading: false
                 }
             })
-            console.log(status)
+
             setFormData({
                 payment: formData?.payment,
                 status: status
             })
         }
     },[change])
+console.log(formData)
+
+    const fileHandler = (e, ind) => {
+        let files = e.target.files
+        const filesData = Object.values(files)
+
+        if (filesData?.length) {
+            let update = formData.status?.map((sta, index)=>{
+                if(index === ind){
+                    return {
+                        ...sta,
+                        loading: true
+                    }
+                } else{
+                    return sta
+                }
+            })
+            setFormData({...formData, status: [...update]})
+
+            new BaseService().postUpload(filesData[0]).then(res=>{
+                if(res?.status === 200){
+                    let update = formData.status?.map((sta, index)=>{
+                        if(index === ind){
+                            return {
+                                ...sta,
+                                img: res?.data?.url,
+                                loading: false
+                            }
+                        } else{
+                            return sta
+                        }
+                    })
+                    setFormData({...formData, status: [...update]})
+                }
+            })
+        }
+    }
 
     const submit = (e) =>{
         e.preventDefault();
@@ -72,7 +113,7 @@ const PaymentModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
     }
 
     return(
-        <Modal className={lang === 'en' ? "en fade addProduct" : "ar fade addProduct"} style={{textAlign: lang === 'en' ? 'left' : 'right'}} show={addModal} onHide={()=>{
+        <Modal className={lang === 'en' ? "en fade addPayment" : "ar fade addPayment"} style={{textAlign: lang === 'en' ? 'left' : 'right'}} show={addModal} onHide={()=>{
             setAddModal()
             }}>
                 <AvForm
@@ -109,21 +150,65 @@ const PaymentModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
                         </Col>
                         <Col md={6}></Col>
                         {formData?.status?.map((stat, ind) => {
-                            return  <Col md={6}>
-                                <Form.Check
-                                    key={ind}
-                                    className="mb-3"
-                                    label={`${Translate[lang].payment} ${ind+1}`}
-                                    value={stat}
-                                    name={`stat${ind}`}
-                                    checked={stat}
-                                    type="switch"
-                                    id={`custom-switch${ind}`}
-                                    onChange={e=> {
-
-                                    }}
-                                />
-                            </Col>
+                            return  <>
+                                <Col md={6} className='d-flex justify-content-between align-items-center'>
+                                    <label>{`${Translate[lang].payment} ${ind+1})`} &nbsp;&nbsp;&nbsp;  <span className="text-primary" style={{fontSize: '1.5rem'}}>{stat.value}</span></label>
+                                    <Form.Check
+                                        key={ind}
+                                        value={stat?.status}
+                                        name={`stat${ind}`}
+                                        checked={stat?.status}
+                                        type="switch"
+                                        id={`custom-switch${ind}`}
+                                        onChange={e=> {
+                                            if(ind === 0){
+                                                console.log(true)
+                                                return
+                                            }
+                                            if(formData?.status[ind-1].status){
+                                                console.log(true)
+                                            } else{
+                                                console.log(false)
+                                            }
+                                        }}
+                                    />
+                                </Col>
+                                <Col md={6}>
+                                    <div className='form-group mb-0 w-100'>
+                                        <div className="image-placeholder">	
+                                            <div className="avatar-edit h-100">
+                                                <input 
+                                                    type="file" 
+                                                    onChange={(e) => fileHandler(e, ind)} 
+                                                    className='w-100 h-100 d-block'  
+                                                    id={`imageUpload${ind}`} 
+                                                    style={{
+                                                        opacity: '0',
+                                                        cursor: 'pointer'
+                                                    }}
+                                                /> 					
+                                                {/* <label htmlFor={`imageUpload${ind}`}  name=''></label> */}
+                                            </div>
+                                            <div className="avatar-preview2 m-auto">
+                                                <div id={`imagePreview`}>
+                                                {(!!stat?.img) && 
+                                                    <img src={stat.img} alt='img'
+                                                        style={{ width: '80px', height: '80px' }}
+                                                    />}
+                                                {(!stat?.img && !stat?.loading) && 
+                                                    <img  
+                                                        src={uploadImg} alt='icon'
+                                                        style={{
+                                                            width: '50px', height: '50px',
+                                                        }}
+                                                    />}
+                                                    {(!stat?.img && stat?.loading) && <Loader />}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </Col>
+                            </>
                         })}
                         {/*  */}
                         

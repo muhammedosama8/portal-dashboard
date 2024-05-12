@@ -8,7 +8,7 @@ import {
   loginAction,
 } from "../../../store/actions/AuthActions";
 import { Translate } from "../../Enums/Tranlate";
-import login from "../../../images/logo1.png";
+import login from "../../../images/logo-bg1.png";
 import logo from "../../../images/logo1.png";
 
 function Login(props) {
@@ -165,7 +165,7 @@ function Login(props) {
       </div>
       <div className="login-aside-left position-relative">
         <div
-          className="w-50 position-absolute"
+          className="w-75 position-absolute"
           style={{
             top: "50%",
             left: "50%",

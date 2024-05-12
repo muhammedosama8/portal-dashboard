@@ -1,16 +1,14 @@
 import { useState } from "react";
 import { Dropdown } from "react-bootstrap";
 import { useSelector } from "react-redux";
-import DepartmentService from "../../../../services/DepartmentService";
-import DeleteModal from "../../../common/DeleteModal";
-import { Translate } from "../../../Enums/Tranlate";
+import AssetsService from "../../../../../services/AssetsService";
+import { Translate } from "../../../../Enums/Tranlate";
 
-const CardItem = ({item, setItem, index, setAddModal, setShouldUpdate}) =>{
-    const [deleteModal, setDeleteModal] = useState(false)
+const CardItem = ({item, setItem, index, setAddModal, setView, setShouldUpdate}) =>{
     const Auth = useSelector(state=> state.auth?.auth)
     const lang = useSelector(state=> state.auth?.lang)
     const isExist = (data)=> Auth?.admin?.admin_roles?.includes(data)
-    const departmentService = new DepartmentService()
+    const assetsService = new AssetsService()
 
     return(
         <tr key={index} className='text-center'>
@@ -20,7 +18,22 @@ const CardItem = ({item, setItem, index, setAddModal, setShouldUpdate}) =>{
             <td>
                 {item?.name}
             </td>
-            <td>{item.number_of_people}</td>
+            <td>
+                {item?.asset}
+            </td>
+            <td>
+                <i className="la la-eye cursor-pointer" 
+                    onClick={()=> {
+                        setItem(item)
+                        setAddModal(true)
+                        setView(true)
+                    }} 
+                    style={{
+                        fontSize: '27px', 
+                        color: '#666'
+                    }}
+                ></i>
+            </td>
             <td>
                 <Dropdown>
                     <Dropdown.Toggle
@@ -33,18 +46,9 @@ const CardItem = ({item, setItem, index, setAddModal, setShouldUpdate}) =>{
                             setItem(item)
                             setAddModal(true)
                         }}> {Translate[lang]?.edit}</Dropdown.Item>
-                        <Dropdown.Item onClick={()=> setDeleteModal(true)}>{Translate[lang]?.delete}</Dropdown.Item>
                     </Dropdown.Menu>
                 </Dropdown>
             </td>
-            {deleteModal && <DeleteModal
-                      open={deleteModal}
-                      titleMsg={item?.name}
-                      deletedItem={item}
-                      modelService={departmentService}
-                      onCloseModal={setDeleteModal}
-                      setShouldUpdate={setShouldUpdate}
-                    />}
             </tr>
     )
 }

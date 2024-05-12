@@ -172,7 +172,7 @@ const AddEmployeesModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
                                 onChange={(e) => setFormData({...formData, job_title: e.target.value})}
                             />
                         </Col>
-                        <Col md={4}>
+                        <Col md={6}>
                             <label className="text-label">
                                 {Translate[lang].department}
                             </label>
@@ -185,7 +185,7 @@ const AddEmployeesModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
                                 }}
                             />
                         </Col>
-                        <Col md={4}>
+                        <Col md={6}>
                             <AvField
                                 label={Translate[lang]?.start_date}
                                 type='date'
@@ -202,7 +202,7 @@ const AddEmployeesModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
                                 onChange={(e) => setFormData({...formData, start_date: e.target.value})}
                             />
                         </Col>
-                        <Col md={4}>
+                        <Col md={6}>
                             <AvField
                                 label={Translate[lang]?.salary}
                                 type='number'

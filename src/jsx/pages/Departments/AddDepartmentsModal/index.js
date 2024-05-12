@@ -3,32 +3,16 @@ import { Button, Col, Modal, Row } from "react-bootstrap"
 import {AvField, AvForm} from "availity-reactstrap-validation";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
-import Select from "react-select";
-import uploadImg from '../../../../images/upload-img.png';
-import ProjectsService from "../../../../services/ProjectsService";
 import { Translate } from "../../../Enums/Tranlate";
-import Loader from "../../../common/Loader";
-import BaseService from "../../../../services/BaseService";
+import DepartmentService from "../../../../services/DepartmentService";
 
 const AddDepartmentsModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
-    const maintainces = [
-        {label: '1', value: '1'},
-        {label: '2', value: '2'},
-        {label: '3', value: '3'},
-        {label: '4', value: '4'},
-        {label: '5', value: '5'},
-        {label: '6', value: '6'},
-        {label: '7', value: '7'},
-        {label: '8', value: '8'},
-        {label: '9', value: '9'},
-        {label: '10', value: '10'},
-    ]
     const [formData, setFormData] = useState({
         name: '',
     })
     const [isAdd, setIsAdd] = useState(false)
     const [loading, setLoading] = useState(false)
-    const projectsService = new ProjectsService()
+    const departmentService = new DepartmentService()
     const lang = useSelector(state=> state.auth.lang)
 
     useEffect(() => {
@@ -45,32 +29,30 @@ const AddDepartmentsModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
 
     const submit = (e) =>{
         e.preventDefault();
-        // let data ={ 
-        //     item_no: formData?.item_no,
-        //     name: formData?.name,
-        //     price: formData?.price,
-        //     code: formData?.code,
-        //     barcode: formData?.barcode,
-        //     image: formData?.image
-        // }
+        let data ={
+            name: formData?.name
+        }
 
-        // if(isAdd){
-        //     projectsService.create(data)?.then(res=>{
-        //         if(res && res?.status === 201){
-        //             toast.success('Product Added Successfully')
-        //             setShouldUpdate(prev=> !prev)
-        //             setAddModal()
-        //         }
-        //     })
-        // } else {
-        //     projectsService.update(formData?.id, data)?.then(res=>{
-        //         if(res && res?.status === 200){
-        //             toast.success('Product Updated Successfully')
-        //             setShouldUpdate(prev=> !prev)
-        //             setAddModal()
-        //         }
-        //     })
-        // }
+        setLoading(true)
+        if(isAdd){
+            departmentService.create(data)?.then(res=>{
+                if(res && res?.status === 201){
+                    toast.success('Department Added Successfully')
+                    setShouldUpdate(prev=> !prev)
+                    setAddModal()
+                }
+                setLoading(false)
+            }).catch(()=>setLoading(false))
+        } else {
+            departmentService.update(formData?.id, data)?.then(res=>{
+                if(res && res?.status === 200){
+                    toast.success('Department Updated Successfully')
+                    setShouldUpdate(prev=> !prev)
+                    setAddModal()
+                }
+                setLoading(false)
+            }).catch(()=>setLoading(false))
+        }
     }
 
     return(

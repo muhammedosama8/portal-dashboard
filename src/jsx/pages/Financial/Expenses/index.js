@@ -7,40 +7,44 @@ import {
   Table,
   Button,
 } from "react-bootstrap";
-import Select from "react-select";
 import { useSelector } from "react-redux";
-import Loader from "../../common/Loader";
-import NoData from "../../common/NoData";
-import Pagination from "../../common/Pagination/Pagination";
-import { Translate } from "../../Enums/Tranlate";
 import CardItem from "./CardItem";
 import './style.scss'
-import PaymentService from "../../../services/PaymentService";
-import PaymentModal from "./PaymentModal";
+import AddExpensesModal from "./AddExpensesModal";
+import ProjectsService from "../../../../services/ProjectsService";
+import MonthDropDown from "../../../Enums/MonthDropDown";
+import YearDropDown from "../../../Enums/YearDropDown";
+import NoData from "../../../common/NoData";
+import Loader from "../../../common/Loader";
+import { Translate } from "../../../Enums/Tranlate";
 
-const Payment = () => {
-    const [paymentOptions, setPaymentOptions] = useState([
-      {label: 'One Payment', value: 'one'},
-      {label: 'Two Payment', value: 'two'},
-      {label: 'Three Payment', value: 'three'},
-      {label: 'Four Payment', value: 'four'},
-    ])
-    const [data, setData] = useState([
-      {id: 1, project_name: 'test', price: '123', client_name: 'mu', client_phone: '435235', payment: 'one'},
-      {id: 2, project_name: 'any', price: '345', client_name: 'os', client_phone: '342', payment: 'two'},
-      {id: 3, project_name: 'data', price: '657', client_name: 'fa', client_phone: '536', payment: 'three'},
-      {id: 4, project_name: 'pro', price: '134', client_name: 'na', client_phone: '234', payment: 'four'},
-      {id: 5, project_name: 'pro4', price: '134', client_name: 'na', client_phone: '234', payment: ''},
-    ])
+const Expenses = () => {
+    const [data, setData] = useState([])
     const [addModal, setAddModal] = useState(false)
-    const [paymentSelected, setPaymentSelected] = useState('')
     const [item, setItem] = useState({})
-    const [hasData, setHasData] = useState(1)
+    const [hasData, setHasData] = useState(0)
     const [search, setSearch] = useState(null)
     const [loading, setLoading] = useState(false)
     const [shouldUpdate, setShouldUpdate] = useState(false)
     const lang = useSelector(state=> state.auth?.lang)
-    const paymentService = new PaymentService()
+    const [params, setParams] = useState({
+      month: ""
+    //   {
+    //     label: Translate[lang][months[new Date().getMonth()].toLocaleLowerCase()],
+    //     value: months[new Date().getMonth()].toLocaleLowerCase()
+    // }
+    ,
+      year: ""
+      // {
+      //   label: `${new Date().getFullYear()}`,
+      //   value: new Date().getFullYear()
+      // }
+    })
+    const projectsService = new ProjectsService()
+
+    const changeParams = (e, name) => {
+      setParams({...params, [name]: e})
+    } 
 
   return (
     <Fragment>
@@ -61,13 +65,13 @@ const Payment = () => {
               style={{position: 'absolute',zIndex:'1', right: lang === 'en' && '16px', left: lang === 'ar' && '16px', top: '50%', transform: 'translate(0, -50%)'}}
             ></div>
           </div>
-          <div className="w-25">
-            <Select
-                placeholder={Translate[lang]?.select}
-                options={paymentOptions}
-                value={paymentSelected}
-                onChange={(e) => setPaymentSelected(e)}
-            />
+          <div>
+            <Button variant='secondary' className='mx-2 h-75'>
+              {Translate[lang].print}
+            </Button>
+            <Button variant='primary' className='h-75' onClick={()=> setAddModal(true)}>
+              {Translate[lang].add} {Translate[lang].expenses}
+            </Button>
           </div>
         </Card.Body >
       </Card>
@@ -79,6 +83,20 @@ const Payment = () => {
             {loading && <div style={{height: '300px'}}>
                 <Loader />
               </div>}
+              <Row className="mb-3">
+                <Col md={2} sm={5}>
+                  <MonthDropDown
+                    params={params} 
+                    changeParams={changeParams} 
+                  />
+                </Col>
+                <Col md={2} sm={5}>
+                  <YearDropDown
+                    params={params} 
+                    changeParams={changeParams} 
+                  />
+                </Col>
+              </Row>
               {(hasData === 1 && !loading) && <Table responsive>
                 <thead>
                   <tr className='text-center'>
@@ -86,10 +104,13 @@ const Payment = () => {
                       <strong>I.D</strong>
                     </th>
                     <th>
-                      <strong>{Translate[lang]?.project_name}</strong>
+                      <strong>{Translate[lang]?.name}</strong>
                     </th>
+                    {/* <th>
+                      <strong>{Translate[lang]?.cost}</strong>
+                    </th> */}
                     <th>
-                      <strong>{Translate[lang]?.price}</strong>
+                      <strong>{Translate[lang]?.department}</strong>
                     </th>
                     <th>
                       <strong>{Translate[lang]?.client_name}</strong>
@@ -98,9 +119,9 @@ const Payment = () => {
                       <strong>{Translate[lang]?.client_phone}</strong>
                     </th>
                     <th>
-                      <strong>{Translate[lang]?.payment}</strong>
+                      <strong>{Translate[lang]?.cost}</strong>
                     </th>
-                    {/* <th></th> */}
+                    <th></th>
                   </tr>
                 </thead>
 
@@ -120,7 +141,7 @@ const Payment = () => {
               {hasData === 0 && <NoData />}
               {/* <Pagination
                   setData={setData}
-                  service={paymentService}
+                  service={projectsService}
                   shouldUpdate={shouldUpdate}
                   setHasData={setHasData}
                   setLoading={setLoading}
@@ -132,7 +153,7 @@ const Payment = () => {
       </Row>
 
       {addModal && 
-        <PaymentModal
+        <AddExpensesModal
           item={item} 
           addModal={addModal} 
           setShouldUpdate={setShouldUpdate}
@@ -143,4 +164,4 @@ const Payment = () => {
   );
 };
 
-export default Payment;
+export default Expenses;
