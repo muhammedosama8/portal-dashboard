@@ -49,7 +49,7 @@ const Profile = () =>{
             f_name: admin.f_name,
             l_name: admin.l_name,
             phone: admin.phone,
-            country_code: admin.country_code.value,
+            country_code: admin.country_code?.value,
             email: admin.email,
         }
 
