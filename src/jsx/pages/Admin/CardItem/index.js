@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import DeleteModal from "../../../common/DeleteModal";
 import AdminService from "../../../../services/AdminService";
 import { useSelector } from "react-redux";
-import { Rules } from "../../../Enums/Rules";
+import { customRules } from "../../../Enums/Rules";
 import { toast } from "react-toastify";
 import { Translate } from "../../../Enums/Tranlate";
 
@@ -48,14 +48,14 @@ const CardItem = ({ item, index, setShouldUpdate }) => {
           style={{ cursor: "pointer" }}
           onClick={() => navigate(`/rules/${item?.id}`)}
           variant={
-            item?.admin_roles?.length >= Rules?.length
+            item?.admin_roles?.length >= customRules?.map(res=> [...res.rules]).reduce((acc, curr) => acc.concat(curr), [])?.length
               ? "outline-success"
               : item?.admin_roles?.length === 0
               ? "outline-danger"
               : "outline-secondary"
           }
         >
-          {item?.admin_roles?.length >= Rules?.length
+          {item?.admin_roles?.length >= customRules?.map(res=> [...res.rules]).reduce((acc, curr) => acc.concat(curr), [])?.length
             ? Translate[lang]?.full_permissions
             : item?.admin_roles?.length === 0
             ? Translate[lang]?.no_permissions
