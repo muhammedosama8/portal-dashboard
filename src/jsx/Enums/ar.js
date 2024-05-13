@@ -1,4 +1,6 @@
 export const Arabic = {
+  revenues: "ايرادات",
+  year_revenues: "الايرادات السنويه",
   custody: "العهده",
   expenses: "مصاريف",
   financial: "المالي",

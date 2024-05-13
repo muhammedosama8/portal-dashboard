@@ -7,8 +7,10 @@ import { Translate } from "../../Enums/Tranlate";
 import Assets from "./Assets";
 import Expenses from "./Expenses";
 import Projects from "./Projects";
+import Revenues from "./Revenues";
+import YearRevenues from "./YearRevenues";
 
-const tabs = ['projects', 'custody', 'expenses']
+const tabs = ['projects', 'custody', 'expenses', 'revenues', 'year_revenues']
 const Financial = () => {
     const [selectTab, setSelectTab] = useState('projects')
     const lang = useSelector(state=> state.auth?.lang)
@@ -39,6 +41,10 @@ const Financial = () => {
         {selectTab === 'custody' && <Assets />}
 
         {selectTab === 'expenses' && <Expenses />}
+
+        {selectTab === 'revenues' && <Revenues />}
+
+        {selectTab === 'year_revenues' && <YearRevenues />}
     </>
 }
 export default Financial

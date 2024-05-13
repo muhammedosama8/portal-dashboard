@@ -34,6 +34,8 @@ const Employees = () => {
     const [loading, setLoading] = useState(false)
     const [shouldUpdate, setShouldUpdate] = useState(false)
     const lang = useSelector(state=> state.auth?.lang)
+    const Auth = useSelector((state) => state.auth?.auth);
+    const isExist = (data) => Auth?.admin?.admin_roles?.includes(data);
     const employeesService = new EmployeesService()
 
   return (
@@ -42,17 +44,19 @@ const Employees = () => {
         <Card.Body className="p-0">
         <div className="tabs-div">
           {tabs?.map((tab,index)=>{
-            return <p
-            key={index}
-            className='mb-0'
-            style={{
-              color: tab === selectTab ? "var(--primary)" : "#7E7E7E",
-              borderBottom: tab === selectTab ? "2px solid" : "none",
-            }}
-            onClick={() => setSelectTab(tab)}
-          >
-            {Translate[lang][tab]}
-          </p>
+            if(isExist(`view_${tab}`)){
+              return <p
+              key={index}
+              className='mb-0'
+              style={{
+                color: tab === selectTab ? "var(--primary)" : "#7E7E7E",
+                borderBottom: tab === selectTab ? "2px solid" : "none",
+              }}
+              onClick={() => setSelectTab(tab)}
+            >
+              {Translate[lang][tab]}
+              </p>
+            }
           })}
       </div>
          </Card.Body>
@@ -77,13 +81,13 @@ const Employees = () => {
             ></div>
           </div>
           <div>
-            <Button variant="primary" className='me-2 h-75' onClick={()=> { 
+            {isExist("add_employees") && <Button variant="primary" className='me-2 h-75' onClick={()=> { 
               setItem({})
               setAddModal(true) 
             }}>
               <i className="la la-plus mx-1"></i>
               {Translate[lang]?.add} {Translate[lang]?.employees}
-            </Button>
+            </Button>}
           </div>
         </Card.Body >
       </Card>
@@ -116,9 +120,9 @@ const Employees = () => {
                     <th>
                       <strong>{Translate[lang]?.start_date}</strong>
                     </th>
-                    <th>
+                    {isExist("view_salaries") && <th>
                       <strong>{Translate[lang]?.salary}</strong>
-                    </th>
+                    </th>}
                     <th>
                       <strong>{Translate[lang]?.assets}</strong>
                     </th>

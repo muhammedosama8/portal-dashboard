@@ -29,6 +29,8 @@ const Vacations = () => {
     const [loading, setLoading] = useState(false)
     const [shouldUpdate, setShouldUpdate] = useState(false)
     const lang = useSelector(state=> state.auth?.lang)
+    const Auth = useSelector((state) => state.auth?.auth);
+    const isExist = (data) => Auth?.admin?.admin_roles?.includes(data);
     const vacationsService = new VacationsService()
 
   return (
@@ -51,12 +53,12 @@ const Vacations = () => {
             ></div>
           </div>
           <div>
-            <Button variant="primary" className='me-2 h-75' onClick={()=> { 
+            {isExist("add_vacation") && <Button variant="primary" className='me-2 h-75' onClick={()=> { 
               setItem({})
               setModal(true) 
             }}>
                 {Translate[lang]?.add} {Translate[lang]?.vacation} 
-            </Button>
+            </Button>}
           </div>
         </Card.Body >
       </Card>

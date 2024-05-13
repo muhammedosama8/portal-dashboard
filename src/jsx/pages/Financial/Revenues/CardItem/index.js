@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Dropdown } from "react-bootstrap";
 import { useSelector } from "react-redux";
-import ProductsService from "../../../../services/ProjectsService";
-import DeleteModal from "../../../common/DeleteModal";
-import { Translate } from "../../../Enums/Tranlate";
+import ProductsService from "../../../../../services/ProjectsService";
+import DeleteModal from "../../../../common/DeleteModal";
+import { Translate } from "../../../../Enums/Tranlate";
 
 const CardItem = ({item, setItem, index, setAddModal, setShouldUpdate}) =>{
     const [deleteModal, setDeleteModal] = useState(false)
@@ -21,28 +21,26 @@ const CardItem = ({item, setItem, index, setAddModal, setShouldUpdate}) =>{
                 {item?.name}
             </td>
             <td>
-                {item?.civil_id}
+                {item?.department}
             </td>
-            <td>{item.job_title}</td>
-            <td>{item.department}</td>
-            <td>{item.start_date}</td>
-            {isExist("view_salaries") && <td>{item.salary}</td>}
-            <td>{item.assets}</td>
+            <td>{item.client_name}</td>
+            <td>{item.client_phone}</td>
+            <td>{item?.cost || '-'}</td>
             <td>
-                {(isExist("edit_employees") && isExist("delete_employees")) && <Dropdown>
+                <Dropdown>
                     <Dropdown.Toggle
                         className="light sharp i-false"
                     >
                         <i className="la la-ellipsis-v" style={{fontSize: '27px'}}></i>
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
-                        {isExist("edit_employees") && <Dropdown.Item onClick={()=> {
+                        <Dropdown.Item onClick={()=> {
                             setItem(item)
                             setAddModal(true)
-                        }}> {Translate[lang]?.edit}</Dropdown.Item>}
-                        {isExist("delete_employees") && <Dropdown.Item onClick={()=> setDeleteModal(true)}>{Translate[lang]?.delete}</Dropdown.Item>}
+                        }}> {Translate[lang]?.edit} {Translate[lang]?.cost}</Dropdown.Item>
+                        {/* <Dropdown.Item onClick={()=> setDeleteModal(true)}>{Translate[lang]?.delete}</Dropdown.Item> */}
                     </Dropdown.Menu>
-                </Dropdown>}
+                </Dropdown>
             </td>
             {deleteModal && <DeleteModal
                       open={deleteModal}

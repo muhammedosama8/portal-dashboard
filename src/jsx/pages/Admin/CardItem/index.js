@@ -67,18 +67,18 @@ const CardItem = ({ item, index, setShouldUpdate }) => {
           type="switch"
           id={`custom-switch${index}`}
           checked={status}
-          disabled={!isExist("admin")}
+          disabled={!isExist("edit_admin")}
           onChange={(e) => changeStatusToggle(e)}
         />
       </td>
       <td>
-        {isExist("admin") && (
+        {(isExist("delete_admin") || isExist("edit_admin") ) && (
           <Dropdown>
             <Dropdown.Toggle className="light sharp i-false">
               <i className="la la-ellipsis-v" style={{ fontSize: "27px" }}></i>
             </Dropdown.Toggle>
             <Dropdown.Menu>
-              <Dropdown.Item
+              {isExist("edit_admin") && <Dropdown.Item
                 onClick={() =>
                   navigate(`/edit-admin/${item.id}/${item?.f_name}`, {
                     state: { edit: true, id: item.id, item: item },
@@ -86,13 +86,12 @@ const CardItem = ({ item, index, setShouldUpdate }) => {
                 }
               >
                 {Translate[lang]?.edit}
-              </Dropdown.Item>
-              <Dropdown.Item onClick={() => setDeleteModal(true)}>
+              </Dropdown.Item>}
+              {isExist("delete_admin") && <Dropdown.Item onClick={() => setDeleteModal(true)}>
                 {Translate[lang]?.delete}
-              </Dropdown.Item>
+              </Dropdown.Item>}
             </Dropdown.Menu>
-          </Dropdown>
-        )}
+          </Dropdown>)}
       </td>
       {deleteModal && (
         <DeleteModal

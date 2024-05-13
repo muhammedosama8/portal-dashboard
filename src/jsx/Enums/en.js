@@ -1,4 +1,6 @@
 export const English = {
+  revenues: "Revenues",
+  year_revenues: "Year Revenues",
   custody: "Custody",
   expenses: "Expenses",
   financial: "Financial",

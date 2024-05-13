@@ -20,9 +20,7 @@ export const customRules= [
   {
     label: "rules",
     rules:[
-      // {label: "Add", value: 'add_rules'},
       {label: "Edit", value: 'edit_rules'},
-      // {label: "Delete", value: 'delete_rules'},
       {label: "View", value: 'view_rules'},
     ]
   },
@@ -69,6 +67,40 @@ export const customRules= [
       {label: "Edit", value: 'edit_payment'},
       {label: "Delete", value: 'delete_payment'},
       {label: "View", value: 'view_payment'},
+    ]
+  },
+  {
+    label: "deduction",
+    rules:[
+      {label: "Add", value: 'add_deduction'},
+      {label: "Edit", value: 'edit_deduction'},
+      {label: "Delete", value: 'delete_deduction'},
+      {label: "View", value: 'view_deduction'},
+    ]
+  },
+  {
+    label: "vacations",
+    rules:[
+      {label: "Add", value: 'add_vacations'},
+      {label: "Edit", value: 'edit_vacations'},
+      {label: "Delete", value: 'delete_vacations'},
+      {label: "View", value: 'view_vacations'},
+    ]
+  },
+  {
+    label: "expenses",
+    rules:[
+      {label: "Add", value: 'add_expenses'},
+      {label: "Edit", value: 'edit_expenses'},
+      {label: "Delete", value: 'delete_expenses'},
+      {label: "View", value: 'view_expenses'},
+    ]
+  },
+  {
+    label: "salaries",
+    rules:[
+      {label: "Total Salaries", value: 'total_salaries'},
+      {label: "View", value: 'view_salaries'},
     ]
   },
 ]

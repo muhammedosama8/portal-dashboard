@@ -24,7 +24,7 @@ const CardItem = ({item, setItem, index, setAddModal, setView, setShouldUpdate})
             <td>
                 {item?.asset}
             </td>
-            <td>
+            {isExist("view_custody") && <td>
                 <i className="la la-eye cursor-pointer" 
                     onClick={()=> {
                         setItem(item)
@@ -36,22 +36,22 @@ const CardItem = ({item, setItem, index, setAddModal, setView, setShouldUpdate})
                         color: '#666'
                     }}
                 ></i>
-            </td>
+            </td>}
             <td>
-                <Dropdown>
+                {(isExist("edit_custody") || isExist("delete_custody") ) && <Dropdown>
                     <Dropdown.Toggle
                         className="light sharp i-false"
                     >
                         <i className="la la-ellipsis-v" style={{fontSize: '27px'}}></i>
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
-                        <Dropdown.Item onClick={()=> {
+                        {isExist("edit_custody") && <Dropdown.Item onClick={()=> {
                             setItem(item)
                             setAddModal(true)
-                        }}> {Translate[lang]?.edit}</Dropdown.Item>
-                        <Dropdown.Item onClick={()=> setDeleteModal(true)}>{Translate[lang]?.delete}</Dropdown.Item>
+                        }}> {Translate[lang]?.edit}</Dropdown.Item>}
+                        {isExist("delete_custody") && <Dropdown.Item onClick={()=> setDeleteModal(true)}>{Translate[lang]?.delete}</Dropdown.Item>}
                     </Dropdown.Menu>
-                </Dropdown>
+                </Dropdown>}
             </td>
             {deleteModal && <DeleteModal
                       open={deleteModal}

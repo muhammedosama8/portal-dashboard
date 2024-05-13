@@ -29,6 +29,8 @@ const Deduction = () => {
     const [loading, setLoading] = useState(false)
     const [shouldUpdate, setShouldUpdate] = useState(false)
     const lang = useSelector(state=> state.auth?.lang)
+    const Auth = useSelector((state) => state.auth?.auth);
+    const isExist = (data) => Auth?.admin?.admin_roles?.includes(data);
     const deductionService = new DeductionService()
 
   return (
@@ -54,12 +56,12 @@ const Deduction = () => {
             <Button variant="secondary" className='mx-2 h-75' onClick={()=> {}}>
                 {Translate[lang]?.print}
             </Button>
-            <Button variant="primary" className='h-75' onClick={()=> { 
+            {isExist("add_deduction") && <Button variant="primary" className='h-75' onClick={()=> { 
               setItem({})
               setModal(true) 
             }}>
                 {Translate[lang]?.add} {Translate[lang]?.deduction} 
-            </Button>
+            </Button>}
           </div>
         </Card.Body >
       </Card>

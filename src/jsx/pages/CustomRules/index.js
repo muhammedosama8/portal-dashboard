@@ -121,7 +121,7 @@ const Permission = () => {
                       {rul.rules?.map((rule, ind)=>{
                         return <Col md={2} sm={3} key={ind}>
                             <Form.Check
-                              label={Translate[lang][rule?.label?.toLowerCase()]}
+                              label={Translate[lang][rule?.label?.toLowerCase()?.replaceAll(" ","_")]}
                               checked={formData.rules?.includes(rule.value)}
                               id={`${rul?.label}-${rule?.label}`}
                               onChange={e=> {
@@ -141,13 +141,13 @@ const Permission = () => {
                     </Row>
                   );
               })}
-            {/* {isExist("rules") && ( */}
+            {isExist("edit_rules") && (
               <div className="d-flex justify-content-end mt-5">
                 <Button variant="primary" type="submit">
                   {Translate[lang]?.edit}
                 </Button>
               </div>
-            {/* )} */}
+            )}
           </div>
         </Card.Body>
       </Card>

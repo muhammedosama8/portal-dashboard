@@ -75,7 +75,7 @@ const Admins = () => {
             ></div>
           </div>
           <div>
-            {isExist("admin") && (
+            {isExist("add_admin") && (
               <Button
                 variant="primary"
                 style={{ fontWeight: "400" }}

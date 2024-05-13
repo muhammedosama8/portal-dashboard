@@ -8,28 +8,45 @@ import {
   Button,
 } from "react-bootstrap";
 import { useSelector } from "react-redux";
-import Loader from "../../common/Loader";
-import NoData from "../../common/NoData";
-import Pagination from "../../common/Pagination/Pagination";
-import { Translate } from "../../Enums/Tranlate";
 import CardItem from "./CardItem";
 import './style.scss'
-import AssetsService from "../../../services/AssetsService";
-import AddAssetsModal from "./AddAssetsModal";
+import AddRevenuesModal from "./AddRevenuesModal";
+import ProjectsService from "../../../../services/ProjectsService";
+import MonthDropDown from "../../../Enums/MonthDropDown";
+import YearDropDown from "../../../Enums/YearDropDown";
+import NoData from "../../../common/NoData";
+import Loader from "../../../common/Loader";
+import { Translate } from "../../../Enums/Tranlate";
+import TotalRevenuesModal from "./TotalRevenuesModal";
 
-const Assets = () => {
+const Revenues = () => {
     const [data, setData] = useState([])
     const [addModal, setAddModal] = useState(false)
-    const [view, setView] = useState(false)
+    const [modal, setModal] = useState(false)
     const [item, setItem] = useState({})
-    const [hasData, setHasData] = useState(null)
+    const [hasData, setHasData] = useState(0)
     const [search, setSearch] = useState(null)
     const [loading, setLoading] = useState(false)
     const [shouldUpdate, setShouldUpdate] = useState(false)
     const lang = useSelector(state=> state.auth?.lang)
-    const Auth = useSelector((state) => state.auth?.auth);
-    const isExist = (data) => Auth?.admin?.admin_roles?.includes(data);
-    const assetsService = new AssetsService()
+    const [params, setParams] = useState({
+      month: ""
+    //   {
+    //     label: Translate[lang][months[new Date().getMonth()].toLocaleLowerCase()],
+    //     value: months[new Date().getMonth()].toLocaleLowerCase()
+    // }
+    ,
+      year: ""
+      // {
+      //   label: `${new Date().getFullYear()}`,
+      //   value: new Date().getFullYear()
+      // }
+    })
+    const projectsService = new ProjectsService()
+
+    const changeParams = (e, name) => {
+      setParams({...params, [name]: e})
+    } 
 
   return (
     <Fragment>
@@ -51,13 +68,15 @@ const Assets = () => {
             ></div>
           </div>
           <div>
-            {isExist("add_custody") && <Button variant="primary" className='me-2 h-75' onClick={()=> { 
-              setItem({})
-              setAddModal(true) 
-            }}>
-              <i className="la la-plus mx-1"></i>
-              {Translate[lang]?.add} {Translate[lang]?.custody}
-            </Button>}
+            <Button variant='secondary' className='h-75'>
+              {Translate[lang].print}
+            </Button>
+            <Button variant='outline-primary' className='mx-2 h-75' onClick={()=> setModal(true)}>
+              {Translate[lang].total} {Translate[lang].revenues}
+            </Button>
+            <Button variant='primary' className='h-75' onClick={()=> setAddModal(true)}>
+              {Translate[lang].add} {Translate[lang].revenues}
+            </Button>
           </div>
         </Card.Body >
       </Card>
@@ -69,6 +88,20 @@ const Assets = () => {
             {loading && <div style={{height: '300px'}}>
                 <Loader />
               </div>}
+              <Row className="mb-3">
+                <Col md={2} sm={5}>
+                  <MonthDropDown
+                    params={params} 
+                    changeParams={changeParams} 
+                  />
+                </Col>
+                <Col md={2} sm={5}>
+                  <YearDropDown
+                    params={params} 
+                    changeParams={changeParams} 
+                  />
+                </Col>
+              </Row>
               {(hasData === 1 && !loading) && <Table responsive>
                 <thead>
                   <tr className='text-center'>
@@ -78,12 +111,21 @@ const Assets = () => {
                     <th>
                       <strong>{Translate[lang]?.name}</strong>
                     </th>
+                    {/* <th>
+                      <strong>{Translate[lang]?.cost}</strong>
+                    </th> */}
                     <th>
-                      <strong>{Translate[lang]?.type}</strong>
+                      <strong>{Translate[lang]?.department}</strong>
                     </th>
-                    {isExist("view_custody") && <th>
-                      <strong>{Translate[lang]?.view}</strong>
-                    </th>}
+                    <th>
+                      <strong>{Translate[lang]?.client_name}</strong>
+                    </th>
+                    <th>
+                      <strong>{Translate[lang]?.client_phone}</strong>
+                    </th>
+                    <th>
+                      <strong>{Translate[lang]?.cost}</strong>
+                    </th>
                     <th></th>
                   </tr>
                 </thead>
@@ -94,7 +136,6 @@ const Assets = () => {
                             index= {index}
                             key= {index}
                             item={item}
-                            setView={setView}
                             setItem={setItem}
                             setAddModal={setAddModal}
                             setShouldUpdate={setShouldUpdate}
@@ -103,33 +144,36 @@ const Assets = () => {
                 </tbody>
               </Table>}
               {hasData === 0 && <NoData />}
-              <Pagination
+              {/* <Pagination
                   setData={setData}
-                  service={assetsService}
+                  service={projectsService}
                   shouldUpdate={shouldUpdate}
                   setHasData={setHasData}
                   setLoading={setLoading}
                   search={search}
-              />
+              /> */}
             </Card.Body>
           </Card>
         </Col>
       </Row>
 
       {addModal && 
-        <AddAssetsModal
+        <AddRevenuesModal
           item={item} 
           addModal={addModal} 
           setShouldUpdate={setShouldUpdate}
-          setAddModal={()=> {
-            setAddModal(false)
-            setView(false)
-          }}
-          view={view}
+          setAddModal={()=> setAddModal(false)}
+      />}
+      {modal && 
+        <TotalRevenuesModal
+          item={item} 
+          modal={modal} 
+          setShouldUpdate={setShouldUpdate}
+          setModal={()=> setModal(false)}
       />}
 
     </Fragment>
   );
 };
 
-export default Assets;
+export default Revenues;

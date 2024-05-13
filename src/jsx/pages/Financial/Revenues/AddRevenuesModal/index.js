@@ -11,9 +11,12 @@ import uploadImg from '../../../../../images/upload-img.png';
 import Loader from "../../../../common/Loader";
 import BaseService from "../../../../../services/BaseService";
 
-const AddExpensesModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
-    const [formData, setFormData] = useState([])
+const AddRevenuesModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
+    const [formData, setFormData] = useState([
+        {name: '', cost: "", img: ''}
+    ])
     const [loading, setLoading] = useState(false)
+    const [isAdd, setIsAdd] = useState(true)
     const projectsService = new ProjectsService()
     const location = useLocation()
     const lang = useSelector(state=> state.auth.lang)
@@ -21,9 +24,7 @@ const AddExpensesModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
     useEffect(()=>{
         if(!!location?.state?.item){
             let item = location.state?.item
-        } else {
-            let values = Expenses?.map(res=> ({[res.value]: '', img: '', loader: false, label: res.label}))
-            setFormData(values)
+            setIsAdd(false)
         }
     }, [])
 
@@ -78,14 +79,14 @@ const AddExpensesModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
     }
 
     return(
-        <Modal className={lang === 'en' ? "en fade addExpenses" : "ar fade addExpenses"} style={{textAlign: lang === 'en' ? 'left' : 'right'}} show={addModal} onHide={()=>{
+        <Modal className={lang === 'en' ? "en fade addRevenues" : "ar fade addRevenues"} style={{textAlign: lang === 'en' ? 'left' : 'right'}} show={addModal} onHide={()=>{
             setAddModal()
             }}>
                 <AvForm
                     className='form-horizontal'
                     onValidSubmit={submit}>
             <Modal.Header>
-            <Modal.Title>{Translate[lang]?.edit} {Translate[lang]?.expenses}</Modal.Title>
+            <Modal.Title>{isAdd ? Translate[lang]?.add : Translate[lang]?.edit} {Translate[lang]?.revenues}</Modal.Title>
             <Button
                 variant=""
                 className="close"
@@ -101,21 +102,20 @@ const AddExpensesModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
                     <Row>
                         {formData?.map((data, index)=>{
                             return <>
-                            <Col md={6}>
+                            <Col md={4}>
                                 <AvField
-                                    label={data.label}
-                                    type='number'
-                                    min={0}
-                                    placeholder={Translate[lang]?.cost}
+                                    label={Translate[lang].name}
+                                    type='text'
+                                    placeholder={Translate[lang]?.name}
                                     bsSize="lg"
-                                    name={`cost${index}`}
-                                    value={data[data.label?.toLowerCase().replaceAll(" ",'_')]}
+                                    name={`name${index}`}
+                                    value={data.name}
                                     onChange={(e) => {
                                         let update = formData?.map((res,ind)=>{
                                             if(ind === index){
                                                 return{
                                                     ...res,
-                                                    [data.label?.toLowerCase().replaceAll(" ",'_')]: e.target.value
+                                                    name: e.target.value
                                                 }
                                             } else {
                                                 return res
@@ -125,7 +125,31 @@ const AddExpensesModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
                                     }}
                                 />
                             </Col>
-                            <Col md={6}>
+                            <Col md={4}>
+                                <AvField
+                                    label={Translate[lang].cost}
+                                    type='number'
+                                    min={0}
+                                    placeholder={Translate[lang]?.cost}
+                                    bsSize="lg"
+                                    name={`cost${index}`}
+                                    value={data.cost}
+                                    onChange={(e) => {
+                                        let update = formData?.map((res,ind)=>{
+                                            if(ind === index){
+                                                return{
+                                                    ...res,
+                                                    cost: e.target.value
+                                                }
+                                            } else {
+                                                return res
+                                            }
+                                        })
+                                        setFormData(update)
+                                    }}
+                                />
+                            </Col>
+                            <Col md={4}>
                             <div className='form-group w-100'>
                                 <div className="image-placeholder">	
                                     <div className="avatar-edit h-100 w-100">
@@ -151,7 +175,12 @@ const AddExpensesModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
                             </Col>
                             </>
                         })}
-                        
+                        <Col md={12}>
+                            <Button 
+                                variant="secondary"
+                                onClick={()=> setFormData([...formData, {name: '', cost: "", img: ''}])}
+                            >{Translate[lang].add_new_value}</Button>
+                        </Col>
                     </Row>
             </Modal.Body>
             <Modal.Footer>
@@ -162,10 +191,10 @@ const AddExpensesModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
                     variant="primary" 
                     type='submit'
                     disabled={loading}
-                >{Translate[lang]?.edit}</Button>
+                >{isAdd ? Translate[lang]?.add : Translate[lang]?.edit}</Button>
             </Modal.Footer>
             </AvForm>
         </Modal>)
 }
 
-export default AddExpensesModal;
+export default AddRevenuesModal;

@@ -47,6 +47,8 @@ const Salaries = () => {
     const [loading, setLoading] = useState(false)
     const [shouldUpdate, setShouldUpdate] = useState(false)
     const salariesService = new SalariesService()
+    const Auth = useSelector((state) => state.auth?.auth);
+    const isExist = (data) => Auth?.admin?.admin_roles?.includes(data);
 
     const changeParams = (e, name) => {
       setParams({...params, [name]: e})
@@ -73,11 +75,11 @@ const Salaries = () => {
           </div>
           <div>
             <Button variant="secondary mx-2">{Translate[lang].print}</Button>
-            <Button variant="primary" className='me-2 h-75' onClick={()=> { 
+            {isExist("total_salaries") && <Button variant="primary" className='me-2 h-75' onClick={()=> { 
               setModal(true) 
             }}>
                 {Translate[lang]?.total_salaries}
-            </Button>
+            </Button>}
           </div>
         </Card.Body >
       </Card>
