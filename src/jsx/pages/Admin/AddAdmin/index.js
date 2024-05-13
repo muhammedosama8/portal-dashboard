@@ -44,7 +44,7 @@ const AddAdmin = () => {
         })
       );
    }, []);
-   
+   console.log(location.state)
    useEffect(()=>{
       if(location?.state?.edit){
          let item = location.state?.item
@@ -76,6 +76,9 @@ const AddAdmin = () => {
          l_name: formData?.last_name,
          rules: formData.rules
       }
+      data['email'] = formData?.email
+         data['phone'] = formData?.phone
+         data['country_code'] = formData?.country_code?.value
       if(location?.state?.edit){
          setLoading(true)
          adminService.update(location.state?.id, data).then((response) =>{
@@ -91,9 +94,7 @@ const AddAdmin = () => {
             return
          }
          data['password'] = formData?.password
-         data['email'] = formData?.email
-         data['phone'] = formData?.phone
-         data['country_code'] = formData?.country_code?.value
+         
          setLoading(true)
          adminService.create(data).then((response) =>{
             if(response?.status === 201){
@@ -143,7 +144,7 @@ const AddAdmin = () => {
 						onChange={(e)=> inputHandler(e)}
 					/>
             </div>
-           {!location?.state?.edit &&  <div className="col-lg-6 col-sm-6 mb-3">
+           {location?.state?.edit &&  <div className="col-lg-6 col-sm-6 mb-3">
                <AvField
 						label ={`${Translate[lang]?.email}*`}
 						name ='email'
@@ -179,7 +180,7 @@ const AddAdmin = () => {
 						onChange={(e)=> inputHandler(e)}
 					/>
             </div>}
-            {!location?.state?.edit && <div className="col-lg-3 col-sm-6 mb-3">
+            {location?.state?.edit && <div className="col-lg-3 col-sm-6 mb-3">
                   <label className="text-label">{Translate[lang]?.country_code}*</label>
                   <Select
                      value={formData?.country_code}
@@ -189,7 +190,7 @@ const AddAdmin = () => {
                      onChange={(e)=> setFormData({...formData, country_code: e})}
                   />
             </div>}
-            {!location?.state?.edit && <div className="col-lg-3 col-sm-6 mb-3">
+            {location?.state?.edit && <div className="col-lg-3 col-sm-6 mb-3">
                   <AvField
 						label ={`${Translate[lang]?.phone}*`}
 						name ='phone'

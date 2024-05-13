@@ -118,6 +118,12 @@ const Employees = () => {
                       <strong>{Translate[lang]?.department}</strong>
                     </th>
                     <th>
+                      <strong>{Translate[lang]?.personal_email}</strong>
+                    </th>
+                    <th>
+                      <strong>{Translate[lang]?.company_email}</strong>
+                    </th>
+                    <th>
                       <strong>{Translate[lang]?.start_date}</strong>
                     </th>
                     {isExist("view_salaries") && <th>
@@ -144,14 +150,14 @@ const Employees = () => {
                 </tbody>
               </Table>}
               {hasData === 0 && <NoData />}
-              {/* <Pagination
+              <Pagination
                   setData={setData}
-                  service={EmployeesService}
+                  service={employeesService}
                   shouldUpdate={shouldUpdate}
                   setHasData={setHasData}
                   setLoading={setLoading}
                   search={search}
-              /> */}
+              />
             </Card.Body>
           </Card>
         </Col>
