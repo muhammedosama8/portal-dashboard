@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Dropdown } from "react-bootstrap";
 import { useSelector } from "react-redux";
-import ProductsService from "../../../../services/ProjectsService";
+import EmployeesService from "../../../../services/EmployeesService";
 import DeleteModal from "../../../common/DeleteModal";
 import { Translate } from "../../../Enums/Tranlate";
 
@@ -10,7 +10,7 @@ const CardItem = ({item, setItem, index, setAddModal, setShouldUpdate}) =>{
     const Auth = useSelector(state=> state.auth?.auth)
     const lang = useSelector(state=> state.auth?.lang)
     const isExist = (data)=> Auth?.admin?.admin_roles?.includes(data)
-    const productsService = new ProductsService()
+    const employeesService = new EmployeesService()
 
     return(
         <tr key={index} className='text-center'>
@@ -48,9 +48,9 @@ const CardItem = ({item, setItem, index, setAddModal, setShouldUpdate}) =>{
             </td>
             {deleteModal && <DeleteModal
                       open={deleteModal}
-                      titleMsg={item?.product_name}
+                      titleMsg={item?.name}
                       deletedItem={item}
-                      modelService={productsService}
+                      modelService={employeesService}
                       onCloseModal={setDeleteModal}
                       setShouldUpdate={setShouldUpdate}
                     />}
