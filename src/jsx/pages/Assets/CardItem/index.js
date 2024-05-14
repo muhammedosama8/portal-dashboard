@@ -24,6 +24,16 @@ const CardItem = ({item, setItem, index, setAddModal, setView, setShouldUpdate})
             <td>
                 {item?.asset}
             </td>
+            <td>
+                {item?.serial_number || '-'}
+            </td>
+            <td>
+                <div style={{display: 'grid', gridTemplateColumns: 'auto auto auto', gap: '8px'}}>
+                    {!!item?.asset_items?.length ? item?.asset_items?.map(item=>{
+                        return <span class="badge bg-primary text-white">{item?.item}</span>
+                    }) : '-'}
+                </div>
+            </td>
             {isExist("view_custody") && <td>
                 <i className="la la-eye cursor-pointer" 
                     onClick={()=> {

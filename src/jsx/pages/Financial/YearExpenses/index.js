@@ -8,30 +8,33 @@ import {
   Button,
 } from "react-bootstrap";
 import { useSelector } from "react-redux";
-import Loader from "../../common/Loader";
-import NoData from "../../common/NoData";
-import Pagination from "../../common/Pagination/Pagination";
-import { Translate } from "../../Enums/Tranlate";
 import CardItem from "./CardItem";
 import './style.scss'
-import VacationsService from "../../../services/VacationsService";
-import AddVacationsModal from "./AddVacationsModal";
+import ProjectsService from "../../../../services/ProjectsService";
+import YearDropDown from "../../../Enums/YearDropDown";
+import NoData from "../../../common/NoData";
+import Loader from "../../../common/Loader";
+import { Translate } from "../../../Enums/Tranlate";
 
-const Vacations = () => {
-    const [data, setData] = useState([
-      {id: 1, employee_name: 'os', job_title: 'dev', department: 'is', accrued_leave: "9"},
-      {id: 2, employee_name: 'mu', job_title: 'dev', department: 'it', accrued_leave: "2"},
-    ])
-    const [modal, setModal] = useState(false)
+const YearExpenses = () => {
+    const [data, setData] = useState([])
     const [item, setItem] = useState({})
-    const [hasData, setHasData] = useState(1)
+    const [hasData, setHasData] = useState(0)
     const [search, setSearch] = useState(null)
     const [loading, setLoading] = useState(false)
     const [shouldUpdate, setShouldUpdate] = useState(false)
     const lang = useSelector(state=> state.auth?.lang)
-    const Auth = useSelector((state) => state.auth?.auth);
-    const isExist = (data) => Auth?.admin?.admin_roles?.includes(data);
-    const vacationsService = new VacationsService()
+    const [params, setParams] = useState({
+      year: {
+        label: `${new Date().getFullYear()}`,
+        value: new Date().getFullYear()
+      }
+    })
+    const projectsService = new ProjectsService()
+
+    const changeParams = (e, name) => {
+      setParams({...params, [name]: e})
+    } 
 
   return (
     <Fragment>
@@ -53,12 +56,9 @@ const Vacations = () => {
             ></div>
           </div>
           <div>
-            {isExist("add_vacations") && <Button variant="primary" className='me-2 h-75' onClick={()=> { 
-              setItem({})
-              setModal(true) 
-            }}>
-                {Translate[lang]?.add} {Translate[lang]?.vacation} 
-            </Button>}
+            <Button variant='secondary' className='mx-2 h-75'>
+              {Translate[lang].print}
+            </Button>
           </div>
         </Card.Body >
       </Card>
@@ -70,7 +70,14 @@ const Vacations = () => {
             {loading && <div style={{height: '300px'}}>
                 <Loader />
               </div>}
-
+              <Row className="mb-3">
+                <Col md={2} sm={5}>
+                  <YearDropDown
+                    params={params} 
+                    changeParams={changeParams} 
+                  />
+                </Col>
+              </Row>
               {(hasData === 1 && !loading) && <Table responsive>
                 <thead>
                   <tr className='text-center'>
@@ -78,18 +85,23 @@ const Vacations = () => {
                       <strong>I.D</strong>
                     </th>
                     <th>
-                      <strong>{Translate[lang]?.employee_name}</strong>
+                      <strong>{Translate[lang]?.name}</strong>
                     </th>
-                    <th>
-                      <strong>{Translate[lang]?.job_title}</strong>
-                    </th>
+                    {/* <th>
+                      <strong>{Translate[lang]?.cost}</strong>
+                    </th> */}
                     <th>
                       <strong>{Translate[lang]?.department}</strong>
                     </th>
                     <th>
-                      <strong>{Translate[lang]?.accrued_leave}</strong>
+                      <strong>{Translate[lang]?.client_name}</strong>
                     </th>
-                    <th></th>
+                    <th>
+                      <strong>{Translate[lang]?.client_phone}</strong>
+                    </th>
+                    <th>
+                      <strong>{Translate[lang]?.cost}</strong>
+                    </th>
                   </tr>
                 </thead>
 
@@ -99,9 +111,6 @@ const Vacations = () => {
                             index= {index}
                             key= {index}
                             item={item}
-                            setItem={setItem}
-                            setModal={setModal}
-                            setShouldUpdate={setShouldUpdate}
                         />
                     })}
                 </tbody>
@@ -109,7 +118,7 @@ const Vacations = () => {
               {hasData === 0 && <NoData />}
               {/* <Pagination
                   setData={setData}
-                  service={VacationsService}
+                  service={projectsService}
                   shouldUpdate={shouldUpdate}
                   setHasData={setHasData}
                   setLoading={setLoading}
@@ -120,16 +129,8 @@ const Vacations = () => {
         </Col>
       </Row>
 
-      {modal && 
-        <AddVacationsModal
-          modal={modal} 
-          item={item}
-          setShouldUpdate={setShouldUpdate}
-          setModal={()=> setModal(false)}
-      />}
-
     </Fragment>
   );
 };
 
-export default Vacations;
+export default YearExpenses;

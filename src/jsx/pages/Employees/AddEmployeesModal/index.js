@@ -85,7 +85,7 @@ const AddEmployeesModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
             if(res?.status === 200){
                 let info = res?.data?.data?.data?.map(ass=>{
                     return {
-                        label: `${ass.name} ${ass.asset}`,
+                        label: `${ass.name} ${!!ass.serial_number ? `/ ${ass.serial_number}` : ''} ${!!ass.asset_items?.length ? `/ ${ass.asset_items?.map(res=> (` ${res.item}`))}` : ''}`,
                         value: ass.id,
                         id: ass.id
                     }
@@ -129,6 +129,7 @@ const AddEmployeesModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
             })
         } else {
             delete data.id
+
             employeesService.update(formData?.id, data)?.then(res=>{
                 if(res && res?.status === 200){
                     toast.success('Employee Updated Successfully')

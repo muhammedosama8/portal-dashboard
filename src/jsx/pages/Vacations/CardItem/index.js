@@ -24,18 +24,18 @@ const CardItem = ({item, setItem, index, setAddModal, setShouldUpdate}) =>{
             <td>{item.department}</td>
             <td>{item.accrued_leave}</td>
             <td>
-                {(isExist("edit_vacation") || isExist("delete_vacation")) && <Dropdown>
+                {(isExist("edit_vacations") || isExist("delete_vacations")) && <Dropdown>
                     <Dropdown.Toggle
                         className="light sharp i-false"
                     >
                         <i className="la la-ellipsis-v" style={{fontSize: '27px'}}></i>
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
-                        {isExist("edit_vacation") && <Dropdown.Item onClick={()=> {
+                        {isExist("edit_vacations") && <Dropdown.Item onClick={()=> {
                             setItem(item)
                             setAddModal(true)
                         }}> {Translate[lang]?.edit}</Dropdown.Item>}
-                        {isExist("delete_vacation") && <Dropdown.Item onClick={()=> setDeleteModal(true)}>{Translate[lang]?.delete}</Dropdown.Item>}
+                        {isExist("delete_vacations") && <Dropdown.Item onClick={()=> setDeleteModal(true)}>{Translate[lang]?.delete}</Dropdown.Item>}
                     </Dropdown.Menu>
                 </Dropdown>}
             </td>

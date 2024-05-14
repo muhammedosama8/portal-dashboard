@@ -79,6 +79,12 @@ const Assets = () => {
                       <strong>{Translate[lang]?.name}</strong>
                     </th>
                     <th>
+                      <strong>{Translate[lang]?.serial_number}</strong>
+                    </th>
+                    <th>
+                      <strong>{Translate[lang]?.items}</strong>
+                    </th>
+                    <th>
                       <strong>{Translate[lang]?.type}</strong>
                     </th>
                     {isExist("view_custody") && <th>

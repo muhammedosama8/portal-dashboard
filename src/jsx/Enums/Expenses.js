@@ -10,4 +10,9 @@ export const Expenses = [
     {label: 'Sim Charges', value: 'sim_charges'},
     {label: 'Tickets', value: 'tickets'},
     {label: 'Digital License', value: 'digital_license'},
+    {label: 'Electricity-water', value: 'electricity_water'},
+    {label: 'Compnay installation', value: 'compnay_installation'},
+    {label: 'Furniture', value: 'furniture'},
+    {label: 'Employee Residency', value: 'employee_residency'},
+    {label: 'Internet fees', value: 'internet_fees'},
 ]

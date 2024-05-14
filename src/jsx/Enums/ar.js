@@ -3,6 +3,7 @@ export const Arabic = {
   year_revenues: "الايرادات السنويه",
   custody: "العهده",
   expenses: "مصاريف",
+  year_expenses: "مصاريف السنويه",
   financial: "المالي",
   client_email: "بريد الكتوني العميل",
   contract_date: "ميعاد العقد",

@@ -8,9 +8,10 @@ import Assets from "./Assets";
 import Expenses from "./Expenses";
 import Projects from "./Projects";
 import Revenues from "./Revenues";
+import YearExpenses from "./YearExpenses";
 import YearRevenues from "./YearRevenues";
 
-const tabs = ['projects', 'custody', 'expenses', 'revenues', 'year_revenues']
+const tabs = ['projects', 'custody', 'expenses', 'year_expenses', 'revenues', 'year_revenues']
 const Financial = () => {
     const [selectTab, setSelectTab] = useState('projects')
     const lang = useSelector(state=> state.auth?.lang)
@@ -41,6 +42,8 @@ const Financial = () => {
         {selectTab === 'custody' && <Assets />}
 
         {selectTab === 'expenses' && <Expenses />}
+
+        {selectTab === 'year_expenses' && <YearExpenses />}
 
         {selectTab === 'revenues' && <Revenues />}
 
