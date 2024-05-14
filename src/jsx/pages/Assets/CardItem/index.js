@@ -22,9 +22,6 @@ const CardItem = ({item, setItem, index, setAddModal, setView, setShouldUpdate})
                 {item?.name}
             </td>
             <td>
-                {item?.asset}
-            </td>
-            <td>
                 {item?.serial_number || '-'}
             </td>
             <td>
@@ -33,6 +30,9 @@ const CardItem = ({item, setItem, index, setAddModal, setView, setShouldUpdate})
                         return <span class="badge bg-primary text-white">{item?.item}</span>
                     }) : '-'}
                 </div>
+            </td>
+            <td>
+                {item?.asset}
             </td>
             {isExist("view_custody") && <td>
                 <i className="la la-eye cursor-pointer" 
