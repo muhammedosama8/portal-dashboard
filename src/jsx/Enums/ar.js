@@ -1,4 +1,6 @@
 export const Arabic = {
+  leads: 'قيادات',
+  reference: 'مرجع',
   revenues: "ايرادات",
   year_revenues: "الايرادات السنويه",
   custody: "العهده",

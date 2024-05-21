@@ -50,6 +50,27 @@ const Projects = () => {
       setParams({...params, [name]: e})
     } 
 
+    const printProjects = () =>{
+      const printWindow = window.open("", "_blank");
+      let pages = ``;
+
+      let htmlCode = `<html>
+        <head>
+            <title>${Translate[lang]?.projects}</title>
+        </head>
+        <body style="direction: ${lang==='en' ? 'ltr' : 'rtl'};">
+        ${pages}
+        </body>
+        </html>
+      `;
+
+      printWindow.document.write(htmlCode);
+      printWindow.document.close();
+
+      setTimeout(() => {
+        printWindow.print();
+      }, 2500);
+    }
   return (
     <Fragment>
       <Card className="mb-3">
@@ -70,7 +91,11 @@ const Projects = () => {
             ></div>
           </div>
           <div>
-            <Button variant='secondary' className='mx-2 h-75'>
+            <Button 
+              variant='secondary' 
+              className='mx-2 h-75'
+              onClick={printProjects}
+            >
               {Translate[lang].print}
             </Button>
             <Button variant="primary" className='me-2 h-75' onClick={()=> { 

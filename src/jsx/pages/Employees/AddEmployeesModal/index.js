@@ -41,6 +41,7 @@ const AddEmployeesModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
             setIsAdd(true)
         } else {
             setIsAdd(false)
+            console.log(item)
             setFormData({
                 id: item.id,
                 name: item.name,
@@ -81,7 +82,7 @@ const AddEmployeesModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
                 setDepartmentOptions(info)
             }
         })
-        assetsService.getList().then(res=>{
+        assetsService.getUnsignedAssetsList().then(res=>{
             if(res?.status === 200){
                 let info = res?.data?.data?.data?.map(ass=>{
                     return {
@@ -113,7 +114,7 @@ const AddEmployeesModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
         e.preventDefault();
         let data ={ 
             ...formData,
-            assets_id: formData.assets?.map(res=> res.id),
+            assets_id: formData.assets?.map(res=> res.value),
             department_id: formData.department.id
         }
         delete data.department
@@ -261,7 +262,17 @@ const AddEmployeesModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
                                 onChange={(e) => setFormData({...formData, salary: e.target.value})}
                             />
                         </Col>
-                        <Col md={6}>
+                        <Col md={6} className='mt-3 d-flex align-items-center' style={{gap: '18px'}}>
+                            {lang==='en' ? Translate[lang]?.part_time : Translate[lang]?.full_time}
+                            <Form.Check
+                                type="switch"
+                                id={`custom-switch`}
+                                checked={formData.is_full_time}
+                                onChange={(e) => setFormData({...formData, is_full_time: e.target.checked})}
+                            />
+                            {lang==='en' ? Translate[lang]?.full_time : Translate[lang]?.part_time}
+                        </Col>
+                        <Col md={12}>
                             <AvField
                                 label={Translate[lang]?.iban}
                                 type='text'
@@ -326,16 +337,7 @@ const AddEmployeesModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
                                 onChange={(e) => setFormData({...formData, company_email: e.target.value})}
                             />
                         </Col>
-                        <Col md={6} className='mt-3 d-flex align-items-center' style={{gap: '18px'}}>
-                            {lang==='en' ? Translate[lang]?.part_time : Translate[lang]?.full_time}
-                            <Form.Check
-                                type="switch"
-                                id={`custom-switch`}
-                                checked={formData.is_full_time}
-                                onChange={(e) => setFormData({...formData, is_full_time: e.target.checked})}
-                            />
-                            {lang==='en' ? Translate[lang]?.full_time : Translate[lang]?.part_time}
-                        </Col>
+                        
                         <Col md={12} className='mt-3'>
                             <div className='form-group w-100'>
                                 <label className="m-0">{Translate[lang]?.attachments}</label>

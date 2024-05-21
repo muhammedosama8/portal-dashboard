@@ -47,6 +47,14 @@ export const MenuList = [
     to: "projects",
     text: "projects",
   },
+  // Leads
+  {
+    title: "Leads",
+    classsChange: "mm-collapse",
+    iconStyle: <i className="la la-cube"></i>,
+    to: "leads",
+    text: "leads",
+  },
   // Payment Link
   {
     title: "Payment Link",

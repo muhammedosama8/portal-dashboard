@@ -26,6 +26,7 @@ import Payment from "./pages/Payment";
 import Deduction from "./pages/Deduction";
 import PaymentLink from "./pages/PaymentLink";
 import Financial from "./pages/Financial";
+import Leads from "./pages/Leads";
 
 const Markup = () => {
   const allroutes = [
@@ -52,6 +53,9 @@ const Markup = () => {
 
     // Projects
     { url: "projects", component: <Projects /> },
+
+    // Leads
+    { url: "leads", component: <Leads /> },
 
     // Departments
     { url: "departments", component: <Departments /> },

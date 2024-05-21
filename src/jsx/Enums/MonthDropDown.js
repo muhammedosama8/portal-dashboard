@@ -10,15 +10,12 @@ const MonthDropDown = ({params, changeParams}) => {
     const lang = useSelector(state=> state.auth.lang)
 
     useEffect(() => {
-        // const today = new Date();
-        // const currentMonth = today.getMonth();
         const remainingMonths = months?.map(res=>{
             return{
                 label: Translate[lang][res.toLocaleLowerCase()],
-                value: res.toLocaleLowerCase()
+                value: res
             }
         });
-        //.slice(currentMonth)
         setMonthOptions([...remainingMonths])
     },[lang])
 

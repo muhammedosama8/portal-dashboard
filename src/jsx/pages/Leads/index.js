@@ -14,38 +14,54 @@ import Pagination from "../../common/Pagination/Pagination";
 import { Translate } from "../../Enums/Tranlate";
 import CardItem from "./CardItem";
 import './style.scss'
-import SalariesService from "../../../services/SalariesService";
-import TotalSalariesModal from "./TotalSalariesModal";
+import ProjectsService from "../../../services/ProjectsService";
+import AddLeadsModal from "./AddLeadsModal";
 import MonthDropDown, { months } from "../../Enums/MonthDropDown";
 import YearDropDown from "../../Enums/YearDropDown";
 
-const Salaries = () => {
-    const [data, setData] = useState([])
-    const lang = useSelector(state=> state.auth?.lang)
-    const [params, setParams] = useState({
-      month: {
-        label: Translate[lang][months[new Date().getMonth()].toLocaleLowerCase()],
-        value: months[new Date().getMonth()]
-    },
-      year: {
-        label: `${new Date().getFullYear()}`,
-        value: new Date().getFullYear()
-      }
-    })
-    const [modal, setModal] = useState(false)
+const Leads = () => {
+    const [data, setData] = useState([
+      {id: 1, name: 'test', client_name: 'mu', client_phone: '435235', reference: '133', docs: ''},
+      {id: 2, name: 'test1', client_name: 'os', client_phone: '324234', reference: '113', docs: ''},
+    ])
+    const [addModal, setAddModal] = useState(false)
+    const [item, setItem] = useState({})
     const [hasData, setHasData] = useState(1)
     const [search, setSearch] = useState(null)
     const [loading, setLoading] = useState(false)
     const [shouldUpdate, setShouldUpdate] = useState(false)
-    const salariesService = new SalariesService()
-    const Auth = useSelector((state) => state.auth?.auth);
-    const isExist = (data) => Auth?.admin?.admin_roles?.includes(data);
+    const lang = useSelector(state=> state.auth?.lang)
+    const [params, setParams] = useState({
+      month: "",
+      year: ""
+    })
+    const projectsService = new ProjectsService()
 
     const changeParams = (e, name) => {
       setParams({...params, [name]: e})
-      setShouldUpdate(prev=> !prev)
     } 
 
+    const printProjects = () =>{
+      const printWindow = window.open("", "_blank");
+      let pages = ``;
+
+      let htmlCode = `<html>
+        <head>
+            <title>${Translate[lang]?.projects}</title>
+        </head>
+        <body style="direction: ${lang==='en' ? 'ltr' : 'rtl'};">
+        ${pages}
+        </body>
+        </html>
+      `;
+
+      printWindow.document.write(htmlCode);
+      printWindow.document.close();
+
+      setTimeout(() => {
+        printWindow.print();
+      }, 2500);
+    }
   return (
     <Fragment>
       <Card className="mb-3">
@@ -66,12 +82,20 @@ const Salaries = () => {
             ></div>
           </div>
           <div>
-            <Button variant="secondary mx-2">{Translate[lang].print}</Button>
-            {isExist("total_salaries") && <Button variant="primary" className='me-2 h-75' onClick={()=> { 
-              setModal(true) 
+            <Button 
+              variant='secondary' 
+              className='mx-2 h-75'
+              onClick={printProjects}
+            >
+              {Translate[lang].print}
+            </Button>
+            <Button variant="primary" className='me-2 h-75' onClick={()=> { 
+              setItem({})
+              setAddModal(true) 
             }}>
-                {Translate[lang]?.total_salaries}
-            </Button>}
+              <i className="la la-plus mx-1"></i>
+              {Translate[lang]?.add} {Translate[lang]?.leads}
+            </Button>
           </div>
         </Card.Body >
       </Card>
@@ -85,13 +109,13 @@ const Salaries = () => {
               </div>}
               <Row className="mb-3">
                 <Col md={2} sm={5}>
-                  <MonthDropDown 
+                  <MonthDropDown
                     params={params} 
                     changeParams={changeParams} 
                   />
                 </Col>
                 <Col md={2} sm={5}>
-                  <YearDropDown 
+                  <YearDropDown
                     params={params} 
                     changeParams={changeParams} 
                   />
@@ -104,12 +128,21 @@ const Salaries = () => {
                       <strong>I.D</strong>
                     </th>
                     <th>
-                      <strong>{Translate[lang]?.employee_name}</strong>
+                      <strong>{Translate[lang]?.name}</strong>
                     </th>
                     <th>
-                      <strong>{Translate[lang]?.salary}</strong>
+                      <strong>{Translate[lang]?.client_name}</strong>
                     </th>
-                    {/* <th></th> */}
+                    <th>
+                      <strong>{Translate[lang]?.client_phone}</strong>
+                    </th>
+                    <th>
+                      <strong>{Translate[lang]?.reference}</strong>
+                    </th>
+                    <th>
+                      <strong>{Translate[lang]?.document}</strong>
+                    </th>
+                    <th></th>
                   </tr>
                 </thead>
 
@@ -119,41 +152,37 @@ const Salaries = () => {
                             index= {index}
                             key= {index}
                             item={item}
+                            setItem={setItem}
+                            setAddModal={setAddModal}
+                            setShouldUpdate={setShouldUpdate}
                         />
                     })}
                 </tbody>
               </Table>}
               {hasData === 0 && <NoData />}
-              <Pagination
+              {/* <Pagination
                   setData={setData}
-                  service={salariesService}
+                  service={projectsService}
                   shouldUpdate={shouldUpdate}
                   setHasData={setHasData}
                   setLoading={setLoading}
                   search={search}
-                  param={{
-                    month: params.month.value,
-                    year: params.year.value
-                  }}
-              />
+              /> */}
             </Card.Body>
           </Card>
         </Col>
       </Row>
 
-      {modal && 
-        <TotalSalariesModal
-          modal={modal} 
+      {addModal && 
+        <AddLeadsModal
+          item={item} 
+          addModal={addModal} 
           setShouldUpdate={setShouldUpdate}
-          setModal={()=> setModal(false)}
-          params={{
-            month: params.month.value,
-            year: params.year.value
-          }}
+          setAddModal={()=> setAddModal(false)}
       />}
 
     </Fragment>
   );
 };
 
-export default Salaries;
+export default Leads;

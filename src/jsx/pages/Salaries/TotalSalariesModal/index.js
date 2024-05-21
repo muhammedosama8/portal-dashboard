@@ -10,16 +10,24 @@ import { Translate } from "../../../Enums/Tranlate";
 import Loader from "../../../common/Loader";
 import BaseService from "../../../../services/BaseService";
 
-const TotalSalariesModal = ({modal, setModal})=>{
-    const [formData, setFormData] = useState({
-        employee: '',
-        salary: '',
-    })
-    const [employeesOptions, setEmployeesOptions] = useState([])
-    const [isAdd, setIsAdd] = useState(false)
+const TotalSalariesModal = ({modal, setModal, params})=>{
+    const [totalSalary, setTotalSalary] = useState(0)
     const [loading, setLoading] = useState(false)
     const salariesService = new SalariesService()
     const lang = useSelector(state=> state.auth.lang)
+
+    useEffect(()=>{
+        setLoading(true)
+        salariesService.getList(params).then(res=>{
+            if(res?.status === 200){
+                let total = res.data?.data?.data.reduce((accumulator, currentValue) => {
+                    return accumulator + currentValue.salary;
+                }, 0)
+                setTotalSalary(total)
+            }
+            setLoading(false)
+        }).catch(()=> setLoading(false))
+    },[])
 
     return(
         <Modal className={lang === 'en' ? "en fade addProduct" : "ar fade addProduct"} style={{textAlign: lang === 'en' ? 'left' : 'right'}} show={modal} onHide={()=>{
@@ -40,7 +48,12 @@ const TotalSalariesModal = ({modal, setModal})=>{
             </Modal.Header>
             <Modal.Body>
                     <Row>
-                       1000
+                        <div className="my-4">
+                        {loading ? <Loader /> : <div>
+                            <p>{Translate[lang][params.month.toLowerCase()]} / {params.year}</p>
+                            <h2>{totalSalary}</h2>
+                        </div>}
+                        </div>
                     </Row>
             </Modal.Body>
             <Modal.Footer>
