@@ -1,5 +1,6 @@
 export const English = {
   leads: 'Leads',
+  lead_name: "Lead Name",
   reference: "Reference",
   revenues: "Revenues",
   year_revenues: "Year Revenues",

@@ -16,6 +16,7 @@ const AddLeadsModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
         name: '',
         client_name: "",
         client_phone: "",
+        client_email: "",
         reference: "",
         document: "",
     })
@@ -155,6 +156,23 @@ const AddLeadsModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
                                 }}
                                 value={formData.client_phone}
                                 onChange={(e) => setFormData({...formData, client_phone: e.target.value})}
+                            />
+                        </Col>
+                        <Col md={6}>
+                            <AvField
+                                label={Translate[lang]?.client_email}
+                                type='text'
+                                placeholder={Translate[lang]?.client_email}
+                                bsSize="lg"
+                                name='client_email'
+                                validate={{
+                                    required: {
+                                        value: true,
+                                        errorMessage: Translate[lang].field_required
+                                    }
+                                }}
+                                value={formData.client_email}
+                                onChange={(e) => setFormData({...formData, client_email: e.target.value})}
                             />
                         </Col>
                         <Col md={6}>

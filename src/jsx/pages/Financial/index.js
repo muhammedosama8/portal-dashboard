@@ -37,7 +37,7 @@ const Financial = () => {
             </Card.Body>
         </Card>
 
-        {selectTab === 'projects' && <Projects />}\
+        {selectTab === 'projects' && <Projects />}
 
         {selectTab === 'custody' && <Assets />}
 

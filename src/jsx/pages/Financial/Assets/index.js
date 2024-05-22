@@ -16,6 +16,7 @@ import CardItem from "./CardItem";
 import './style.scss'
 import AssetsService from "../../../../services/AssetsService";
 import AddAssetsModal from "./AddAssetsModal";
+import print from "../../../Enums/Print";
 
 const Assets = () => {
     const [data, setData] = useState([])
@@ -28,6 +29,32 @@ const Assets = () => {
     const [shouldUpdate, setShouldUpdate] = useState(false)
     const lang = useSelector(state=> state.auth?.lang)
     const assetsService = new AssetsService()
+
+    const printProjects = () => {
+      setLoading(true)
+      assetsService.getList().then(res=>{
+        if(res?.status === 200){
+          print(
+            Translate[lang]?.custody,
+            [ "id", 
+              Translate[lang]?.name, 
+              Translate[lang]?.serial_number,
+              Translate[lang]?.items,
+            ],
+            lang,
+            res?.data?.data?.data.map(item => {
+              return {
+                id: item.id,
+                name: item.name,
+                serial_number: item.serial_number || '-',
+                item: !!item.asset_items?.length ? item.asset_items?.map(res=> res.item) : '-',
+              };
+            })
+          )
+        }
+        setLoading(false)
+      }).catch(()=> setLoading(false))
+    }
 
   return (
     <Fragment>
@@ -49,7 +76,7 @@ const Assets = () => {
             ></div>
           </div>
           <div>
-            <Button variant="secondary" className='mx-2 h-75' onClick={()=> {}}>
+            <Button variant="secondary" className='mx-2 h-75' onClick={printProjects}>
               {Translate[lang]?.print}
             </Button>
             <Button variant="primary" className='h-75' onClick={()=> { 

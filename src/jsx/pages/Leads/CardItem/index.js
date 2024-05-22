@@ -22,6 +22,7 @@ const CardItem = ({item, setItem, index, setAddModal, setShouldUpdate}) =>{
             </td>
             <td>{item.client_name}</td>
             <td>{item.client_phone}</td>
+            <td>{item.client_email}</td>
             <td>{item.reference}</td>
             <td>{item.doc}</td>
             <td>

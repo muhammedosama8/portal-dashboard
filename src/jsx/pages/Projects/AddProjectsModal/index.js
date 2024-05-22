@@ -10,6 +10,7 @@ import { Translate } from "../../../Enums/Tranlate";
 
 import BaseService from "../../../../services/BaseService";
 import Loader from "../../../common/Loader";
+import DepartmentService from "../../../../services/DepartmentService";
 
 const AddProjectsModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
     const maintainces = [
@@ -35,7 +36,7 @@ const AddProjectsModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
         client_email: "",
         client_civil_id: "",
         contract_date: "",
-        contracts: [""],
+        contracts: [],
     })
     const [isAdd, setIsAdd] = useState(false)
     const [loading, setLoading] = useState(false)
@@ -51,62 +52,93 @@ const AddProjectsModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
             setFormData({
                 id: item?.id,
                 name: item?.name,
-                department: item.department,
                 price: item?.price,
-                works_day: item?.works_day,
-                maintaince: item?.maintaince
+                department: {
+                    label: item.department.name,
+                    value: item.department.id,
+                },
+                works_day: item?.work_day,
+                maintaince: {
+                    label: item?.maintenance,
+                    value: item?.maintenance
+                },
+                client_name: item.client_name,
+                client_email: item.client_email,
+                client_phone: item.phone,
+                client_civil_id: item.client_civil_id,
+                contract_date: item.contract_date.split('T')[0],
+                contracts: item.project_attachments?.map(res=> res?.url)
             })
         }
     },[item])
 
+    useEffect(()=>{
+        new DepartmentService().getList().then(res=>{
+            if(res?.status === 200){
+                let data = res.data.data.data?.map(dep=>{
+                    return{
+                        label: dep.name,
+                        value: dep.id
+                    }
+                })
+                setDepartmentOptions(data)
+            }
+        })
+    },[])
+
     const submit = (e) =>{
         e.preventDefault();
-        // let data ={ 
-        //     item_no: formData?.item_no,
-        //     name: formData?.name,
-        //     price: formData?.price,
-        //     code: formData?.code,
-        //     barcode: formData?.barcode,
-        //     image: formData?.image
-        // }
+        let data ={ 
+            name: formData.name,
+            client_name: formData.client_name,
+            phone: formData.client_phone,
+            client_email: formData.client_email,
+            client_civil_id: formData.client_civil_id,
+            contract_date: formData.contract_date,
+            price: formData.price,
+            work_day: formData.works_day,
+            maintenance: formData.maintaince.value,
+            department_id: formData.department.value,
+            project_attachments: formData.contracts
+        }
 
-        // if(isAdd){
-        //     projectsService.create(data)?.then(res=>{
-        //         if(res && res?.status === 201){
-        //             toast.success('Product Added Successfully')
-        //             setShouldUpdate(prev=> !prev)
-        //             setAddModal()
-        //         }
-        //     })
-        // } else {
-        //     projectsService.update(formData?.id, data)?.then(res=>{
-        //         if(res && res?.status === 200){
-        //             toast.success('Product Updated Successfully')
-        //             setShouldUpdate(prev=> !prev)
-        //             setAddModal()
-        //         }
-        //     })
-        // }
+        if(isAdd){
+            projectsService.create(data)?.then(res=>{
+                if(res && res?.status === 201){
+                    toast.success('Project Added Successfully')
+                    setShouldUpdate(prev=> !prev)
+                    setAddModal()
+                }
+            })
+        } else {
+            projectsService.update(formData?.id, data)?.then(res=>{
+                if(res && res?.status === 200){
+                    toast.success('Project Updated Successfully')
+                    setShouldUpdate(prev=> !prev)
+                    setAddModal()
+                }
+            })
+        }
     }
 
-    const fileHandler = (e, ind) => {
+    const fileHandler = (e) => {
+        setLoading(true)
         let files = e.target.files
         const filesData = Object.values(files)
 
         if (filesData?.length) {
             new BaseService().postUpload(filesData[0]).then(res=>{
                 if(res?.status === 200){
-                    let update = formData.contracts?.map((att, index)=>{
-                        if(index === ind){
-                            return res?.data?.url 
-                        } else{
-                            return att
-                        }
-                    })
-                    setFormData({...formData, shareholder_attach: [...update]})
+                    setFormData({...formData, contracts: [res?.data?.url ]})
                 }
-            })
+                setLoading(false)
+            }).catch(()=> setLoading(false))
         }
+    }
+
+    const deleteImg = (ind)=>{
+        let update = formData.contracts?.filter((_, index)=> index !== ind)
+        setFormData({...formData, contracts: [...update]})
     }
 
     return(
@@ -232,7 +264,7 @@ const AddProjectsModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
                         <Col md={6}>
                             <AvField
                                 label={Translate[lang]?.contract_date}
-                                type='text'
+                                type='date'
                                 placeholder={Translate[lang]?.contract_date}
                                 bsSize="lg"
                                 name='contract_date'
@@ -318,6 +350,20 @@ const AddProjectsModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
                                 </div>
                             </div>
                         </Col>
+                        {formData.contracts?.map((contract, index)=>{
+                            return <Col md={3} key={index}>
+                                <div>
+                                    <i 
+                                        className="la la-trash text-danger position-absolute cursor-pointer"
+                                        style={{fontSize: '1.2rem'}}
+                                        onClick={()=> deleteImg(index)}
+                                    ></i>
+                                    <a href={contract} target='_blank' className="w-100 h-100">
+                                        <i className="la la-file-pdf" style={{fontSize: '8rem'}}></i>
+                                    </a>
+                                </div>
+                            </Col>                    
+                        })}
                     </Row>
             </Modal.Body>
             <Modal.Footer>

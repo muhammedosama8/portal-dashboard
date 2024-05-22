@@ -18,11 +18,12 @@ import ProjectsService from "../../../services/ProjectsService";
 import AddLeadsModal from "./AddLeadsModal";
 import MonthDropDown, { months } from "../../Enums/MonthDropDown";
 import YearDropDown from "../../Enums/YearDropDown";
+import print from "../../Enums/Print";
 
 const Leads = () => {
     const [data, setData] = useState([
-      {id: 1, name: 'test', client_name: 'mu', client_phone: '435235', reference: '133', docs: ''},
-      {id: 2, name: 'test1', client_name: 'os', client_phone: '324234', reference: '113', docs: ''},
+      {id: 1, name: 'test', client_name: 'mu', client_phone: '435235', client_email: 'muhammed@gmail.com', reference: 'lorea test lorea test lorea test lorea test lorea test lorea test lorea test lorea test lorea test lorea test lorea test lorea test lorea test lorea test lorea test lorea test lorea test lorea test lorea test lorea test lorea test lorea test lorea test lorea test lorea test lorea test lorea test lorea test lorea test lorea test lorea test lorea test lorea test lorea test lorea test', docs: ''},
+      {id: 2, name: 'test1', client_name: 'os', client_phone: '324234', client_email: 'muhammed@gmail.com', reference: 'fgsdf sdfsdfssd dsfsdfsdf', docs: ''},
     ])
     const [addModal, setAddModal] = useState(false)
     const [item, setItem] = useState({})
@@ -41,26 +42,28 @@ const Leads = () => {
       setParams({...params, [name]: e})
     } 
 
-    const printProjects = () =>{
-      const printWindow = window.open("", "_blank");
-      let pages = ``;
-
-      let htmlCode = `<html>
-        <head>
-            <title>${Translate[lang]?.projects}</title>
-        </head>
-        <body style="direction: ${lang==='en' ? 'ltr' : 'rtl'};">
-        ${pages}
-        </body>
-        </html>
-      `;
-
-      printWindow.document.write(htmlCode);
-      printWindow.document.close();
-
-      setTimeout(() => {
-        printWindow.print();
-      }, 2500);
+    const printProjects = () => {
+      print(
+        Translate[lang]?.leads,
+        [ "id", 
+          Translate[lang]?.name, 
+          Translate[lang]?.client_name, 
+          Translate[lang]?.client_phone, 
+          Translate[lang]?.client_email, 
+          Translate[lang]?.reference
+        ],
+        lang,
+        data.map(item => {
+          return {
+            id: item.id,
+            name: item.name,
+            client_name: item.client_name,
+            client_phone: item.client_phone,
+            client_email: item.client_email,
+            reference: item.reference,
+          };
+        })
+      )
     }
   return (
     <Fragment>
@@ -128,13 +131,16 @@ const Leads = () => {
                       <strong>I.D</strong>
                     </th>
                     <th>
-                      <strong>{Translate[lang]?.name}</strong>
+                      <strong>{Translate[lang]?.lead_name}</strong>
                     </th>
                     <th>
                       <strong>{Translate[lang]?.client_name}</strong>
                     </th>
                     <th>
                       <strong>{Translate[lang]?.client_phone}</strong>
+                    </th>
+                    <th>
+                      <strong>{Translate[lang]?.client_email}</strong>
                     </th>
                     <th>
                       <strong>{Translate[lang]?.reference}</strong>

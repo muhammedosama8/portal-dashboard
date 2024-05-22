@@ -18,6 +18,7 @@ import SalariesService from "../../../services/SalariesService";
 import TotalSalariesModal from "./TotalSalariesModal";
 import MonthDropDown, { months } from "../../Enums/MonthDropDown";
 import YearDropDown from "../../Enums/YearDropDown";
+import print from "../../Enums/Print";
 
 const Salaries = () => {
     const [data, setData] = useState([])
@@ -46,6 +47,33 @@ const Salaries = () => {
       setShouldUpdate(prev=> !prev)
     } 
 
+    const printProjects = () => {
+      setLoading(true)
+      salariesService.getList({
+        month: params.month.value,
+        year: params.year.value,
+      }).then(res=>{
+        if(res?.status === 200){
+          print(
+            Translate[lang]?.salary,
+            [ "id", 
+              Translate[lang]?.employee_name, 
+              Translate[lang]?.salary
+            ],
+            lang,
+            res?.data?.data?.data.map(item => {
+              return {
+                id: item.id,
+                name: item.name,
+                salary: item.salary,
+              };
+            })
+          )
+        }
+        setLoading(false)
+      }).catch(()=> setLoading(false))
+    }
+
   return (
     <Fragment>
       <Card className="mb-3">
@@ -66,7 +94,7 @@ const Salaries = () => {
             ></div>
           </div>
           <div>
-            <Button variant="secondary mx-2">{Translate[lang].print}</Button>
+            <Button variant="secondary mx-2" onClick={printProjects}>{Translate[lang].print}</Button>
             {isExist("total_salaries") && <Button variant="primary" className='me-2 h-75' onClick={()=> { 
               setModal(true) 
             }}>
@@ -83,6 +111,8 @@ const Salaries = () => {
             {loading && <div style={{height: '300px'}}>
                 <Loader />
               </div>}
+
+              {(hasData === 1 && !loading) && <> 
               <Row className="mb-3">
                 <Col md={2} sm={5}>
                   <MonthDropDown 
@@ -97,7 +127,7 @@ const Salaries = () => {
                   />
                 </Col>
               </Row>
-              {(hasData === 1 && !loading) && <Table responsive>
+              <Table responsive>
                 <thead>
                   <tr className='text-center'>
                     <th>
@@ -122,7 +152,8 @@ const Salaries = () => {
                         />
                     })}
                 </tbody>
-              </Table>}
+              </Table>
+              </>}
               {hasData === 0 && <NoData />}
               <Pagination
                   setData={setData}

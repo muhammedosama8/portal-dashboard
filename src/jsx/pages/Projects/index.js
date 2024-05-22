@@ -18,12 +18,10 @@ import ProjectsService from "../../../services/ProjectsService";
 import AddProjectsModal from "./AddProjectsModal";
 import MonthDropDown, { months } from "../../Enums/MonthDropDown";
 import YearDropDown from "../../Enums/YearDropDown";
+import print from "../../Enums/Print";
 
 const Projects = () => {
-    const [data, setData] = useState([
-      {id: 1, name: 'test', department: 'test1', client_name: 'mu', client_phone: '435235', cost: '133', works_day: '5', price: '144', maintaince: '5'},
-      {id: 2, name: 'test1', department: 'test2', client_name: 'os', client_phone: '324234', cost: '113', works_day: '4', price: '124', maintaince: '3'},
-    ])
+    const [data, setData] = useState([])
     const [addModal, setAddModal] = useState(false)
     const [item, setItem] = useState({})
     const [hasData, setHasData] = useState(1)
@@ -50,27 +48,49 @@ const Projects = () => {
       setParams({...params, [name]: e})
     } 
 
-    const printProjects = () =>{
-      const printWindow = window.open("", "_blank");
-      let pages = ``;
-
-      let htmlCode = `<html>
-        <head>
-            <title>${Translate[lang]?.projects}</title>
-        </head>
-        <body style="direction: ${lang==='en' ? 'ltr' : 'rtl'};">
-        ${pages}
-        </body>
-        </html>
-      `;
-
-      printWindow.document.write(htmlCode);
-      printWindow.document.close();
-
-      setTimeout(() => {
-        printWindow.print();
-      }, 2500);
+    const printProjects = () => {
+      setLoading(true)
+      projectsService.getList((!!params.month.value || !!params.year.value) ? {
+        month: !!params.month.value ? params.month.value : '',
+        year: !!params.year.value ? params.year.value : ''
+      } : '').then(res=>{
+        if(res?.status === 200){
+          print(
+            Translate[lang]?.projects,
+            [ "id", 
+              Translate[lang]?.name, 
+              Translate[lang]?.department,
+              Translate[lang]?.client_name,
+              Translate[lang]?.client_phone,
+              Translate[lang]?.client_email,
+              Translate[lang]?.client_civil_id,
+              Translate[lang]?.works_day,
+              Translate[lang]?.contract_date,
+              Translate[lang]?.price,
+              Translate[lang]?.maintaince,
+            ],
+            lang,
+            res?.data?.data?.data.map(item => {
+              return {
+                id: item.id,
+                name: item.name,
+                department: item.department?.name,
+                client_name: item?.client_name,
+                client_phone: item?.phone,
+                client_email: item?.client_email,
+                client_civil_id: item?.client_civil_id,
+                works_day: item?.work_day,
+                contract_date: item?.contract_date?.split('T')[0],
+                price: item?.price,
+                maintaince: item?.maintenance
+              };
+            })
+          )
+        }
+        setLoading(false)
+      }).catch(()=> setLoading(false))
     }
+
   return (
     <Fragment>
       <Card className="mb-3">
@@ -116,7 +136,9 @@ const Projects = () => {
             {loading && <div style={{height: '300px'}}>
                 <Loader />
               </div>}
-              <Row className="mb-3">
+              
+              {(hasData === 1 && !loading) && <> 
+                <Row className="mb-3">
                 <Col md={2} sm={5}>
                   <MonthDropDown
                     params={params} 
@@ -130,7 +152,7 @@ const Projects = () => {
                   />
                 </Col>
               </Row>
-              {(hasData === 1 && !loading) && <Table responsive>
+              <Table responsive>
                 <thead>
                   <tr className='text-center'>
                     <th>
@@ -152,13 +174,25 @@ const Projects = () => {
                       <strong>{Translate[lang]?.client_phone}</strong>
                     </th>
                     <th>
+                      <strong>{Translate[lang]?.client_email}</strong>
+                    </th>
+                    <th>
+                      <strong>{Translate[lang]?.client_civil_id}</strong>
+                    </th>
+                    <th>
                       <strong>{Translate[lang]?.works_day}</strong>
+                    </th>
+                    <th>
+                      <strong>{Translate[lang]?.contract_date}</strong>
                     </th>
                     <th>
                       <strong>{Translate[lang]?.price}</strong>
                     </th>
                     <th>
                       <strong>{Translate[lang]?.maintaince}</strong>
+                    </th>
+                    <th>
+                      <strong>{Translate[lang]?.attachments}</strong>
                     </th>
                     <th></th>
                   </tr>
@@ -176,16 +210,21 @@ const Projects = () => {
                         />
                     })}
                 </tbody>
-              </Table>}
+              </Table>
+              </>}
               {hasData === 0 && <NoData />}
-              {/* <Pagination
+              <Pagination
                   setData={setData}
                   service={projectsService}
                   shouldUpdate={shouldUpdate}
                   setHasData={setHasData}
                   setLoading={setLoading}
                   search={search}
-              /> */}
+                  // param={{
+                  //   month: !!params.month?.value ? params.month.value : '',
+                  //   year: !!params.year?.value ? params.year.value : '',
+                  // }}
+              />
             </Card.Body>
           </Card>
         </Col>
