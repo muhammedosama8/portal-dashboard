@@ -1,5 +1,5 @@
 export const Expenses = [
-    {label: 'Expenses', value: 'expenses'},
+    {label: 'Servers', value: 'servers'},
     {label: 'Rent', value: 'rent'},
     {label: 'Startionary', value: 'startionary'},
     {label: 'Cleaning', value: 'cleaning'},
