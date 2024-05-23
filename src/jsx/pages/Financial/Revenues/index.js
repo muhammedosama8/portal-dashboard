@@ -74,9 +74,9 @@ const Revenues = () => {
             <Button variant='outline-primary' className='mx-2 h-75' onClick={()=> setModal(true)}>
               {Translate[lang].total} {Translate[lang].revenues}
             </Button>
-            <Button variant='primary' className='h-75' onClick={()=> setAddModal(true)}>
+            {/* <Button variant='primary' className='h-75' onClick={()=> setAddModal(true)}>
               {Translate[lang].add} {Translate[lang].revenues}
-            </Button>
+            </Button> */}
           </div>
         </Card.Body >
       </Card>

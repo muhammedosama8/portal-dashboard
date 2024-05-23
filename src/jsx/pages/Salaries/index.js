@@ -139,6 +139,9 @@ const Salaries = () => {
                     <th>
                       <strong>{Translate[lang]?.salary}</strong>
                     </th>
+                    <th>
+                      <strong>{Translate[lang]?.salary} {Translate[lang]?.after} {Translate[lang]?.deduction}</strong>
+                    </th>
                     {/* <th></th> */}
                   </tr>
                 </thead>

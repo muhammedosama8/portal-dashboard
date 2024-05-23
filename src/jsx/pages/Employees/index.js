@@ -19,17 +19,15 @@ import AddEmployeesModal from "./AddEmployeesModal";
 import Salaries from "../Salaries";
 import Vacations from "../Vacations";
 import Deduction from "../Deduction";
+import print from "../../Enums/Print";
 
 const tabs = ['employees', 'salaries', "vacations", "deduction"]
 const Employees = () => {
-    const [data, setData] = useState([
-      {id: 1, name: 'test', civil_id: '234234', job_title: 'developer', department: "te", start_date: '5', salary: '144', assets: ''},
-      {id: 2, name: 'test2', civil_id: '2222', job_title: 'developer', department: "te", start_date: '5', salary: '144', assets: ''},
-    ])
+    const [data, setData] = useState([])
     const [selectTab, setSelectTab] = useState('employees')
     const [addModal, setAddModal] = useState(false)
     const [item, setItem] = useState({})
-    const [hasData, setHasData] = useState(1)
+    const [hasData, setHasData] = useState(null)
     const [search, setSearch] = useState(null)
     const [loading, setLoading] = useState(false)
     const [shouldUpdate, setShouldUpdate] = useState(false)
@@ -38,6 +36,49 @@ const Employees = () => {
     const isExist = (data) => Auth?.admin?.admin_roles?.includes(data);
     const employeesService = new EmployeesService()
 
+    const printProjects = () => {
+      setLoading(true)
+      let rows = [ "id", 
+        Translate[lang]?.name, 
+        Translate[lang]?.civil_id,
+        Translate[lang]?.job_title,
+        Translate[lang]?.department,
+        Translate[lang]?.personal_email,
+        Translate[lang]?.company_email,
+        Translate[lang]?.start_date,
+        Translate[lang]?.assets,
+      ]
+      if(isExist("view_salaries")){
+        rows.push(Translate[lang]?.salary)
+      }
+      employeesService.getList().then(res=>{
+        if(res?.status === 200){
+          print(
+            Translate[lang]?.employees,
+            rows,
+            lang,
+            res?.data?.data?.data.map(item => {
+              let info = {
+                id: item.id,
+                name: item.name,
+                civil_id: item.civil_id,
+                job_title: item.job_title,
+                department: item.department?.name,
+                personal_email: item?.personal_email,
+                company_email: item?.company_email,
+                start_date: item?.start_date?.split('T')[0],
+                assets: item.employee_assets?.length,
+              }
+              if(isExist("view_salaries")){
+                info['salary'] = item.salary
+              }
+              return info;
+            })
+          )
+        }
+        setLoading(false)
+      }).catch(()=> setLoading(false))
+    }
   return (
     <Fragment>
       <Card className="mb-3">
@@ -81,6 +122,13 @@ const Employees = () => {
             ></div>
           </div>
           <div>
+            <Button 
+              variant='secondary' 
+              className='mx-2 h-75'
+              onClick={printProjects}
+            >
+              {Translate[lang].print}
+            </Button>
             {isExist("add_employees") && <Button variant="primary" className='me-2 h-75' onClick={()=> { 
               setItem({})
               setAddModal(true) 
@@ -131,6 +179,9 @@ const Employees = () => {
                     </th>}
                     <th>
                       <strong>{Translate[lang]?.assets}</strong>
+                    </th>
+                    <th>
+                      <strong>{Translate[lang]?.attachments}</strong>
                     </th>
                     <th></th>
                   </tr>

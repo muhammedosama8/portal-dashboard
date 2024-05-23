@@ -31,6 +31,13 @@ const CardItem = ({item, setItem, index, setAddModal, setShouldUpdate}) =>{
             {isExist("view_salaries") && <td>{item.salary}</td>}
             <td>{item.employee_assets?.length}</td>
             <td>
+                {item.employee_attach?.map((att=>(
+                    <a href={att.url} target='_black' rel="noreferrer">
+                        <img src={att.url} alt='attachment' width='40' height='40' style={{marginRight: '4px',marginLeft: '4px',}} />
+                    </a>
+                )))}
+            </td>
+            <td>
                 {(isExist("edit_employees") && isExist("delete_employees")) && <Dropdown>
                     <Dropdown.Toggle
                         className="light sharp i-false"

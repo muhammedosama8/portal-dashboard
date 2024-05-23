@@ -8,6 +8,7 @@ const CardItem = ({item, index}) =>{
                 {item?.name}
             </td>
             <td>{item.salary}</td>
+            <td>{item.salary_after_deduction || '-'}</td>
             </tr>
     )
 }

@@ -5,6 +5,7 @@ export const Expenses = [
     {label: 'Cleaning', value: 'cleaning'},
     {label: 'Gas Card Qty Amount', value: 'gas_card_qty_amount'},
     {label: 'Ads', value: 'ads'},
+    {label: 'Gift', value: 'gift'},
     {label: 'Salary', value: 'salary'},
     {label: 'Lawyer Fees', value: 'lawyer_fees'},
     {label: 'Sim Charges', value: 'sim_charges'},

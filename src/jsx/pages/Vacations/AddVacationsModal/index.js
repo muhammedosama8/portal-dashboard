@@ -162,12 +162,12 @@ const AddVacationsModal = ({modal, setModal, item, setShouldUpdate})=>{
                                 placeholder={Translate[lang]?.number_of_days}
                                 bsSize="lg"
                                 name='number_of_days'
-                                validate={{
-                                    required: {
-                                        value: true,
-                                        errorMessage: Translate[lang].field_required
-                                    }
-                                }}
+                                // validate={{   (not req)
+                                //     required: {
+                                //         value: true,
+                                //         errorMessage: Translate[lang].field_required
+                                //     }
+                                // }}
                                 value={formData.number_of_days}
                                 onChange={(e) => setFormData({...formData, number_of_days: e.target.value})}
                             />

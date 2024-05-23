@@ -10,6 +10,7 @@ import { useLocation } from "react-router-dom";
 import uploadImg from '../../../../../images/upload-img.png';
 import Loader from "../../../../common/Loader";
 import BaseService from "../../../../../services/BaseService";
+import MonthDropDown from "../../../../Enums/MonthDropDown";
 
 const AddExpensesModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
     const [formData, setFormData] = useState([])
@@ -17,6 +18,9 @@ const AddExpensesModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
     const projectsService = new ProjectsService()
     const location = useLocation()
     const lang = useSelector(state=> state.auth.lang)
+    const [params, setParams] = useState({
+        month: ""
+    })
 
     useEffect(()=>{
         if(!!location?.state?.item){
@@ -26,6 +30,10 @@ const AddExpensesModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
             setFormData(values)
         }
     }, [])
+
+    const changeParams = (e, name) => {
+        setParams({...params, [name]: e})
+    }
 
     const submit = (e) =>{
         e.preventDefault();
@@ -99,6 +107,14 @@ const AddExpensesModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
             </Modal.Header>
             <Modal.Body>
                     <Row>
+                        <Col md={6} className='mb-4'>
+                            <label>{Translate[lang].month}</label>
+                            <MonthDropDown
+                                params={params} 
+                                changeParams={changeParams} 
+                            />
+                        </Col>
+                        <Col md={6}></Col>
                         {formData?.map((data, index)=>{
                             return <>
                             <Col md={6}>
