@@ -27,7 +27,7 @@ const CardItem = ({item, setItem, index, setAddModal, setView, setShouldUpdate})
             <td>
                 <div style={{display: 'grid', gridTemplateColumns: 'auto auto auto', gap: '8px'}}>
                     {!!item?.asset_items?.length ? item?.asset_items?.map(item=>{
-                        return <span class="badge bg-primary text-white">{item?.item}</span>
+                        return <span className="badge bg-primary text-white">{item?.item}</span>
                     }) : '-'}
                 </div>
             </td>
