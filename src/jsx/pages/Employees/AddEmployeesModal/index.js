@@ -41,7 +41,7 @@ const AddEmployeesModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
             setIsAdd(true)
         } else {
             setIsAdd(false)
-            console.log(item)
+
             setFormData({
                 id: item.id,
                 name: item.name,
@@ -85,10 +85,18 @@ const AddEmployeesModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
         assetsService.getUnsignedAssetsList().then(res=>{
             if(res?.status === 200){
                 let info = res?.data?.data?.data?.map(ass=>{
-                    return {
-                        label: `${ass.name} ${!!ass.serial_number ? `/ ${ass.serial_number}` : ''} ${!!ass.asset_items?.length ? `/ ${ass.asset_items?.map(res=> (` ${res.item}`))}` : ''}`,
-                        value: ass.id,
-                        id: ass.id
+                    if(ass.asset !== "with Items"){
+                        return {
+                            label: `${ass.name} / ${ass.serial_number}`,
+                            value: ass.id,
+                            id: ass.id
+                        }
+                    } else {
+                        return {
+                            label: `${ass.name} / ${ass.asset_items?.map(res=> (` ${res.item}`))}`,
+                            value: ass.id,
+                            id: ass.id
+                        }
                     }
                 })
                 setAssetsOptions(info)

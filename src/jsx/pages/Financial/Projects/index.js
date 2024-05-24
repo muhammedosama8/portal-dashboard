@@ -17,15 +17,13 @@ import YearDropDown from "../../../Enums/YearDropDown";
 import NoData from "../../../common/NoData";
 import Loader from "../../../common/Loader";
 import { Translate } from "../../../Enums/Tranlate";
+import Pagination from "../../../common/Pagination/Pagination";
 
 const Projects = () => {
-    const [data, setData] = useState([
-      {id: 1, name: 'test', department: 'test1', client_name: 'mu', client_phone: '435235', cost: '133', works_day: '5', price: '144', maintaince: '5'},
-      {id: 2, name: 'test1', department: 'test2', client_name: 'os', client_phone: '324234', cost: '113', works_day: '4', price: '124', maintaince: '3'},
-    ])
+    const [data, setData] = useState([])
     const [addModal, setAddModal] = useState(false)
     const [item, setItem] = useState({})
-    const [hasData, setHasData] = useState(1)
+    const [hasData, setHasData] = useState(null)
     const [search, setSearch] = useState(null)
     const [loading, setLoading] = useState(false)
     const [shouldUpdate, setShouldUpdate] = useState(false)
@@ -47,7 +45,17 @@ const Projects = () => {
 
     const changeParams = (e, name) => {
       setParams({...params, [name]: e})
+      setShouldUpdate(prev=> !prev)
     } 
+  const getAll = () =>{
+    setLoading(true)
+    projectsService.getList()?.then(res=>{
+      if(res?.status === 200){
+        setData(res?.data?.data?.data)
+      }
+      setLoading(false)
+    }).catch(()=>setLoading(false))
+  }
 
   return (
     <Fragment>
@@ -69,7 +77,7 @@ const Projects = () => {
             ></div>
           </div>
           <div>
-            <Button variant='secondary' className='mx-2 h-75'>
+            <Button variant='secondary' type="button" className='mx-2 h-75'>
               {Translate[lang].print}
             </Button>
           </div>
@@ -95,6 +103,12 @@ const Projects = () => {
                     params={params} 
                     changeParams={changeParams} 
                   />
+                </Col>
+                <Col md={2} sm={5}>
+                  <Button 
+                    type="button" 
+                    variant="outline-secondary"
+                    onClick={getAll}>{Translate[lang].all}</Button>
                 </Col>
               </Row>
               {(hasData === 1 && !loading) && <Table responsive>
@@ -139,14 +153,18 @@ const Projects = () => {
                 </tbody>
               </Table>}
               {hasData === 0 && <NoData />}
-              {/* <Pagination
+              <Pagination
                   setData={setData}
                   service={projectsService}
                   shouldUpdate={shouldUpdate}
                   setHasData={setHasData}
                   setLoading={setLoading}
                   search={search}
-              /> */}
+                  param={{
+                    month: params.month?.value,
+                    year: params.year?.value,
+                  }}
+              />
             </Card.Body>
           </Card>
         </Col>

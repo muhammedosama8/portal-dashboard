@@ -54,7 +54,6 @@ const PaymentModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
             })
         }
     },[change])
-console.log(formData)
 
     const fileHandler = (e, ind) => {
         let files = e.target.files
@@ -162,13 +161,12 @@ console.log(formData)
                                         id={`custom-switch${ind}`}
                                         onChange={e=> {
                                             if(ind === 0){
-                                                console.log(true)
                                                 return
                                             }
                                             if(formData?.status[ind-1].status){
-                                                console.log(true)
+                                                return
                                             } else{
-                                                console.log(false)
+                                                return
                                             }
                                         }}
                                     />

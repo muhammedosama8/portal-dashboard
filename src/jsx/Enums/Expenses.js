@@ -16,4 +16,6 @@ export const Expenses = [
     {label: 'Furniture', value: 'furniture'},
     {label: 'Employee Residency', value: 'employee_residency'},
     {label: 'Internet fees', value: 'internet_fees'},
+    {label: 'Printer Ink', value: 'printer_ink'},
+    {label: 'Printer', value: 'printer'},
 ]

@@ -15,35 +15,34 @@ const AddProductsModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
     const projectsService = new ProjectsService()
     const lang = useSelector(state=> state.auth.lang)
 
+    useEffect(()=>{
+        setFormData({cost: item.price})
+    },[item])
 
     const submit = (e) =>{
         e.preventDefault();
-        // let data ={ 
-        //     item_no: formData?.item_no,
-        //     name: formData?.name,
-        //     price: formData?.price,
-        //     code: formData?.code,
-        //     barcode: formData?.barcode,
-        //     image: formData?.image
-        // }
-
-        // if(isAdd){
-        //     projectsService.create(data)?.then(res=>{
-        //         if(res && res?.status === 201){
-        //             toast.success('Product Added Successfully')
-        //             setShouldUpdate(prev=> !prev)
-        //             setAddModal()
-        //         }
-        //     })
-        // } else {
-        //     projectsService.update(formData?.id, data)?.then(res=>{
-        //         if(res && res?.status === 200){
-        //             toast.success('Product Updated Successfully')
-        //             setShouldUpdate(prev=> !prev)
-        //             setAddModal()
-        //         }
-        //     })
-        // }
+        let data ={ 
+            name: item.name,
+            client_name: item.client_name,
+            phone: item.phone,
+            client_email: item.client_email,
+            client_civil_id: item.client_civil_id,
+            contract_date: item.contract_date.split('T')[0],
+            price: formData.cost,
+            work_day: item.work_day,
+            maintenance: item.maintenance,
+            department_id: item.department_id,
+            project_attachments: item.project_attachments?.map(res=> res.url)
+        }
+        setLoading(true)
+        projectsService.update(item?.id, data)?.then(res=>{
+            if(res && res?.status === 200){
+                toast.success('Project Updated Successfully')
+                setShouldUpdate(prev=> !prev)
+                setAddModal()
+            }
+            setLoading(false)
+        }).catch(()=> setLoading(false))
     }
 
     return(

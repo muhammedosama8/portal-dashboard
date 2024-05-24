@@ -1,5 +1,6 @@
 export const Arabic = {
   leads: 'قيادات',
+  all: "الكل",
   lead_name: 'اسم القياده',
   reference: 'مرجع',
   revenues: "ايرادات",

@@ -44,7 +44,7 @@ const AddAdmin = () => {
         })
       );
    }, []);
-   console.log(location.state)
+
    useEffect(()=>{
       if(location?.state?.edit){
          let item = location.state?.item

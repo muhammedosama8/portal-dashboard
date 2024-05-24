@@ -45,12 +45,12 @@ const AddAssetsModal = ({addModal, setAddModal, item, view, setShouldUpdate})=>{
         let data ={ 
             name: formData?.name,
             asset: type === 'with_serial' ? 'with Serial' : type === 'with_items' ? 'with Items' : 'with Serial And Items',
-            asset_items: formData.items?.filter(res=> !!res)?.map(res=> {
+        }
+        if(type !== 'with_items') data['serial_number'] = formData.serial_number
+        if(isAdd){
+            data['asset_items'] = formData.items?.filter(res=> !!res)?.map(res=> {
                 return {item: res}
             })
-        }
-        if(type === 'with_serial') data['serial_number'] = formData.serial_number
-        if(isAdd){
             assetsService.create(data)?.then(res=>{
                 if(res?.status === 201){
                     toast.success('Custody Added Successfully')
@@ -59,6 +59,9 @@ const AddAssetsModal = ({addModal, setAddModal, item, view, setShouldUpdate})=>{
                 }
             })
         } else {
+            data['item'] = formData.items?.filter(res=> !!res)?.map(res=> {
+                return res
+            })
             assetsService.update(formData?.id, data)?.then(res=>{
                 if(res && res?.status === 200){
                     toast.success('Custody Updated Successfully')
