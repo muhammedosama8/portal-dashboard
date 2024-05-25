@@ -1,6 +1,10 @@
 export const English = {
   leads: 'Leads',
   all: "All",
+  notice_period: "Notice Period",
+  resignation: "Resignation",
+  start_resignation_date: "Start Resignation Date",
+  end_resignation_date: "End Resignation Date",
   lead_name: "Lead Name",
   reference: "Reference",
   revenues: "Revenues",

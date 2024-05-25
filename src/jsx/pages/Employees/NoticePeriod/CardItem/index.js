@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { Dropdown } from "react-bootstrap";
 import { useSelector } from "react-redux";
-import EmployeesService from "../../../../services/EmployeesService";
-import DeleteModal from "../../../common/DeleteModal";
-import { Translate } from "../../../Enums/Tranlate";
+import EmployeesService from "../../../../../services/EmployeesService";
+import DeleteModal from "../../../../common/DeleteModal";
+import { Translate } from "../../../../Enums/Tranlate";
 
-const CardItem = ({item, setItem, index, setAddModal, setShouldUpdate}) =>{
+const CardItem = ({item, setItem, index, setResignationModal, setAddModal, setShouldUpdate}) =>{
     const [deleteModal, setDeleteModal] = useState(false)
     const Auth = useSelector(state=> state.auth?.auth)
     const lang = useSelector(state=> state.auth?.lang)
@@ -25,18 +25,11 @@ const CardItem = ({item, setItem, index, setAddModal, setShouldUpdate}) =>{
             </td>
             <td>{item.job_title}</td>
             <td>{item.department?.name}</td>
-            <td>{item.personal_email}</td>
-            <td>{item.company_email}</td>
+            <td>{item?.start_resignation_date?.split('T')[0] || '-'}</td>
+            <td>{item?.end_resignation_date?.split('T')[0] || '-'}</td>
             <td>{item.start_date?.split('T')[0]}</td>
             {isExist("view_salaries") && <td>{item.salary}</td>}
             <td>{item.employee_assets?.length}</td>
-            <td>
-                {item.employee_attach?.map((att=>(
-                    <a href={att.url} target='_black' rel="noreferrer">
-                        <img src={att.url} alt='attachment' width='40' height='40' style={{marginRight: '4px',marginLeft: '4px',}} />
-                    </a>
-                )))}
-            </td>
             <td>
                 {(isExist("edit_employees") && isExist("delete_employees")) && <Dropdown>
                     <Dropdown.Toggle
@@ -49,7 +42,10 @@ const CardItem = ({item, setItem, index, setAddModal, setShouldUpdate}) =>{
                             setItem(item)
                             setAddModal(true)
                         }}> {Translate[lang]?.edit}</Dropdown.Item>}
-                        {isExist("delete_employees") && <Dropdown.Item onClick={()=> setDeleteModal(true)}>{Translate[lang]?.delete}</Dropdown.Item>}
+                        {isExist("edit_employees") && <Dropdown.Item onClick={()=> {
+                            setItem(item)
+                            setResignationModal(true)
+                        }}> {Translate[lang]?.resignation}</Dropdown.Item>}
                     </Dropdown.Menu>
                 </Dropdown>}
             </td>
