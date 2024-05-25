@@ -4,13 +4,13 @@ import {AvField, AvForm} from "availity-reactstrap-validation";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import Select from "react-select";
-import uploadImg from '../../../../../images/upload-img.png';
-import EmployeesService from "../../../../../services/EmployeesService";
-import { Translate } from "../../../../Enums/Tranlate";
-import BaseService from "../../../../../services/BaseService";
-import Loader from "../../../../common/Loader";
-import DepartmentService from "../../../../../services/DepartmentService";
-import AssetsService from "../../../../../services/AssetsService";
+import uploadImg from '../../../../images/upload-img.png';
+import EmployeesService from "../../../../services/EmployeesService";
+import BaseService from "../../../../services/BaseService";
+import DepartmentService from "../../../../services/DepartmentService";
+import AssetsService from "../../../../services/AssetsService";
+import Loader from "../../../common/Loader";
+import {Translate} from "../../../Enums/Tranlate";
 
 const AddEmployeesModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
     const [formData, setFormData] = useState({
