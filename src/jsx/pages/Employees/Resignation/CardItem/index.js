@@ -27,9 +27,6 @@ const CardItem = ({item, setItem, index, setAddModal, setShouldUpdate}) =>{
             <td>{item.department?.name}</td>
             <td>{item?.start_resignation_date?.split('T')[0] || '-'}</td>
             <td>{item?.end_resignation_date?.split('T')[0] || '-'}</td>
-            <td>{item.start_date?.split('T')[0]}</td>
-            {isExist("view_salaries") && <td>{item.salary}</td>}
-            <td>{item.employee_assets?.length}</td>
             <td>
                 {(isExist("edit_employees") && isExist("delete_employees")) && <Dropdown>
                     <Dropdown.Toggle

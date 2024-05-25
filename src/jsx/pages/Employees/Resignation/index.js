@@ -136,15 +136,6 @@ const Resignation = () => {
                     <th>
                       <strong>{Translate[lang]?.end_resignation_date}</strong>
                     </th>
-                    <th>
-                      <strong>{Translate[lang]?.start_date}</strong>
-                    </th>
-                    {isExist("view_salaries") && <th>
-                      <strong>{Translate[lang]?.salary}</strong>
-                    </th>}
-                    <th>
-                      <strong>{Translate[lang]?.assets}</strong>
-                    </th>
                     <th></th>
                   </tr>
                 </thead>
