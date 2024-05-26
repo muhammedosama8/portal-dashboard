@@ -14,29 +14,33 @@ import Pagination from "../../common/Pagination/Pagination";
 import { Translate } from "../../Enums/Tranlate";
 import CardItem from "./CardItem";
 import './style.scss'
-import ProjectsService from "../../../services/ProjectsService";
 import AddLeadsModal from "./AddLeadsModal";
 import MonthDropDown, { months } from "../../Enums/MonthDropDown";
 import YearDropDown from "../../Enums/YearDropDown";
 import print from "../../Enums/Print";
+import LeadService from "../../../services/LeadService";
 
 const Leads = () => {
-    const [data, setData] = useState([
-      {id: 1, name: 'test', client_name: 'mu', client_phone: '435235', client_email: 'muhammed@gmail.com', reference: 'lorea test lorea test lorea test lorea test lorea test lorea test lorea test lorea test lorea test lorea test lorea test lorea test lorea test lorea test lorea test lorea test lorea test lorea test lorea test lorea test lorea test lorea test lorea test lorea test lorea test lorea test lorea test lorea test lorea test lorea test lorea test lorea test lorea test lorea test lorea test', docs: ''},
-      {id: 2, name: 'test1', client_name: 'os', client_phone: '324234', client_email: 'muhammed@gmail.com', reference: 'fgsdf sdfsdfssd dsfsdfsdf', docs: ''},
-    ])
+    const [data, setData] = useState([])
     const [addModal, setAddModal] = useState(false)
     const [item, setItem] = useState({})
     const [hasData, setHasData] = useState(1)
     const [search, setSearch] = useState(null)
     const [loading, setLoading] = useState(false)
     const [shouldUpdate, setShouldUpdate] = useState(false)
+    const Auth = useSelector(state=> state.auth?.auth)
     const lang = useSelector(state=> state.auth?.lang)
+    const isExist = (data)=> Auth?.admin?.admin_roles?.includes(data)
     const [params, setParams] = useState({
-      month: "",
-      year: ""
+      month: {
+        label: Translate[lang][months[new Date().getMonth()].toLocaleLowerCase()],
+        value: months[new Date().getMonth()]
+    } , year: {
+      label: `${new Date().getFullYear()}`,
+      value: new Date().getFullYear()
+    }
     })
-    const projectsService = new ProjectsService()
+    const leadService = new LeadService()
 
     const changeParams = (e, name) => {
       setParams({...params, [name]: e})
@@ -46,7 +50,7 @@ const Leads = () => {
       print(
         Translate[lang]?.leads,
         [ "id", 
-          Translate[lang]?.name, 
+          Translate[lang]?.lead_name, 
           Translate[lang]?.client_name, 
           Translate[lang]?.client_phone, 
           Translate[lang]?.client_email, 
@@ -56,7 +60,7 @@ const Leads = () => {
         data.map(item => {
           return {
             id: item.id,
-            name: item.name,
+            name: item.lead_name,
             client_name: item.client_name,
             client_phone: item.client_phone,
             client_email: item.client_email,
@@ -85,20 +89,20 @@ const Leads = () => {
             ></div>
           </div>
           <div>
-            <Button 
+            {isExist('view_leads') && <Button 
               variant='secondary' 
               className='mx-2 h-75'
               onClick={printProjects}
             >
               {Translate[lang].print}
-            </Button>
-            <Button variant="primary" className='me-2 h-75' onClick={()=> { 
+            </Button>}
+            {isExist('add_leads') && <Button variant="primary" className='me-2 h-75' onClick={()=> { 
               setItem({})
               setAddModal(true) 
             }}>
               <i className="la la-plus mx-1"></i>
               {Translate[lang]?.add} {Translate[lang]?.leads}
-            </Button>
+            </Button>}
           </div>
         </Card.Body >
       </Card>
@@ -146,7 +150,7 @@ const Leads = () => {
                       <strong>{Translate[lang]?.reference}</strong>
                     </th>
                     <th>
-                      <strong>{Translate[lang]?.document}</strong>
+                      <strong>{Translate[lang]?.attachments}</strong>
                     </th>
                     <th></th>
                   </tr>
@@ -166,14 +170,18 @@ const Leads = () => {
                 </tbody>
               </Table>}
               {hasData === 0 && <NoData />}
-              {/* <Pagination
+              <Pagination
                   setData={setData}
-                  service={projectsService}
+                  service={leadService}
                   shouldUpdate={shouldUpdate}
                   setHasData={setHasData}
                   setLoading={setLoading}
                   search={search}
-              /> */}
+                  param={{
+                    month: params.month?.value,
+                    year: params.year?.value,
+                  }}
+              />
             </Card.Body>
           </Card>
         </Col>

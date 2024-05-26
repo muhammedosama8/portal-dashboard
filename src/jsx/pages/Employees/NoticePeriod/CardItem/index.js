@@ -31,7 +31,7 @@ const CardItem = ({item, setItem, index, setResignationModal, setAddModal, setSh
             {isExist("view_salaries") && <td>{item.salary}</td>}
             <td>{item.employee_assets?.length}</td>
             <td>
-                {(isExist("edit_employees") && isExist("delete_employees")) && <Dropdown>
+                {(isExist("edit_employees")) && <Dropdown>
                     <Dropdown.Toggle
                         className="light sharp i-false"
                     >

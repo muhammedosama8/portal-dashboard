@@ -3,27 +3,25 @@ import { Button, Col, Modal, Row } from "react-bootstrap"
 import {AvField, AvForm} from "availity-reactstrap-validation";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
-import Select from "react-select";
 import uploadImg from '../../../../images/upload-img.png';
-import ProjectsService from "../../../../services/ProjectsService";
 import { Translate } from "../../../Enums/Tranlate";
 
 import BaseService from "../../../../services/BaseService";
 import Loader from "../../../common/Loader";
+import LeadService from "../../../../services/LeadService";
 
 const AddLeadsModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
     const [formData, setFormData] = useState({
-        name: '',
+        lead_name: '',
         client_name: "",
         client_phone: "",
         client_email: "",
         reference: "",
-        document: "",
+        attachments: [],
     })
     const [isAdd, setIsAdd] = useState(false)
     const [loading, setLoading] = useState(false)
-    const [departmentOptions, setDepartmentOptions] = useState([])
-    const projectsService = new ProjectsService()
+    const leadService = new LeadService()
     const lang = useSelector(state=> state.auth.lang)
 
     useEffect(() => {
@@ -31,57 +29,61 @@ const AddLeadsModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
             setIsAdd(true)
         } else {
             setIsAdd(false)
-            // setFormData({
-            //     id: item?.id,
-            //     name: item?.name,
-            //     department: item.department,
-            //     price: item?.price,
-            //     works_day: item?.works_day,
-            //     maintaince: item?.maintaince
-            // })
+            setFormData({
+                id: item?.id,
+                lead_name: item?.lead_name,
+                client_name: item?.client_name,
+                client_phone: item?.client_phone,
+                client_email: item?.client_email,
+                reference: item?.reference,
+                attachments: item?.lead_attachments?.map(res=> res?.url),
+            })
         }
     },[item])
 
     const submit = (e) =>{
         e.preventDefault();
-        // let data ={ 
-        //     item_no: formData?.item_no,
-        //     name: formData?.name,
-        //     price: formData?.price,
-        //     code: formData?.code,
-        //     barcode: formData?.barcode,
-        //     image: formData?.image
-        // }
+        let data ={ 
+            lead_name: formData?.lead_name,
+            client_name: formData?.client_name,
+            client_phone: formData?.client_phone,
+            client_email: formData?.client_email,
+            reference: formData?.reference,
+            attachments: formData?.attachments,
+        }
 
-        // if(isAdd){
-        //     projectsService.create(data)?.then(res=>{
-        //         if(res && res?.status === 201){
-        //             toast.success('Product Added Successfully')
-        //             setShouldUpdate(prev=> !prev)
-        //             setAddModal()
-        //         }
-        //     })
-        // } else {
-        //     projectsService.update(formData?.id, data)?.then(res=>{
-        //         if(res && res?.status === 200){
-        //             toast.success('Product Updated Successfully')
-        //             setShouldUpdate(prev=> !prev)
-        //             setAddModal()
-        //         }
-        //     })
-        // }
+        if(isAdd){
+            leadService.create(data)?.then(res=>{
+                if(res && res?.status === 201){
+                    toast.success('Lead Added Successfully')
+                    setShouldUpdate(prev=> !prev)
+                    setAddModal()
+                }
+            })
+        } else {
+            leadService.update(formData?.id, data)?.then(res=>{
+                if(res && res?.status === 200){
+                    toast.success('Lead Updated Successfully')
+                    setShouldUpdate(prev=> !prev)
+                    setAddModal()
+                }
+            })
+        }
     }
 
     const fileHandler = (e) => {
+        console.log(e)
         let files = e.target.files
         const filesData = Object.values(files)
 
+        setLoading(true)
         if (filesData?.length) {
             new BaseService().postUpload(filesData[0]).then(res=>{
                 if(res?.status === 200){
-                    setFormData({...formData, document: res?.data?.url })
+                    setFormData({...formData, attachments: [...formData?.attachments, res?.data?.url] })
                 }
-            })
+                setLoading(false)
+            }).catch(()=> setLoading(false))
         }
     }
 
@@ -109,19 +111,19 @@ const AddLeadsModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
                     <Row>
                         <Col md={6}>
                             <AvField
-                                label={Translate[lang]?.name}
+                                label={Translate[lang]?.lead_name}
                                 type='text'
-                                placeholder={Translate[lang]?.name}
+                                placeholder={Translate[lang]?.lead_name}
                                 bsSize="lg"
-                                name='name'
+                                name='lead_name'
                                 validate={{
                                     required: {
                                         value: true,
                                         errorMessage: Translate[lang].field_required
                                     }
                                 }}
-                                value={formData.name}
-                                onChange={(e) => setFormData({...formData, name: e.target.value})}
+                                value={formData.lead_name}
+                                onChange={(e) => setFormData({...formData, lead_name: e.target.value})}
                             />
                         </Col>
                         <Col md={6}>
@@ -175,7 +177,7 @@ const AddLeadsModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
                                 onChange={(e) => setFormData({...formData, client_email: e.target.value})}
                             />
                         </Col>
-                        <Col md={6}>
+                        <Col md={12}>
                             <AvField
                                 label={Translate[lang]?.reference}
                                 type='text'
@@ -196,9 +198,17 @@ const AddLeadsModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
                             <div className='form-group w-100'>
                                 <label className="m-0">{Translate[lang]?.attachments}</label>
                                 <div className="image-placeholder">	
-                                    <div className="avatar-edit">
-                                        <input type="file" accept=".pdf" onChange={(e) => fileHandler(e)} id={`imageUpload1`} /> 					
-                                        <label htmlFor={`imageUpload1`}  name=''></label>
+                                    <div className="avatar-edit h-100">
+                                        <input 
+                                            type="file" 
+                                            accept=".pdf" 
+                                            onChange={(e) => fileHandler(e)} 
+                                            style={{opacity: '0'}}
+                                            className='d-block w-100 h-100 cursor-pointer'
+                                            value=''
+                                            // id={`imageUpload1`} 
+                                        /> 					
+                                        {/* <label htmlFor={`imageUpload1`}  name=''></label> */}
                                     </div>
                                     <div className="avatar-preview2 m-auto">
                                         <div id={`imagePreview`}>
@@ -209,12 +219,29 @@ const AddLeadsModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
                                                     width: '80px', height: '80px',
                                                 }}
                                             />}
-                                            {loading && <Loader />}
+                                        {loading && <Loader />}
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </Col>
+                        {!!formData?.attachments?.length && formData?.attachments?.map((att, index)=>{
+                            return <Col md={2} key={index}>
+                                <div>
+                                    <i 
+                                        className="la la-trash text-danger position-absolute cursor-pointer" 
+                                        style={{top: '-9px'}}
+                                        onClick={()=> {
+                                            let update = formData.attachments?.filter((_, ind)=> index !== ind)
+                                            setFormData({...formData, attachments: update})
+                                        }}
+                                    ></i>
+                                    <a href={att} target='_blank' rel='noreferrer'>
+                                        <i className="la la-file-pdf" style={{fontSize: '5rem'}}></i>
+                                    </a>
+                                </div>
+                            </Col>
+                        })}
                     </Row>
             </Modal.Body>
             <Modal.Footer>

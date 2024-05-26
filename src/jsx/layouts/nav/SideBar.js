@@ -64,19 +64,13 @@ const SideBar = (props) => {
   let path = window.location.pathname;
   path = path.split("/");
   path = path[path.length - 1];
-
     return (
       <div className="deznav">
         <div className="deznav-scroll">
           <ul className="metismenu" id="menu">
                 {MenuList.map((data, index)=>{
                   let menuClass = data.classsChange;
-                    if(menuClass === "menu-title"){
-                      return(
-                          <li className={menuClass}  key={index} >{data.title}</li>
-                      )
-                    }else{
-                      return(				
+                  return(				
                         <li className={` ${ state.active === data.title ? 'mm-active' : ''}`}
                           key={index} 
                         >
@@ -147,8 +141,7 @@ const SideBar = (props) => {
                             </Link>
                           }
                         </li>	
-                      )
-                  }
+                  )
                 })}          
           </ul>
 		    </div>

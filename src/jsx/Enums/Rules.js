@@ -61,6 +61,15 @@ export const customRules= [
     ]
   },
   {
+    label: "leads",
+    rules:[
+      {label: "Add", value: 'add_leads'},
+      {label: "Edit", value: 'edit_leads'},
+      {label: "Delete", value: 'delete_leads'},
+      {label: "View", value: 'view_leads'},
+    ]
+  },
+  {
     label: "payment",
     rules:[
       {label: "Add", value: 'add_payment'},

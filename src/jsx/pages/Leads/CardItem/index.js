@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Dropdown } from "react-bootstrap";
 import { useSelector } from "react-redux";
-import ProductsService from "../../../../services/ProjectsService";
+import LeadService from "../../../../services/LeadService";
 import DeleteModal from "../../../common/DeleteModal";
 import { Translate } from "../../../Enums/Tranlate";
 
@@ -10,7 +10,7 @@ const CardItem = ({item, setItem, index, setAddModal, setShouldUpdate}) =>{
     const Auth = useSelector(state=> state.auth?.auth)
     const lang = useSelector(state=> state.auth?.lang)
     const isExist = (data)=> Auth?.admin?.admin_roles?.includes(data)
-    const productsService = new ProductsService()
+    const leadService = new LeadService()
 
     return(
         <tr key={index} className='text-center'>
@@ -18,34 +18,40 @@ const CardItem = ({item, setItem, index, setAddModal, setShouldUpdate}) =>{
                 <strong>{item.id}</strong>
             </td>
             <td>
-                {item?.name}
+                {item?.lead_name}
             </td>
             <td>{item.client_name}</td>
             <td>{item.client_phone}</td>
             <td>{item.client_email}</td>
             <td>{item.reference}</td>
-            <td>{item.doc}</td>
             <td>
-                <Dropdown>
+                {item?.lead_attachments?.map(att=>{
+                    return <a key={att?.id} href={att?.url} className='mx-1' target='_blank'>
+                        <i className="la la-file-pdf" style={{fontSize: '3rem'}}></i>
+                    </a>
+                })}
+            </td>
+            <td>
+                {(isExist('edit_leads') || isExist("delete_leads")) &&<Dropdown>
                     <Dropdown.Toggle
                         className="light sharp i-false"
                     >
                         <i className="la la-ellipsis-v" style={{fontSize: '27px'}}></i>
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
-                        <Dropdown.Item onClick={()=> {
+                        {isExist('edit_leads') && <Dropdown.Item onClick={()=> {
                             setItem(item)
                             setAddModal(true)
-                        }}> {Translate[lang]?.edit}</Dropdown.Item>
-                        <Dropdown.Item onClick={()=> setDeleteModal(true)}>{Translate[lang]?.delete}</Dropdown.Item>
+                        }}> {Translate[lang]?.edit}</Dropdown.Item>}
+                        {isExist('delete_leads') && <Dropdown.Item onClick={()=> setDeleteModal(true)}>{Translate[lang]?.delete}</Dropdown.Item>}
                     </Dropdown.Menu>
-                </Dropdown>
+                </Dropdown>}
             </td>
             {deleteModal && <DeleteModal
                       open={deleteModal}
-                      titleMsg={item?.product_name}
+                      titleMsg={item?.lead_name}
                       deletedItem={item}
-                      modelService={productsService}
+                      modelService={leadService}
                       onCloseModal={setDeleteModal}
                       setShouldUpdate={setShouldUpdate}
                     />}

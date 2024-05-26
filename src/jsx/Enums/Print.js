@@ -4,7 +4,7 @@ const print = (title, headRow, lang, data) =>{
     let dataContent = ``
 
     for( let i = 0 ; i < headRow?.length; i++){
-        rowsData += `<th style="text-wrap: nowrap; text-align: ${lang==='en' ? 'left' : 'right'};padding: 18px; border-bottom: 1px solid #dedede">
+        rowsData += `<th style="text-wrap: nowrap; font-size: 16px; text-align: ${lang==='en' ? 'left' : 'right'};padding: 18px; border-bottom: 1px solid #dedede">
             <strong>${headRow[i]}</strong>
         </th>`
     }
@@ -15,7 +15,7 @@ const print = (title, headRow, lang, data) =>{
                 if(Array.isArray(data[i][key])){
                     let arrInfo = ``
                     for(let x = 0; x < data[i][key].length; x++){
-                        arrInfo += `<span style='border: 1px solid #dedede; padding: 5px 8px; border-radius: 5px;
+                        arrInfo += `<span style='border: 1px solid #dedede; padding: 5px 8px; border-radius: 5px; font-size: 16px;
                         margin-right: 3px; margin-left: 3px;'>
                             ${data[i][key][x]}
                         </span>`
@@ -35,8 +35,8 @@ const print = (title, headRow, lang, data) =>{
     }
 
     let page = `
-    <div style="min-height: 100vh; margin-top: 3rem; margin-bottom: 1rem;">
-    <div style="width: 90%; margin: auto">
+    <div style="min-height: 100vh; margin-top: 3rem; margin-bottom: 1rem">
+    <div style="width: 98%; margin: auto">
     <table style='width: 100%;'>
         <thead>
             <tr>
