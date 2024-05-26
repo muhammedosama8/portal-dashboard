@@ -13,7 +13,7 @@ import Resignation from "./Resignation";
 import NoticePeriod from "./NoticePeriod";
 
 const tabs = ['employees', 'salaries', "vacations", "deduction"]
-const employeesTabs = ['active', 'resignation', "notice_period"]
+const employeesTabs = ['active', "notice_period", 'resignation']
 
 const Employees = () => {
     const [selectTab, setSelectTab] = useState('employees')

@@ -1,6 +1,7 @@
 export const Arabic = {
   leads: 'قيادات',
   all: "الكل",
+  cancellation_of_resignation: "إلغاء الاستقالة",
   notice_period: "فترة إشعار",
   resignation: "استقاله",
   start_resignation_date: "تاريخ بدء الاستقالة",

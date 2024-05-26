@@ -2,11 +2,11 @@ import { useState } from "react";
 import { Dropdown } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import EmployeesService from "../../../../../services/EmployeesService";
-import DeleteModal from "../../../../common/DeleteModal";
 import { Translate } from "../../../../Enums/Tranlate";
+import CancellationResignationModal from "../CancellationResignationModal";
 
 const CardItem = ({item, setItem, index, setResignationModal, setAddModal, setShouldUpdate}) =>{
-    const [deleteModal, setDeleteModal] = useState(false)
+    const [cancellationModal, setCancellationModal] = useState(false)
     const Auth = useSelector(state=> state.auth?.auth)
     const lang = useSelector(state=> state.auth?.lang)
     const isExist = (data)=> Auth?.admin?.admin_roles?.includes(data)
@@ -44,17 +44,17 @@ const CardItem = ({item, setItem, index, setResignationModal, setAddModal, setSh
                         }}> {Translate[lang]?.edit}</Dropdown.Item>}
                         {isExist("edit_employees") && <Dropdown.Item onClick={()=> {
                             setItem(item)
-                            setResignationModal(true)
-                        }}> {Translate[lang]?.resignation}</Dropdown.Item>}
+                            setCancellationModal(true)
+                        }}> {Translate[lang]?.cancellation_of_resignation}</Dropdown.Item>}
                     </Dropdown.Menu>
                 </Dropdown>}
             </td>
-            {deleteModal && <DeleteModal
-                      open={deleteModal}
-                      titleMsg={item?.name}
+            {cancellationModal && <CancellationResignationModal
+                      open={cancellationModal}
+                      name={item?.name}
                       deletedItem={item}
                       modelService={employeesService}
-                      onCloseModal={setDeleteModal}
+                      onCloseModal={setCancellationModal}
                       setShouldUpdate={setShouldUpdate}
                     />}
             </tr>

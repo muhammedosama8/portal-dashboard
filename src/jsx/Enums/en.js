@@ -1,6 +1,7 @@
 export const English = {
   leads: 'Leads',
   all: "All",
+  cancellation_of_resignation: "Cancellation of resignation",
   notice_period: "Notice Period",
   resignation: "Resignation",
   start_resignation_date: "Start Resignation Date",
