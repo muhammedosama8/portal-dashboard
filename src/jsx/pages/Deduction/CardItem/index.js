@@ -18,11 +18,11 @@ const CardItem = ({item, setItem, index, setAddModal, setShouldUpdate}) =>{
                 <strong>{item.id}</strong>
             </td>
             <td>
-                {item?.employee_name}
+                {item?.employee?.name}
             </td>
             <td>{item.deduction}</td>
-            <td>{item.total_salary}</td>
-            <td>{item.accrued_leave}</td>
+                {/* <td>{item.total_salary}</td>
+                <td>{item.accrued_leave}</td> */}
             <td>
                 {(isExist("edit_deduction") || isExist("delete_deduction")) && <Dropdown>
                     <Dropdown.Toggle

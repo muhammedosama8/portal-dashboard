@@ -16,23 +16,64 @@ import CardItem from "./CardItem";
 import './style.scss'
 import DeductionService from "../../../services/DeductionService";
 import AddDeductionModal from "./AddDeductionModal";
+import MonthDropDown, { months } from "../../Enums/MonthDropDown";
+import YearDropDown from "../../Enums/YearDropDown";
+import print from "../../Enums/Print";
 
 const Deduction = () => {
-    const [data, setData] = useState([
-      {id: 1, employee_name: 'os', deduction: '22', total_salary: '13', accrued_leave: "9"},
-      {id: 2, employee_name: 'mu', deduction: '44', total_salary: '4', accrued_leave: "2"},
-    ])
+    const [data, setData] = useState([])
+    const lang = useSelector(state=> state.auth?.lang)
+    const [params, setParams] = useState({
+      month: {
+        label: Translate[lang][months[new Date().getMonth()].toLocaleLowerCase()],
+        value: months[new Date().getMonth()]
+    },
+      year: {
+        label: `${new Date().getFullYear()}`,
+        value: new Date().getFullYear()
+      }
+    })
     const [modal, setModal] = useState(false)
     const [item, setItem] = useState({})
-    const [hasData, setHasData] = useState(1)
+    const [hasData, setHasData] = useState(null)
     const [search, setSearch] = useState(null)
     const [loading, setLoading] = useState(false)
     const [shouldUpdate, setShouldUpdate] = useState(false)
-    const lang = useSelector(state=> state.auth?.lang)
     const Auth = useSelector((state) => state.auth?.auth);
     const isExist = (data) => Auth?.admin?.admin_roles?.includes(data);
     const deductionService = new DeductionService()
 
+    const changeParams = (e, name) => {
+      setParams({...params, [name]: e})
+      setShouldUpdate(prev=> !prev)
+    } 
+
+    const printProjects = () => {
+      setLoading(true)
+      deductionService.getList({
+        month: params.month.value,
+        year: params.year.value,
+      }).then(res=>{
+        if(res?.status === 200){
+          print(
+            Translate[lang]?.deduction,
+            [ "id", 
+              Translate[lang]?.employee_name, 
+              Translate[lang]?.deduction
+            ],
+            lang,
+            res?.data?.data?.data.map(item => {
+              return {
+                id: item.id,
+                name: item.employee.name,
+                salary: item.deduction,
+              };
+            })
+          )
+        }
+        setLoading(false)
+      }).catch(()=> setLoading(false))
+    }
   return (
     <Fragment>
       <Card className="mb-3">
@@ -53,7 +94,7 @@ const Deduction = () => {
             ></div>
           </div>
           <div>
-            <Button variant="secondary" className='mx-2 h-75' onClick={()=> {}}>
+            <Button variant="secondary" className='mx-2 h-75' onClick={printProjects}>
                 {Translate[lang]?.print}
             </Button>
             {isExist("add_deduction") && <Button variant="primary" className='h-75' onClick={()=> { 
@@ -74,7 +115,22 @@ const Deduction = () => {
                 <Loader />
               </div>}
 
-              {(hasData === 1 && !loading) && <Table responsive>
+              {(hasData === 1 && !loading) &&<>
+                <Row className="mb-3">
+                <Col md={2} sm={5}>
+                  <MonthDropDown
+                    params={params} 
+                    changeParams={changeParams} 
+                  />
+                </Col>
+                <Col md={2} sm={5}>
+                  <YearDropDown
+                    params={params} 
+                    changeParams={changeParams} 
+                  />
+                </Col>
+              </Row>
+              <Table responsive>
                 <thead>
                   <tr className='text-center'>
                     <th>
@@ -86,12 +142,12 @@ const Deduction = () => {
                     <th>
                       <strong>{Translate[lang]?.deduction}</strong>
                     </th>
-                    <th>
+                    {/* <th>
                       <strong>{Translate[lang]?.total_salary}</strong>
                     </th>
                     <th>
                       <strong>{Translate[lang]?.salary} {Translate[lang]?.after} {Translate[lang]?.deduction}</strong>
-                    </th>
+                    </th> */}
                     <th></th>
                   </tr>
                 </thead>
@@ -103,21 +159,26 @@ const Deduction = () => {
                             key= {index}
                             item={item}
                             setItem={setItem}
-                            setModal={setModal}
+                            setAddModal={setModal}
                             setShouldUpdate={setShouldUpdate}
                         />
                     })}
                 </tbody>
-              </Table>}
+              </Table>
+              </> }
               {hasData === 0 && <NoData />}
-              {/* <Pagination
+              <Pagination
                   setData={setData}
                   service={deductionService}
                   shouldUpdate={shouldUpdate}
                   setHasData={setHasData}
                   setLoading={setLoading}
                   search={search}
-              /> */}
+                  param={{
+                    month: params.month.value,
+                    year: params.year.value
+                  }}
+              />
             </Card.Body>
           </Card>
         </Col>

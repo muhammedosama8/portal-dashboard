@@ -7,8 +7,8 @@ const CardItem = ({item, index}) =>{
             <td>
                 {item?.name}
             </td>
-            <td>{item.salary}</td>
-            <td>{item.salary_after_deduction || '-'}</td>
+            <td>{Number.parseFloat(item.salary).toFixed(3)}</td>
+            <td>{Number.parseFloat(item.salary_after_deduction).toFixed(3)}</td>
             </tr>
     )
 }

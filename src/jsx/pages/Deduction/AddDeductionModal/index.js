@@ -4,11 +4,9 @@ import {AvField, AvForm} from "availity-reactstrap-validation";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import Select from "react-select";
-import uploadImg from '../../../../images/upload-img.png';
 import DeductionService from "../../../../services/DeductionService";
 import { Translate } from "../../../Enums/Tranlate";
-import Loader from "../../../common/Loader";
-import BaseService from "../../../../services/BaseService";
+import EmployeesService from "../../../../services/EmployeesService";
 
 const AddDeductionModal = ({modal, setModal, item, setShouldUpdate})=>{
     const [formData, setFormData] = useState({
@@ -21,6 +19,7 @@ const AddDeductionModal = ({modal, setModal, item, setShouldUpdate})=>{
     const [isAdd, setIsAdd] = useState(false)
     const [loading, setLoading] = useState(false)
     const deductionService = new DeductionService()
+    const employeesService = new EmployeesService()
     const lang = useSelector(state=> state.auth.lang)
 
     useEffect(() => {
@@ -28,10 +27,18 @@ const AddDeductionModal = ({modal, setModal, item, setShouldUpdate})=>{
             setIsAdd(true)
         } else {
             setIsAdd(false)
-            // setFormData({
-            //     id: item?.id,
-            //     name: item?.name,
-            // })
+            setFormData({
+                id: item?.id,
+                employee: {
+                    label: item?.employee.name,
+                    value: item?.employee.id,
+                },
+                month: {
+                    label: Translate[lang][item.month.toLocaleLowerCase()],
+                    value: item.month
+                },
+                deduction: item.deduction
+            })
         }
     },[item])
 
@@ -42,41 +49,53 @@ const AddDeductionModal = ({modal, setModal, item, setShouldUpdate})=>{
         const remainingMonths = months.slice(currentMonth)?.map(res=>{
             return{
                 label: Translate[lang][res.toLocaleLowerCase()],
-                value: res.toLocaleLowerCase()
+                value: res
             }
         });
 
         setMonthOptions([...remainingMonths])
     },[lang])
 
+    useEffect(()=>{
+        employeesService?.getList().then(res=>{
+            if(res?.status === 200){
+                let data = res?.data?.data?.data?.map(emp=>{
+                    return {
+                        ...emp,
+                        label: emp?.name,
+                        value: emp.id
+                    }
+                })
+                setEmployeesOptions(data)
+            }
+        })
+    },[])
+
     const submit = (e) =>{
         e.preventDefault();
-        // let data ={ 
-        //     item_no: formData?.item_no,
-        //     name: formData?.name,
-        //     price: formData?.price,
-        //     code: formData?.code,
-        //     barcode: formData?.barcode,
-        //     image: formData?.image
-        // }
+        let data ={ 
+            employee_id: formData?.employee?.value,
+            month: formData?.month?.value,
+            deduction: formData?.deduction
+        }
 
-        // if(isAdd){
-        //     projectsService.create(data)?.then(res=>{
-        //         if(res && res?.status === 201){
-        //             toast.success('Product Added Successfully')
-        //             setShouldUpdate(prev=> !prev)
-        //             setModal()
-        //         }
-        //     })
-        // } else {
-        //     projectsService.update(formData?.id, data)?.then(res=>{
-        //         if(res && res?.status === 200){
-        //             toast.success('Product Updated Successfully')
-        //             setShouldUpdate(prev=> !prev)
-        //             setModal()
-        //         }
-        //     })
-        // }
+        if(isAdd){
+            deductionService.create(data)?.then(res=>{
+                if(res && res?.status === 201){
+                    toast.success('Deduction Added Successfully')
+                    setShouldUpdate(prev=> !prev)
+                    setModal()
+                }
+            })
+        } else {
+            deductionService.update(formData?.id, data)?.then(res=>{
+                if(res && res?.status === 200){
+                    toast.success('Deduction Updated Successfully')
+                    setShouldUpdate(prev=> !prev)
+                    setModal()
+                }
+            })
+        }
     }
 
     return(
@@ -107,7 +126,7 @@ const AddDeductionModal = ({modal, setModal, item, setShouldUpdate})=>{
                             </label>
                             <Select
                                 placeholder={Translate[lang]?.select}
-                                options={employeesOptions}
+                                options={isAdd ? employeesOptions : []}
                                 value={formData.employee}
                                 onChange={(e) => setFormData({...formData, employee: e})}
                             />
