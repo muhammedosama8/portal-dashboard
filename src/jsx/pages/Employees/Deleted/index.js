@@ -11,6 +11,7 @@ import { useSelector } from "react-redux";
 import CardItem from "./CardItem";
 import '../style.scss'
 import AddEmployeesModal from "../AddEmployeesModal";
+import ResignationModal from "../ResignationModal";
 import print from "../../../Enums/Print";
 import EmployeesService from "../../../../services/EmployeesService";
 import { Translate } from "../../../Enums/Tranlate";
@@ -18,9 +19,10 @@ import Pagination from "../../../common/Pagination/Pagination";
 import NoData from "../../../common/NoData";
 import Loader from "../../../common/Loader";
 
-const Resignation = () => {
+const DeletedEmployees = () => {
     const [data, setData] = useState([])
     const [addModal, setAddModal] = useState(false)
+    const [resignationModal, setResignationModal] = useState(false)
     const [item, setItem] = useState({})
     const [hasData, setHasData] = useState(null)
     const [search, setSearch] = useState(null)
@@ -40,13 +42,9 @@ const Resignation = () => {
         Translate[lang]?.department,
         Translate[lang]?.personal_email,
         Translate[lang]?.company_email,
-        Translate[lang]?.start_date,
-        Translate[lang]?.assets,
       ]
-      if(isExist("view_salaries")){
-        rows.push(Translate[lang]?.salary)
-      }
-      employeesService.getList({ is_resignation: true }).then(res=>{
+
+      employeesService.getList({is_delete: true}).then(res=>{
         if(res?.status === 200){
           if(res?.data?.data?.data?.length === 0){
             setLoading(false)
@@ -65,11 +63,6 @@ const Resignation = () => {
                 department: item.department?.name,
                 personal_email: item?.personal_email,
                 company_email: item?.company_email,
-                start_date: item?.start_date?.split('T')[0],
-                assets: item.employee_assets?.length,
-              }
-              if(isExist("view_salaries")){
-                info['salary'] = item.salary
               }
               return info;
             })
@@ -99,16 +92,23 @@ const Resignation = () => {
           </div>
           <div>
             <Button 
-              variant='primary' 
+              variant='secondary' 
               className='mx-2 h-75'
               onClick={printProjects}
             >
               {Translate[lang].print}
             </Button>
+            {isExist("add_employees") && <Button variant="primary" className='me-2 h-75' onClick={()=> { 
+              setItem({})
+              setAddModal(true) 
+            }}>
+              <i className="la la-plus mx-1"></i>
+              {Translate[lang]?.add} {Translate[lang]?.employees}
+            </Button>}
           </div>
         </Card.Body >
       </Card>
-      
+
       <Row>
         <Col lg={12}>
           <Card>
@@ -135,12 +135,15 @@ const Resignation = () => {
                       <strong>{Translate[lang]?.department}</strong>
                     </th>
                     <th>
-                      <strong>{Translate[lang]?.start_resignation_date}</strong>
+                      <strong>{Translate[lang]?.personal_email}</strong>
                     </th>
                     <th>
-                      <strong>{Translate[lang]?.end_resignation_date}</strong>
+                      <strong>{Translate[lang]?.company_email}</strong>
                     </th>
-                    <th></th>
+                    <th>
+                      <strong>{Translate[lang]?.attachments}</strong>
+                    </th>
+                    {/* <th></th> */}
                   </tr>
                 </thead>
 
@@ -150,6 +153,7 @@ const Resignation = () => {
                             index= {index}
                             key= {index}
                             item={item}
+                            setResignationModal={setResignationModal}
                             setItem={setItem}
                             setAddModal={setAddModal}
                             setShouldUpdate={setShouldUpdate}
@@ -166,7 +170,7 @@ const Resignation = () => {
                   setLoading={setLoading}
                   search={search}
                   param={{
-                    is_resignation: true
+                    is_delete: true
                   }}
               />
             </Card.Body>
@@ -181,8 +185,16 @@ const Resignation = () => {
           setShouldUpdate={setShouldUpdate}
           setAddModal={()=> setAddModal(false)}
       />}
+
+      {resignationModal && 
+        <ResignationModal
+          item={item} 
+          resignationModal={resignationModal} 
+          setShouldUpdate={setShouldUpdate}
+          setResignationModal={()=> setResignationModal(false)}
+      />}
     </Fragment>
   );
 };
 
-export default Resignation;
+export default DeletedEmployees;

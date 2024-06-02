@@ -23,34 +23,37 @@ const CardItem = ({item, setItem, index, setAddModal, setShouldUpdate}) =>{
             <td>
                 {item?.department?.name}
             </td>
-            <td>{item.client_name}</td>
-            <td>{item.phone}</td>
-            <td>{item.client_email}</td>
-            <td>{item.client_civil_id}</td>
-            <td>{item.work_day}</td>
-            <td>{item.contract_date.split('T')[0]}</td>
-            <td>{item.price}</td>
-            <td>{item.maintenance}</td>
+            <td>{item?.client_name}</td>
+            <td>{item?.phone}</td>
+            <td>{item?.client_email}</td>
+            <td>{item?.client_civil_id}</td>
+            <td>{item?.work_day}</td>
+            <td>{!!item.contract_date ? item.contract_date.split('T')[0] : '-'}</td>
+            <td>{item?.price}</td>
+            <td>{item?.maintenance}</td>
             <td>
-                <a href={item?.project_attachments[0].url} target='_blank'>
-                    <i className="la la-file-pdf" style={{fontSize: '2.5rem'}}></i>
-                </a>
+                {item?.project_attachments?.length ? item?.project_attachments?.map(att=>{
+                    return <a href={att.url} target='_blank'>
+                        <i className="la la-file-pdf" style={{fontSize: '2.5rem'}}></i>
+                    </a>
+                }) : '-'}
+                
             </td>
             <td>
-                <Dropdown>
+                {(isExist('edit_projects') || isExist('delete_projects')) && <Dropdown>
                     <Dropdown.Toggle
                         className="light sharp i-false"
                     >
                         <i className="la la-ellipsis-v" style={{fontSize: '27px'}}></i>
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
-                        <Dropdown.Item onClick={()=> {
+                        {isExist('edit_projects') && <Dropdown.Item onClick={()=> {
                             setItem(item)
                             setAddModal(true)
-                        }}> {Translate[lang]?.edit}</Dropdown.Item>
-                        <Dropdown.Item onClick={()=> setDeleteModal(true)}>{Translate[lang]?.delete}</Dropdown.Item>
+                        }}> {Translate[lang]?.edit}</Dropdown.Item>}
+                        {isExist('delete_projects') && <Dropdown.Item onClick={()=> setDeleteModal(true)}>{Translate[lang]?.delete}</Dropdown.Item>}
                     </Dropdown.Menu>
-                </Dropdown>
+                </Dropdown>}
             </td>
             {deleteModal && <DeleteModal
                       open={deleteModal}

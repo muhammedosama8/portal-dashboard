@@ -53,7 +53,7 @@ const AddAdmin = () => {
             last_name: item?.l_name,
             email: item?.email,
             phone: item?.phone,
-            country_code: item?.country_code,
+            country_code: countriesOptions?.find(res=> res.value === item?.country_code),
             password: '',
             rules: item.admin_roles?.map(res=> res.role)
          })
@@ -66,19 +66,16 @@ const AddAdmin = () => {
 
    const onSubmit = (e) =>{
       e.preventDefault();
-      // if(!location?.state?.edit && formData.password.length < 6){
-      //    setError({...formData, password: true})
-      //    return
-      // }
       
       let data = {
          f_name: formData?.first_name,
          l_name: formData?.last_name,
-         rules: formData.rules
+         rules: formData.rules,
+         email: formData?.email,
+         phone: formData?.phone,
+         country_code: formData?.country_code?.value
       }
-      data['email'] = formData?.email
-         data['phone'] = formData?.phone
-         data['country_code'] = formData?.country_code?.value
+
       if(location?.state?.edit){
          setLoading(true)
          adminService.update(location.state?.id, data).then((response) =>{
@@ -144,7 +141,7 @@ const AddAdmin = () => {
 						onChange={(e)=> inputHandler(e)}
 					/>
             </div>
-           {location?.state?.edit &&  <div className="col-lg-6 col-sm-6 mb-3">
+           <div className="col-lg-6 col-sm-6 mb-3">
                <AvField
 						label ={`${Translate[lang]?.email}*`}
 						name ='email'
@@ -160,17 +157,17 @@ const AddAdmin = () => {
 						placeholder='example@example.com'
 						onChange={(e)=> inputHandler(e)}
 					/>
-            </div>}
-            {!location?.state?.edit && <div className="col-lg-6 col-sm-6 mb-3">
+            </div>
+            <div className="col-lg-6 col-sm-6 mb-3">
                <AvField
-						label ={`${Translate[lang]?.password}*`}
+						label ={`${Translate[lang]?.password} ${!location?.state?.edit ? '*' : ''}`}
 						name ='password'
 						type={`${showPassword ? 'password' : 'text'}`}
 						value={formData?.password}
 						errorMessage="Please enter a valid Password"
 						validate={{
 							required: {
-								value:true,
+								value: !location?.state?.edit,
 								errorMessage: Translate[lang].field_required
 							},
 						}}
@@ -179,8 +176,8 @@ const AddAdmin = () => {
 						placeholder={`${Translate[lang]?.password}`}
 						onChange={(e)=> inputHandler(e)}
 					/>
-            </div>}
-            {location?.state?.edit && <div className="col-lg-3 col-sm-6 mb-3">
+            </div>
+            <div className="col-lg-3 col-sm-6 mb-3">
                   <label className="text-label">{Translate[lang]?.country_code}*</label>
                   <Select
                      value={formData?.country_code}
@@ -189,8 +186,8 @@ const AddAdmin = () => {
                      options={countriesOptions}
                      onChange={(e)=> setFormData({...formData, country_code: e})}
                   />
-            </div>}
-            {location?.state?.edit && <div className="col-lg-3 col-sm-6 mb-3">
+            </div>
+            <div className="col-lg-3 col-sm-6 mb-3">
                   <AvField
 						label ={`${Translate[lang]?.phone}*`}
 						name ='phone'
@@ -206,7 +203,7 @@ const AddAdmin = () => {
 						placeholder={`${Translate[lang]?.phone}`}
 						onChange={(e)=> inputHandler(e)}
 					/>
-            </div>}
+            </div>
             {customRules?.map((rul, index) => {
                      return (
                         <Col md={12} key={index} className='mt-4 rules'>

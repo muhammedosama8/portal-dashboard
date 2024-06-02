@@ -11,9 +11,10 @@ import Deduction from "../Deduction";
 import ActiveEmployees from ".//Active";
 import Resignation from "./Resignation";
 import NoticePeriod from "./NoticePeriod";
+import DeletedEmployees from "./Deleted";
 
 const tabs = ['employees', 'salaries', "vacations", "deduction"]
-const employeesTabs = ['active', "notice_period", 'resignation']
+const employeesTabs = ['active', "notice_period", 'resignation', 'deleted']
 
 const Employees = () => {
     const [selectTab, setSelectTab] = useState('employees')
@@ -47,7 +48,7 @@ const Employees = () => {
          </Card.Body>
       </Card>
 
-      {selectTab === 'employees' && <>
+      {(selectTab === 'employees' && isExist(`view_employees`)) && <>
       <Card className="mb-3">
         <Card.Body className="p-0">
           <div className="tabs-div">
@@ -70,11 +71,11 @@ const Employees = () => {
         {selectEmployeesTab === 'active' && <ActiveEmployees />}
         {selectEmployeesTab === 'resignation' && <Resignation />}
         {selectEmployeesTab === 'notice_period' && <NoticePeriod />}
+        {selectEmployeesTab === 'deleted' && <DeletedEmployees />}
       </>}
-
-      {selectTab === 'salaries' && <Salaries />}
-      {selectTab === 'vacations' && <Vacations />}
-      {selectTab === 'deduction' && <Deduction />}
+      {(selectTab === 'salaries' && isExist(`view_salaries`)) && <Salaries />}
+      {(selectTab === 'vacations' && isExist(`view_vacations`)) && <Vacations />}
+      {(selectTab === 'deduction' && isExist(`view_deduction`)) && <Deduction />}
     </Fragment>
   );
 };

@@ -108,11 +108,6 @@ const Salaries = () => {
         <Col lg={12}>
           <Card>
             <Card.Body className={`${hasData === 0 && 'text-center'} `}>
-            {loading && <div style={{height: '300px'}}>
-                <Loader />
-              </div>}
-
-              {(hasData === 1 && !loading) && <> 
               <Row className="mb-3">
                 <Col md={2} sm={5}>
                   <MonthDropDown 
@@ -127,6 +122,10 @@ const Salaries = () => {
                   />
                 </Col>
               </Row>
+              {loading && <div style={{height: '300px'}}>
+                <Loader />
+              </div>}
+              {(hasData === 1 && !loading) && <> 
               <Table responsive>
                 <thead>
                   <tr className='text-center'>

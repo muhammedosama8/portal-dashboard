@@ -28,10 +28,6 @@ const YearRevenues = () => {
     const lang = useSelector(state=> state.auth?.lang)
     const [params, setParams] = useState({
       year: ""
-      // {
-      //   label: `${new Date().getFullYear()}`,
-      //   value: new Date().getFullYear()
-      // }
     })
     const projectsService = new ProjectsService()
 
@@ -73,9 +69,6 @@ const YearRevenues = () => {
         <Col lg={12}>
           <Card>
             <Card.Body className={`${hasData === 0 && 'text-center'} `}>
-            {loading && <div style={{height: '300px'}}>
-                <Loader />
-              </div>}
               <Row className="mb-3">
                 <Col md={2} sm={5}>
                   <YearDropDown
@@ -84,6 +77,9 @@ const YearRevenues = () => {
                   />
                 </Col>
               </Row>
+              {loading && <div style={{height: '300px'}}>
+                <Loader />
+              </div>}
               {(hasData === 1 && !loading) && <Table responsive>
                 <thead>
                   <tr className='text-center'>

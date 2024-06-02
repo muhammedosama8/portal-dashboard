@@ -48,8 +48,12 @@ const NoticePeriod = () => {
       if(isExist("view_salaries")){
         rows.push(Translate[lang]?.salary)
       }
-      employeesService.getList().then(res=>{
+      employeesService.getList({ is_on_notice_period: true }).then(res=>{
         if(res?.status === 200){
+          if(res?.data?.data?.data?.length === 0){
+            setLoading(false)
+            return
+          }
           print(
             Translate[lang]?.employees,
             rows,
@@ -173,6 +177,9 @@ const NoticePeriod = () => {
                   setHasData={setHasData}
                   setLoading={setLoading}
                   search={search}
+                  param={{
+                    is_on_notice_period: true
+                  }}
               />
             </Card.Body>
           </Card>

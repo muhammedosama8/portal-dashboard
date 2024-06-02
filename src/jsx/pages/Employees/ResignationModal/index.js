@@ -26,19 +26,19 @@ const ResignationModal = ({resignationModal, setResignationModal, item, setShoul
     const submit = (e) =>{
         e.preventDefault();
         let data ={ 
-            ...formData,
-            assets_id: formData.assets?.map(res=> res.value),
-            department_id: formData.department.id
+            start_resignation_date: formData.start_resignation_date,
+            end_resignation_date: formData.end_resignation_date
         }
 
-        // setLoading(true)
-        // employeesService.update(formData?.id, data)?.then(res=>{
-        //     if(res && res?.status === 200){
-        //         toast.success('Employee Updated Successfully')
-        //         setShouldUpdate(prev=> !prev)
-        //         setAddModal()
-        //     }
-        // })
+        setLoading(true)
+        employeesService.resignation(formData?.employee?.id, data)?.then(res=>{
+            if(res && res?.status === 201){
+                toast.success('Resignation Employee Successfully')
+                setShouldUpdate(prev=> !prev)
+                setResignationModal()
+            }
+            setLoading(false)
+        }).catch(()=> setLoading(false))
     }
 
     return(

@@ -25,6 +25,12 @@ export const customRules= [
     ]
   },
   {
+    label: "users",
+    rules:[
+      {label: "Delete", value: 'delete_users'},
+    ]
+  },
+  {
     label: "custody",
     rules:[
       {label: "Add", value: 'add_custody'},
@@ -110,6 +116,24 @@ export const customRules= [
     rules:[
       {label: "Total Salaries", value: 'total_salaries'},
       {label: "View", value: 'view_salaries'},
+    ]
+  },
+  {
+    label: "year_expenses",
+    rules:[
+      {label: "View", value: 'view_year_expenses'},
+    ]
+  },
+  {
+    label: "year_revenues",
+    rules:[
+      {label: "View", value: 'view_year_revenues'},
+    ]
+  },
+  {
+    label: "revenues",
+    rules:[
+      {label: "View", value: 'view_revenues'},
     ]
   },
 ]

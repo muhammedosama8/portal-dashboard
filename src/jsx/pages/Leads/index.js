@@ -24,6 +24,7 @@ const Leads = () => {
     const [data, setData] = useState([])
     const [addModal, setAddModal] = useState(false)
     const [item, setItem] = useState({})
+    const [editStatus, setEditStatus] = useState(false)
     const [hasData, setHasData] = useState(1)
     const [search, setSearch] = useState(null)
     const [loading, setLoading] = useState(false)
@@ -44,7 +45,27 @@ const Leads = () => {
 
     const changeParams = (e, name) => {
       setParams({...params, [name]: e})
+      setShouldUpdate(prev=> !prev)
     } 
+
+    const getAll = () =>{
+      setLoading(true)
+      leadService.getList()?.then(res=>{
+        if(res?.status === 200){
+          setData(res?.data?.data?.data)
+          if(res?.data?.data?.data?.length){
+            setHasData(1)
+          } else{
+            setHasData(0)
+          }
+          setParams({
+            month: '',
+            year: ''
+          })
+        }
+        setLoading(false)
+      }).catch(()=>setLoading(false))
+    }
 
     const printProjects = () => {
       print(
@@ -111,9 +132,6 @@ const Leads = () => {
         <Col lg={12}>
           <Card>
             <Card.Body className={`${hasData === 0 && 'text-center'} `}>
-            {loading && <div style={{height: '300px'}}>
-                <Loader />
-              </div>}
               <Row className="mb-3">
                 <Col md={2} sm={5}>
                   <MonthDropDown
@@ -127,7 +145,16 @@ const Leads = () => {
                     changeParams={changeParams} 
                   />
                 </Col>
+                <Col md={2} sm={5}>
+                  <Button 
+                    type="button" 
+                    variant="outline-secondary"
+                    onClick={getAll}>{Translate[lang].all}</Button>
+                </Col>
               </Row>
+              {loading && <div style={{height: '300px'}}>
+                <Loader />
+              </div>}
               {(hasData === 1 && !loading) && <Table responsive>
                 <thead>
                   <tr className='text-center'>
@@ -152,6 +179,9 @@ const Leads = () => {
                     <th>
                       <strong>{Translate[lang]?.attachments}</strong>
                     </th>
+                    <th>
+                      <strong>{Translate[lang]?.status}</strong>
+                    </th>
                     <th></th>
                   </tr>
                 </thead>
@@ -165,6 +195,7 @@ const Leads = () => {
                             setItem={setItem}
                             setAddModal={setAddModal}
                             setShouldUpdate={setShouldUpdate}
+                            setEditStatus={setEditStatus}
                         />
                     })}
                 </tbody>
@@ -193,6 +224,7 @@ const Leads = () => {
           addModal={addModal} 
           setShouldUpdate={setShouldUpdate}
           setAddModal={()=> setAddModal(false)}
+          editStatus={editStatus}
       />}
 
     </Fragment>

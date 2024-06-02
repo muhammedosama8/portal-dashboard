@@ -2,11 +2,11 @@ import { useState } from "react";
 import { Dropdown } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import EmployeesService from "../../../../../services/EmployeesService";
+import DeleteModal from "../../../../common/DeleteModal";
 import { Translate } from "../../../../Enums/Tranlate";
-import CancellationResignationModal from "../CancellationResignationModal";
 
 const CardItem = ({item, setItem, index, setResignationModal, setAddModal, setShouldUpdate}) =>{
-    const [cancellationModal, setCancellationModal] = useState(false)
+    const [deleteModal, setDeleteModal] = useState(false)
     const Auth = useSelector(state=> state.auth?.auth)
     const lang = useSelector(state=> state.auth?.lang)
     const isExist = (data)=> Auth?.admin?.admin_roles?.includes(data)
@@ -25,13 +25,17 @@ const CardItem = ({item, setItem, index, setResignationModal, setAddModal, setSh
             </td>
             <td>{item.job_title}</td>
             <td>{item.department?.name}</td>
-            <td>{item?.start_resignation_date?.split('T')[0] || '-'}</td>
-            <td>{item?.end_resignation_date?.split('T')[0] || '-'}</td>
-            <td>{item.start_date?.split('T')[0]}</td>
-            {isExist("view_salaries") && <td>{item.salary}</td>}
-            <td>{item.employee_assets?.length}</td>
+            <td>{item.personal_email}</td>
+            <td>{item.company_email}</td>
             <td>
-                {(isExist("edit_employees")) && <Dropdown>
+                {item.employee_attach?.length > 0 ? item.employee_attach?.map((att=>(
+                    <a href={att.url} target='_black' rel="noreferrer">
+                        <img src={att.url} alt='attachment' width='40' height='40' style={{marginRight: '4px',marginLeft: '4px',}} />
+                    </a>
+                ))) : '-'}
+            </td>
+            {/* <td>
+                {(isExist("edit_employees") && isExist("delete_employees")) && <Dropdown>
                     <Dropdown.Toggle
                         className="light sharp i-false"
                     >
@@ -44,17 +48,18 @@ const CardItem = ({item, setItem, index, setResignationModal, setAddModal, setSh
                         }}> {Translate[lang]?.edit}</Dropdown.Item>}
                         {isExist("edit_employees") && <Dropdown.Item onClick={()=> {
                             setItem(item)
-                            setCancellationModal(true)
-                        }}> {Translate[lang]?.cancellation_of_resignation}</Dropdown.Item>}
+                            setResignationModal(true)
+                        }}> {Translate[lang]?.resignation}</Dropdown.Item>}
+                        {isExist("delete_employees") && <Dropdown.Item onClick={()=> setDeleteModal(true)}>{Translate[lang]?.delete}</Dropdown.Item>}
                     </Dropdown.Menu>
                 </Dropdown>}
-            </td>
-            {cancellationModal && <CancellationResignationModal
-                      open={cancellationModal}
-                      name={item?.name}
-                      item={item}
+            </td> */}
+            {deleteModal && <DeleteModal
+                      open={deleteModal}
+                      titleMsg={item?.name}
+                      deletedItem={item}
                       modelService={employeesService}
-                      onCloseModal={setCancellationModal}
+                      onCloseModal={setDeleteModal}
                       setShouldUpdate={setShouldUpdate}
                     />}
             </tr>

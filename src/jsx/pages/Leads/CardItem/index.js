@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { Dropdown } from "react-bootstrap";
+import { Badge, Dropdown } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import LeadService from "../../../../services/LeadService";
 import DeleteModal from "../../../common/DeleteModal";
 import { Translate } from "../../../Enums/Tranlate";
 
-const CardItem = ({item, setItem, index, setAddModal, setShouldUpdate}) =>{
+const CardItem = ({item, setItem, index, setAddModal, setShouldUpdate, setEditStatus}) =>{
     const [deleteModal, setDeleteModal] = useState(false)
     const Auth = useSelector(state=> state.auth?.auth)
     const lang = useSelector(state=> state.auth?.lang)
@@ -32,6 +32,21 @@ const CardItem = ({item, setItem, index, setAddModal, setShouldUpdate}) =>{
                 })}
             </td>
             <td>
+                <Badge 
+                    className="cursor-pointer"
+                    onClick={()=>{
+                        if(!isExist('edit_leads')){
+                            return
+                        }
+                        setEditStatus(true)
+                        setItem(item)
+                        setAddModal(true)
+                    }}
+                    style={{textTransform: 'capitalize'}}
+                    variant={`${item?.status === 'new' ? 'primary' : item?.status === 'on Progress' ? 'warning' : item?.status === 'success' ? 'success' : 'danger'}`}
+                >{item?.status}</Badge>
+            </td>
+            <td>
                 {(isExist('edit_leads') || isExist("delete_leads")) &&<Dropdown>
                     <Dropdown.Toggle
                         className="light sharp i-false"
@@ -40,6 +55,7 @@ const CardItem = ({item, setItem, index, setAddModal, setShouldUpdate}) =>{
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
                         {isExist('edit_leads') && <Dropdown.Item onClick={()=> {
+                            setEditStatus(false)
                             setItem(item)
                             setAddModal(true)
                         }}> {Translate[lang]?.edit}</Dropdown.Item>}

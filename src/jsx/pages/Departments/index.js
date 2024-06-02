@@ -27,6 +27,8 @@ const Departments = () => {
     const [shouldUpdate, setShouldUpdate] = useState(false)
     const lang = useSelector(state=> state.auth?.lang)
     const departmentService = new DepartmentService()
+    const Auth = useSelector((state) => state.auth?.auth);
+    const isExist = (data) => Auth?.admin?.admin_roles?.includes(data);
 
   return (
     <Fragment>
@@ -48,13 +50,13 @@ const Departments = () => {
             ></div>
           </div>
           <div>
-            <Button variant="primary" className='me-2 h-75' onClick={()=> { 
+            {isExist('add_departments') && <Button variant="primary" className='me-2 h-75' onClick={()=> { 
               setItem({})
               setAddModal(true) 
             }}>
               <i className="la la-plus mx-1"></i>
               {Translate[lang]?.add} {Translate[lang]?.department}
-            </Button>
+            </Button>}
           </div>
         </Card.Body >
       </Card>

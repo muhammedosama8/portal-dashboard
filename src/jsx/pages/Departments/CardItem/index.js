@@ -22,20 +22,20 @@ const CardItem = ({item, setItem, index, setAddModal, setShouldUpdate}) =>{
             </td>
             <td>{item.number_of_people}</td>
             <td>
-                <Dropdown>
+                {(isExist('edit_departments') || isExist('delete_departments')) && <Dropdown>
                     <Dropdown.Toggle
                         className="light sharp i-false"
                     >
                         <i className="la la-ellipsis-v" style={{fontSize: '27px'}}></i>
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
-                        <Dropdown.Item onClick={()=> {
+                        {isExist('edit_departments') && <Dropdown.Item onClick={()=> {
                             setItem(item)
                             setAddModal(true)
-                        }}> {Translate[lang]?.edit}</Dropdown.Item>
-                        <Dropdown.Item onClick={()=> setDeleteModal(true)}>{Translate[lang]?.delete}</Dropdown.Item>
+                        }}> {Translate[lang]?.edit}</Dropdown.Item>}
+                        {isExist('delete_departments') && <Dropdown.Item onClick={()=> setDeleteModal(true)}>{Translate[lang]?.delete}</Dropdown.Item>}
                     </Dropdown.Menu>
-                </Dropdown>
+                </Dropdown>}
             </td>
             {deleteModal && <DeleteModal
                       open={deleteModal}

@@ -15,6 +15,7 @@ export const Arabic = {
   year_expenses: "مصاريف السنويه",
   financial: "المالي",
   client_email: "بريد الكتوني العميل",
+  total_salaries: 'إجمالي الرواتب',
   contract_date: "ميعاد العقد",
   upload_contract: "تحميل العقد",
   client_civil_id: "الرقم المدني للعميل",

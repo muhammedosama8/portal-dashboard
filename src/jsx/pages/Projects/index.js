@@ -29,6 +29,8 @@ const Projects = () => {
     const [loading, setLoading] = useState(false)
     const [shouldUpdate, setShouldUpdate] = useState(false)
     const lang = useSelector(state=> state.auth?.lang)
+    const Auth = useSelector((state) => state.auth?.auth);
+    const isExist = (data) => Auth?.admin?.admin_roles?.includes(data);
     const [params, setParams] = useState({
       month: ""
     //   {
@@ -111,20 +113,20 @@ const Projects = () => {
             ></div>
           </div>
           <div>
-            <Button 
+            {isExist('view_projects') && <Button 
               variant='secondary' 
               className='mx-2 h-75'
               onClick={printProjects}
             >
               {Translate[lang].print}
-            </Button>
-            <Button variant="primary" className='me-2 h-75' onClick={()=> { 
+            </Button>}
+            {isExist('add_projects') && <Button variant="primary" className='me-2 h-75' onClick={()=> { 
               setItem({})
               setAddModal(true) 
             }}>
               <i className="la la-plus mx-1"></i>
               {Translate[lang]?.add} {Translate[lang]?.projects}
-            </Button>
+            </Button>}
           </div>
         </Card.Body >
       </Card>
@@ -133,12 +135,7 @@ const Projects = () => {
         <Col lg={12}>
           <Card>
             <Card.Body className={`${hasData === 0 && 'text-center'} `}>
-            {loading && <div style={{height: '300px'}}>
-                <Loader />
-              </div>}
-              
-              {(hasData === 1 && !loading) && <> 
-                <Row className="mb-3">
+              <Row className="mb-3">
                 <Col md={2} sm={5}>
                   <MonthDropDown
                     params={params} 
@@ -152,6 +149,10 @@ const Projects = () => {
                   />
                 </Col>
               </Row>
+              {loading && <div style={{height: '300px'}}>
+                <Loader />
+              </div>}
+              {(hasData === 1 && !loading) && <> 
               <Table responsive>
                 <thead>
                   <tr className='text-center'>

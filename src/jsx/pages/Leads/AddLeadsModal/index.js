@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, Col, Modal, Row } from "react-bootstrap"
+import { Button, Col, Modal, Row,Dropdown } from "react-bootstrap"
 import {AvField, AvForm} from "availity-reactstrap-validation";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
@@ -10,15 +10,16 @@ import BaseService from "../../../../services/BaseService";
 import Loader from "../../../common/Loader";
 import LeadService from "../../../../services/LeadService";
 
-const AddLeadsModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
+const AddLeadsModal = ({addModal, setAddModal, item, setShouldUpdate, editStatus})=>{
     const [formData, setFormData] = useState({
         lead_name: '',
         client_name: "",
         client_phone: "",
         client_email: "",
         reference: "",
-        attachments: [],
+        attachments: []
     })
+    const [status, setStatus] = useState('')
     const [isAdd, setIsAdd] = useState(false)
     const [loading, setLoading] = useState(false)
     const leadService = new LeadService()
@@ -38,6 +39,7 @@ const AddLeadsModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
                 reference: item?.reference,
                 attachments: item?.lead_attachments?.map(res=> res?.url),
             })
+            setStatus(item?.status)
         }
     },[item])
 
@@ -61,6 +63,7 @@ const AddLeadsModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
                 }
             })
         } else {
+            data['status'] = status
             leadService.update(formData?.id, data)?.then(res=>{
                 if(res && res?.status === 200){
                     toast.success('Lead Updated Successfully')
@@ -72,7 +75,6 @@ const AddLeadsModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
     }
 
     const fileHandler = (e) => {
-        console.log(e)
         let files = e.target.files
         const filesData = Object.values(files)
 
@@ -95,7 +97,7 @@ const AddLeadsModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
                     className='form-horizontal'
                     onValidSubmit={submit}>
             <Modal.Header>
-            <Modal.Title>{isAdd ? Translate[lang]?.add : Translate[lang]?.edit} {Translate[lang]?.leads}</Modal.Title>
+            <Modal.Title>{isAdd ? Translate[lang]?.add : Translate[lang]?.edit} {Translate[lang]?.leads} {editStatus ? Translate[lang]?.status : ''}</Modal.Title>
             <Button
                 variant=""
                 className="close"
@@ -108,7 +110,7 @@ const AddLeadsModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
             </Button>
             </Modal.Header>
             <Modal.Body>
-                    <Row>
+                   {!editStatus && <Row>
                         <Col md={6}>
                             <AvField
                                 label={Translate[lang]?.lead_name}
@@ -242,7 +244,23 @@ const AddLeadsModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
                                 </div>
                             </Col>
                         })}
-                    </Row>
+                    </Row>}
+                    {editStatus && <Row>
+                        <Col md={6}>
+                        <Dropdown>
+                        <Dropdown.Toggle variant="secondary" id="dropdown-basic" style={{textTransform: 'capitalize'}}>
+                            {' '}{status}{' '}{' '}
+                        </Dropdown.Toggle>
+
+                        <Dropdown.Menu>
+                            <Dropdown.Item onClick={()=> setStatus('new')}>New</Dropdown.Item>
+                            <Dropdown.Item onClick={()=> setStatus('on Progress')}>On Progress</Dropdown.Item>
+                            <Dropdown.Item onClick={()=> setStatus('success')}>Success</Dropdown.Item>
+                            <Dropdown.Item onClick={()=> setStatus('closed')}>Closed</Dropdown.Item>
+                        </Dropdown.Menu>
+                    </Dropdown>
+                        </Col>
+                        </Row>}
             </Modal.Body>
             <Modal.Footer>
             <Button onClick={setAddModal} variant="danger light">

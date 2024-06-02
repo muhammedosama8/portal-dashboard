@@ -15,6 +15,14 @@ export const MenuList = [
     to: "rules",
     text: "rules",
   },
+  // Users
+  {
+    title: "Users",
+    classsChange: "mm-collapse",
+    iconStyle: <i className="la la-users"></i>,
+    to: "users",
+    text: "users",
+  },
   // Custody
   {
     title: "Custody",

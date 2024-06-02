@@ -87,6 +87,18 @@ const Assets = () => {
                     <th>
                       <strong>{Translate[lang]?.type}</strong>
                     </th>
+                    <th>
+                      <strong>{Translate[lang]?.employee_name}</strong>
+                    </th>
+                    <th>
+                      <strong>{Translate[lang]?.civil_id}</strong>
+                    </th>
+                    <th>
+                      <strong>{Translate[lang]?.job_title}</strong>
+                    </th>
+                    <th>
+                      <strong>{Translate[lang]?.department}</strong>
+                    </th>
                     {isExist("view_custody") && <th>
                       <strong>{Translate[lang]?.view}</strong>
                     </th>}

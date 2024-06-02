@@ -9,16 +9,13 @@ function CancellationResignationModal(props) {
     const lang = useSelector(state=> state.auth.lang)
 
     const handleCancellation = async () => {
-        // setLoading(true)
-        // const { data: response } = await props.modelService.remove(props.deletedItem.id)
-        //     if(response?.status === 200){
-        //         toast.success(`${Translate[lang].deleted} ${Translate[lang].successfully}`)
-        //         props.setShouldUpdate(prev=> !prev)
-        //         if(props?.isEdit === false){
-        //             props?.setModal(false)
-        //         }
-        //         return props.onCloseModal(false)
-        //     }
+        setLoading(true)
+        const { data: response } = await props.modelService.cancellationResignation(props.item.id)
+            if(response?.status === 200){
+                toast.success(`${Translate[lang].updated} ${Translate[lang].successfully}`)
+                props.setShouldUpdate(prev=> !prev)
+                return props.onCloseModal(false)
+            }
     }
 
     return (

@@ -15,23 +15,27 @@ const tabs = ['projects', 'custody', 'expenses', 'year_expenses', 'revenues', 'y
 const Financial = () => {
     const [selectTab, setSelectTab] = useState('projects')
     const lang = useSelector(state=> state.auth?.lang)
+    const Auth = useSelector((state) => state.auth?.auth);
+    const isExist = (data) => Auth?.admin?.admin_roles?.includes(data);
 
     return <>
         <Card className="mb-3">
             <Card.Body className="p-0">
                 <div className="tabs-div">
                     {tabs?.map((tab,index)=>{
-                    return <p
-                    key={index}
-                    className='mb-0'
-                    style={{
-                        color: tab === selectTab ? "var(--primary)" : "#7E7E7E",
-                        borderBottom: tab === selectTab ? "2px solid" : "none",
-                    }}
-                    onClick={() => setSelectTab(tab)}
-                    >
-                    {Translate[lang][tab]}
-                    </p>
+                        if(isExist(`view_${tab}`)){
+                            return <p
+                            key={index}
+                            className='mb-0'
+                            style={{
+                                color: tab === selectTab ? "var(--primary)" : "#7E7E7E",
+                                borderBottom: tab === selectTab ? "2px solid" : "none",
+                            }}
+                            onClick={() => setSelectTab(tab)}
+                            >
+                            {Translate[lang][tab]}
+                            </p>
+                        }
                     })}
                 </div>
             </Card.Body>
