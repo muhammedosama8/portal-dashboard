@@ -7,6 +7,7 @@ import { Translate } from '../../../Enums/Tranlate';
 import { AvField, AvForm } from 'availity-reactstrap-validation';
 
 function DeleteModal(props) {
+    const date = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0)
     const [deleteDate, setDeleteDate] = useState('')
     const [loading, setLoading] = useState(false)
     const lang = useSelector(state=> state.auth.lang)
@@ -51,7 +52,7 @@ function DeleteModal(props) {
                             type='date'
                             value={deleteDate}
                             min={`${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, '0')}-01`}
-                            max={new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).toISOString().split('T')[0]}
+                            max={`${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, '0')}-${date.getDate()}`}
                             validate={{
                                 required: {
                                     value:true,
