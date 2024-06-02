@@ -39,6 +39,7 @@ export const English = {
   department: "Department",
   departments: "Departments",
   maintaince: "Maintaince",
+  delete_date: "Delete Date",
   maintaince_start_date: "Maintaince Start Date",
   maintaince_end_date: "Maintaince End Date",
   assets: "Assets",

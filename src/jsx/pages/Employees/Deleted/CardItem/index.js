@@ -27,6 +27,7 @@ const CardItem = ({item, setItem, index, setResignationModal, setAddModal, setSh
             <td>{item.department?.name}</td>
             <td>{item.personal_email}</td>
             <td>{item.company_email}</td>
+            <td>{item.delete_date ? item.delete_date?.split('T')[0] : '-'}</td>
             <td>
                 {item.employee_attach?.length > 0 ? item.employee_attach?.map((att=>(
                     <a href={att.url} target='_black' rel="noreferrer">

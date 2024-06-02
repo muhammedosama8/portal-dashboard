@@ -9,6 +9,7 @@ export const Arabic = {
   lead_name: 'اسم القياده',
   reference: 'مرجع',
   revenues: "ايرادات",
+  delete_date: "تاريخ الحذف",
   year_revenues: "الايرادات السنويه",
   custody: "العهده",
   expenses: "مصاريف",

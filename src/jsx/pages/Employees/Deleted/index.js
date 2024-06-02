@@ -42,6 +42,7 @@ const DeletedEmployees = () => {
         Translate[lang]?.department,
         Translate[lang]?.personal_email,
         Translate[lang]?.company_email,
+        Translate[lang]?.delete_date,
       ]
 
       employeesService.getList({is_delete: true}).then(res=>{
@@ -63,6 +64,7 @@ const DeletedEmployees = () => {
                 department: item.department?.name,
                 personal_email: item?.personal_email,
                 company_email: item?.company_email,
+                delete_date: item.delete_date?.split('T')[0]
               }
               return info;
             })
@@ -139,6 +141,9 @@ const DeletedEmployees = () => {
                     </th>
                     <th>
                       <strong>{Translate[lang]?.company_email}</strong>
+                    </th>
+                    <th>
+                      <strong>{Translate[lang]?.delete_date}</strong>
                     </th>
                     <th>
                       <strong>{Translate[lang]?.attachments}</strong>
