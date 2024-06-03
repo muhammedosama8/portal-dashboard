@@ -93,6 +93,15 @@ const Projects = () => {
       }).catch(()=> setLoading(false))
     }
 
+    const getAll = () =>{
+      setLoading(true)
+      projectsService.getList()?.then(res=>{
+        if(res?.status === 200){
+          setData(res?.data?.data?.data)
+        }
+        setLoading(false)
+      }).catch(()=>setLoading(false))
+    }
   return (
     <Fragment>
       <Card className="mb-3">
@@ -147,6 +156,12 @@ const Projects = () => {
                     params={params} 
                     changeParams={changeParams} 
                   />
+                </Col>
+                <Col md={2} sm={5}>
+                  <Button 
+                    type="button" 
+                    variant="outline-secondary"
+                    onClick={getAll}>{Translate[lang].all}</Button>
                 </Col>
               </Row>
               {loading && <div style={{height: '300px'}}>

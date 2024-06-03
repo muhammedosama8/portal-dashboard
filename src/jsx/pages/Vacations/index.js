@@ -16,15 +16,15 @@ import CardItem from "./CardItem";
 import './style.scss'
 import VacationsService from "../../../services/VacationsService";
 import AddVacationsModal from "./AddVacationsModal";
+import OnVacationCardItem from "./OnVacationCardItem";
 
 const Vacations = () => {
-    const [data, setData] = useState([
-      {id: 1, employee_name: 'os', job_title: 'dev', department: 'is', accrued_leave: "9"},
-      {id: 2, employee_name: 'mu', job_title: 'dev', department: 'it', accrued_leave: "2"},
-    ])
+  const tabs = ["leave_balance", "on_vaction"]
+    const [data, setData] = useState([])
     const [modal, setModal] = useState(false)
+    const [selectTab, setSelectTab] = useState('leave_balance')
     const [item, setItem] = useState({})
-    const [hasData, setHasData] = useState(1)
+    const [hasData, setHasData] = useState(null)
     const [search, setSearch] = useState(null)
     const [loading, setLoading] = useState(false)
     const [shouldUpdate, setShouldUpdate] = useState(false)
@@ -62,8 +62,28 @@ const Vacations = () => {
           </div>
         </Card.Body >
       </Card>
+      <Card className="mb-3">
+        <Card.Body className="d-flex  p-3 align-items-center">
+            {tabs?.map((tab,index)=>{
+                  return <p
+                  key={index}
+                  className='mb-0 mx-3  cursor-pointer'
+                  style={{
+                    color: tab === selectTab ? "var(--primary)" : "#7E7E7E",
+                    borderBottom: tab === selectTab ? "2px solid" : "none",
+                  }}
+                  onClick={() => {
+                    setSelectTab(tab)
+                    setHasData(null)
+                  }}
+                >
+                  {Translate[lang][tab]}
+                  </p>
+              })}
+        </Card.Body >
+      </Card>
       
-      <Row>
+      {selectTab === 'leave_balance' && <Row>
         <Col lg={12}>
           <Card>
             <Card.Body className={`${hasData === 0 && 'text-center'} `}>
@@ -107,18 +127,83 @@ const Vacations = () => {
                 </tbody>
               </Table>}
               {hasData === 0 && <NoData />}
-              {/* <Pagination
+              <Pagination
                   setData={setData}
-                  service={VacationsService}
+                  service={vacationsService}
                   shouldUpdate={shouldUpdate}
                   setHasData={setHasData}
                   setLoading={setLoading}
                   search={search}
-              /> */}
+              />
             </Card.Body>
           </Card>
         </Col>
-      </Row>
+      </Row>}
+      {selectTab === 'on_vaction' && <Row>
+        <Col lg={12}>
+          <Card>
+            <Card.Body className={`${hasData === 0 && 'text-center'} `}>
+            {loading && <div style={{height: '300px'}}>
+                <Loader />
+              </div>}
+
+              {(hasData === 1 && !loading) && <Table responsive>
+                <thead>
+                  <tr className='text-center'>
+                    <th>
+                      <strong>I.D</strong>
+                    </th>
+                    <th>
+                      <strong>{Translate[lang]?.employee_name}</strong>
+                    </th>
+                    <th>
+                      <strong>{Translate[lang]?.job_title}</strong>
+                    </th>
+                    <th>
+                      <strong>{Translate[lang]?.department}</strong>
+                    </th>
+                    <th>
+                      <strong>{Translate[lang].departureـday}</strong>
+                    </th>
+                    <th>
+                      <strong>{Translate[lang]?.return_day}</strong>
+                    </th>
+                    <th>
+                      <strong>{Translate[lang]?.reason}</strong>
+                    </th>
+                    <th>
+                      <strong>{Translate[lang]?.number_of_days}</strong>
+                    </th>
+                    <th></th>
+                  </tr>
+                </thead>
+
+                <tbody className="table-body">
+                    {data?.map((item, index) =>{
+                        return <OnVacationCardItem
+                            index= {index}
+                            key= {index}
+                            item={item}
+                            setItem={setItem}
+                            setModal={setModal}
+                            setShouldUpdate={setShouldUpdate}
+                        />
+                    })}
+                </tbody>
+              </Table>}
+              {hasData === 0 && <NoData />}
+              <Pagination
+                  setData={setData}
+                  service={vacationsService}
+                  shouldUpdate={shouldUpdate}
+                  setHasData={setHasData}
+                  setLoading={setLoading}
+                  search={search}
+              />
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>}
 
       {modal && 
         <AddVacationsModal

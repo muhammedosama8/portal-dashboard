@@ -3,8 +3,6 @@ import { Button, Col, Modal, Row, Form } from "react-bootstrap"
 import {AvField, AvForm} from "availity-reactstrap-validation";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
-import Select from "react-select";
-import uploadImg from '../../../../images/upload-img.png';
 import AssetsService from "../../../../services/AssetsService";
 import { Translate } from "../../../Enums/Tranlate";
 
@@ -14,10 +12,9 @@ const AddAssetsModal = ({addModal, setAddModal, item, view, setShouldUpdate})=>{
         serial_number: '',
         items: [""]
     })
+    const [employee, setEmployee] = useState({})
     const [type, setType] = useState('with_serial')
     const [isAdd, setIsAdd] = useState(false)
-    const [assetsOptions, setAssetsOptions] = useState([])
-    const [departmentOptions, setDepartmentOptions] = useState([])
     const [loading, setLoading] = useState(false)
     const assetsService = new AssetsService()
     const lang = useSelector(state=> state.auth.lang)
@@ -38,6 +35,9 @@ const AddAssetsModal = ({addModal, setAddModal, item, view, setShouldUpdate})=>{
             let typeItem = item.asset === 'with Serial' ? 'with_serial' : item.asset === 'with Items' ? 'with_items' : 'with_serial_and_items'
             setType(typeItem)
         }
+        if(view && item.employee_assets?.length){
+            setEmployee(item.employee_assets[0].employee)
+        }
     },[item])
 
     const submit = (e) =>{
@@ -47,6 +47,7 @@ const AddAssetsModal = ({addModal, setAddModal, item, view, setShouldUpdate})=>{
             asset: type === 'with_serial' ? 'with Serial' : type === 'with_items' ? 'with Items' : 'with Serial And Items',
         }
         if(type !== 'with_items') data['serial_number'] = formData.serial_number
+        setLoading(true)
         if(isAdd){
             data['asset_items'] = formData.items?.filter(res=> !!res)?.map(res=> {
                 return {item: res}
@@ -57,7 +58,8 @@ const AddAssetsModal = ({addModal, setAddModal, item, view, setShouldUpdate})=>{
                     setShouldUpdate(prev=> !prev)
                     setAddModal()
                 }
-            })
+                setLoading(false)
+            }).catch(()=> setLoading(false))
         } else {
             data['item'] = formData.items?.filter(res=> !!res)?.map(res=> {
                 return res
@@ -68,7 +70,8 @@ const AddAssetsModal = ({addModal, setAddModal, item, view, setShouldUpdate})=>{
                     setShouldUpdate(prev=> !prev)
                     setAddModal()
                 }
-            })
+                setLoading(false)
+            }).catch(()=> setLoading(false))
         }
     }
 
@@ -221,6 +224,25 @@ const AddAssetsModal = ({addModal, setAddModal, item, view, setShouldUpdate})=>{
                             </Col>}
                         </>}
                     </Row>
+                    {(view && item.employee_assets?.length > 0) && <hr />}
+                    {(view && item.employee_assets?.length > 0) && <Row>
+                        <Col md={6}>
+                            <label>{Translate[lang].employee_name}</label>
+                            <p className="text-black">{employee?.name}</p>
+                        </Col>
+                        <Col md={6}>
+                            <label>{Translate[lang].civil_id}</label>
+                            <p className="text-black">{employee?.civil_id}</p>
+                        </Col>
+                        <Col md={6}>
+                            <label>{Translate[lang].job_title}</label>
+                            <p className="text-black">{employee?.job_title}</p>
+                        </Col>
+                        <Col md={6}>
+                            <label>{Translate[lang].department}</label>
+                            <p className="text-black">{employee?.department?.name}</p>
+                        </Col>
+                    </Row>}
                 </Modal.Body>
                 <Modal.Footer>
                     <Button onClick={setAddModal} variant="danger light">

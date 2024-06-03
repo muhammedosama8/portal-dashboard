@@ -9,12 +9,13 @@ import VacationsService from "../../../../services/VacationsService";
 import { Translate } from "../../../Enums/Tranlate";
 import Loader from "../../../common/Loader";
 import BaseService from "../../../../services/BaseService";
+import EmployeesService from "../../../../services/EmployeesService";
 
 const AddVacationsModal = ({modal, setModal, item, setShouldUpdate})=>{
     const [formData, setFormData] = useState({
         employee: '',
-        departureـday: '',
-        returnـday: "",
+        departure_day: '',
+        return_day: "",
         reason: '',
         number_of_days: ""
     })
@@ -23,6 +24,7 @@ const AddVacationsModal = ({modal, setModal, item, setShouldUpdate})=>{
     const [isAdd, setIsAdd] = useState(false)
     const [loading, setLoading] = useState(false)
     const vacationsService = new VacationsService()
+    const employeesService = new EmployeesService()
     const lang = useSelector(state=> state.auth.lang)
 
     useEffect(() => {
@@ -35,6 +37,18 @@ const AddVacationsModal = ({modal, setModal, item, setShouldUpdate})=>{
             //     name: item?.name,
             // })
         }
+
+        employeesService?.getList().then(res=>{
+            if(res.status === 200){
+                let data = res.data.data.data?.map(emp=>{
+                    return {
+                        label: emp.name,
+                        value: emp.id
+                    }
+                })
+                setEmployeesOptions(data)
+            }
+        })
     },[item])
 
     useEffect(()=>{
@@ -46,24 +60,24 @@ const AddVacationsModal = ({modal, setModal, item, setShouldUpdate})=>{
 
     const submit = (e) =>{
         e.preventDefault();
-        // let data ={ 
-        //     item_no: formData?.item_no,
-        //     name: formData?.name,
-        //     price: formData?.price,
-        //     code: formData?.code,
-        //     barcode: formData?.barcode,
-        //     image: formData?.image
-        // }
+        let data ={ 
+            employee_id: formData?.employee?.value,
+            departure_day: formData?.departure_day,
+            return_day: formData?.return_day,
+            reason: formData?.reason?.value,
+        }
+        if(formData?.reason?.value === "emergency_leave") data["number_of_days"] = formData?.number_of_days
 
-        // if(isAdd){
-        //     projectsService.create(data)?.then(res=>{
-        //         if(res && res?.status === 201){
-        //             toast.success('Product Added Successfully')
-        //             setShouldUpdate(prev=> !prev)
-        //             setModal()
-        //         }
-        //     })
-        // } else {
+        if(isAdd){
+            vacationsService.create(data)?.then(res=>{
+                if(res && res?.status === 201){
+                    toast.success('Vacation Added Successfully')
+                    setShouldUpdate(prev=> !prev)
+                    setModal()
+                }
+            })
+        }
+        // else {
         //     projectsService.update(formData?.id, data)?.then(res=>{
         //         if(res && res?.status === 200){
         //             toast.success('Product Updated Successfully')
@@ -109,36 +123,36 @@ const AddVacationsModal = ({modal, setModal, item, setShouldUpdate})=>{
                         </Col>
                         <Col md={6}>
                             <AvField
-                                label={Translate[lang]?.departureـday}
+                                label={Translate[lang]?.departure_day}
                                 type='date'
-                                placeholder={Translate[lang]?.departureـday}
+                                placeholder={Translate[lang]?.departure_day}
                                 bsSize="lg"
-                                name='departureـday'
+                                name='departure_day'
                                 validate={{
                                     required: {
                                         value: true,
                                         errorMessage: Translate[lang].field_required
                                     }
                                 }}
-                                value={formData.departureـday}
-                                onChange={(e) => setFormData({...formData, departureـday: e.target.value})}
+                                value={formData.departure_day}
+                                onChange={(e) => setFormData({...formData, departure_day: e.target.value})}
                             />
                         </Col>
                         <Col md={6}>
                             <AvField
-                                label={Translate[lang]?.returnـday}
+                                label={Translate[lang]?.return_day}
                                 type='date'
-                                placeholder={Translate[lang]?.returnـday}
+                                placeholder={Translate[lang]?.return_day}
                                 bsSize="lg"
-                                name='returnـday'
+                                name='return_day'
                                 validate={{
                                     required: {
                                         value: true,
                                         errorMessage: Translate[lang].field_required
                                     }
                                 }}
-                                value={formData.returnـday}
-                                onChange={(e) => setFormData({...formData, returnـday: e.target.value})}
+                                value={formData.return_day}
+                                onChange={(e) => setFormData({...formData, return_day: e.target.value})}
                             />
                         </Col>
                         

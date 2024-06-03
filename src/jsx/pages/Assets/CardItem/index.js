@@ -34,7 +34,7 @@ const CardItem = ({item, setItem, index, setAddModal, setView, setShouldUpdate})
             <td>
                 {item?.asset}
             </td>
-            <td>
+            {/* <td>
                 {item?.employee_assets?.length ? item?.employee_assets[0]?.employee?.name: '-'}
             </td>
             <td>
@@ -45,7 +45,7 @@ const CardItem = ({item, setItem, index, setAddModal, setView, setShouldUpdate})
             </td>
             <td>
                 {item?.employee_assets?.length ? item?.employee_assets[0]?.employee?.department?.name: '-'}
-            </td>
+            </td> */}
             {isExist("view_custody") && <td>
                 <i className="la la-eye cursor-pointer" 
                     onClick={()=> {

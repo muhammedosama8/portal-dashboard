@@ -87,7 +87,7 @@ const Assets = () => {
                     <th>
                       <strong>{Translate[lang]?.type}</strong>
                     </th>
-                    <th>
+                    {/* <th>
                       <strong>{Translate[lang]?.employee_name}</strong>
                     </th>
                     <th>
@@ -98,7 +98,7 @@ const Assets = () => {
                     </th>
                     <th>
                       <strong>{Translate[lang]?.department}</strong>
-                    </th>
+                    </th> */}
                     {isExist("view_custody") && <th>
                       <strong>{Translate[lang]?.view}</strong>
                     </th>}

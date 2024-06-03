@@ -41,7 +41,7 @@ const Markup = () => {
     { url: "rules/:id", component: <Permission /> },
 
     // Users
-    { url: "users", component: <Users /> },
+    // { url: "users", component: <Users /> },
 
     // Assets
     { url: "custody", component: <Assets /> },

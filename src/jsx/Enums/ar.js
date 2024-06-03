@@ -1,4 +1,6 @@
 export const Arabic = {
+  leave_balance: "رصيد الإجازة", 
+  on_vaction: "في الإجازة",
   leads: 'قيادات',
   all: "الكل",
   cancellation_of_resignation: "إلغاء الاستقالة",
@@ -115,8 +117,8 @@ export const Arabic = {
   vacation: "أجازة",
   vacations: "الأجازات",
   accrued_leave: "أجازات مستحقه",
-  departureـday: "يوم الرحيل",
-  returnـday: "يوم العوده",
+  departure_day: "يوم الرحيل",
+  return_day: "يوم العوده",
   diwans: "الدواوين",
   shareholders: "المساهمين",
   shareholders_requests: "طلبات المساهمين",

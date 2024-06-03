@@ -183,6 +183,10 @@ const ActiveEmployees = () => {
                   setHasData={setHasData}
                   setLoading={setLoading}
                   search={search}
+                  param={{
+                    is_delete: false,
+                    is_resignation: false
+                  }}
               />
             </Card.Body>
           </Card>

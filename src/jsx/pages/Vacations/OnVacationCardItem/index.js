@@ -5,7 +5,7 @@ import VacationsService from "../../../../services/ProjectsService";
 import DeleteModal from "../../../common/DeleteModal";
 import { Translate } from "../../../Enums/Tranlate";
 
-const CardItem = ({item, setItem, index, setAddModal, setShouldUpdate}) =>{
+const OnVacationCardItem = ({item, setItem, index, setAddModal, setShouldUpdate}) =>{
     const [deleteModal, setDeleteModal] = useState(false)
     const Auth = useSelector(state=> state.auth?.auth)
     const lang = useSelector(state=> state.auth?.lang)
@@ -22,7 +22,10 @@ const CardItem = ({item, setItem, index, setAddModal, setShouldUpdate}) =>{
             </td>
             <td>{item?.job_title}</td>
             <td>{item?.department?.name}</td>
-            <td>{item?.accrued_leave}</td>
+            <td>{item?.departure_day}</td>
+            <td>{item?.return_day}</td>
+            <td>{Translate[lang][item?.reason]}</td>
+            <td>{item?.number_of_days || "-"}</td>
             <td>
                 {/* {(isExist("edit_vacations") || isExist("delete_vacations")) && <Dropdown>
                     <Dropdown.Toggle
@@ -50,4 +53,4 @@ const CardItem = ({item, setItem, index, setAddModal, setShouldUpdate}) =>{
             </tr>
     )
 }
-export default CardItem;
+export default OnVacationCardItem;

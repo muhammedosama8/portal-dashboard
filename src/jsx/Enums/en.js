@@ -1,4 +1,6 @@
 export const English = {
+  leave_balance: "Leave Balance", 
+  on_vaction: "On Vaction",
   leads: 'Leads',
   all: "All",
   cancellation_of_resignation: "Cancellation of resignation",
@@ -66,8 +68,8 @@ export const English = {
   variant: "Variant",
   dynamic_variant: "Dynamic Variant",
   products: "Products",
-  departureـday: "Departure Day",
-  returnـday: "Return Day",
+  departure_day: "Departure Day",
+  return_day: "Return Day",
   print: "Print",
   product: "Product",
   digital_products: "Digital Products",
