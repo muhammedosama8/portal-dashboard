@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Dropdown } from "react-bootstrap";
 import { useSelector } from "react-redux";
-import DeductionService from "../../../../services/ProjectsService";
 import DeleteModal from "../../../common/DeleteModal";
 import { Translate } from "../../../Enums/Tranlate";
+import DeductionService from "../../../../services/DeductionService";
 
 const CardItem = ({item, setItem, index, setAddModal, setShouldUpdate}) =>{
     const [deleteModal, setDeleteModal] = useState(false)

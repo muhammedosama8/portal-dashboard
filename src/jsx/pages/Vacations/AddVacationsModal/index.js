@@ -23,6 +23,7 @@ const AddVacationsModal = ({modal, setModal, item, setShouldUpdate})=>{
     const [employeesOptions, setEmployeesOptions] = useState([])
     const [isAdd, setIsAdd] = useState(false)
     const [loading, setLoading] = useState(false)
+    const [maxDate, setMaxDate] = useState('');
     const vacationsService = new VacationsService()
     const employeesService = new EmployeesService()
     const lang = useSelector(state=> state.auth.lang)
@@ -88,6 +89,17 @@ const AddVacationsModal = ({modal, setModal, item, setShouldUpdate})=>{
         // }
     }
 
+    useEffect(()=> {
+        if(!!formData?.departure_day){
+            const startDate = new Date(formData?.departure_day); // Set your start date here
+            const calculatedMaxDate = new Date(startDate);
+            calculatedMaxDate.setMonth(startDate.getMonth() + 6); // Add 6 months
+
+            const formattedMaxDate = calculatedMaxDate.toISOString().split('T')[0]; // Format as YYYY-MM-DD
+            setMaxDate(formattedMaxDate);
+        }
+    }, [formData?.departure_day])
+
     return(
         <Modal className={lang === 'en' ? "en fade addProduct" : "ar fade addProduct"} style={{textAlign: lang === 'en' ? 'left' : 'right'}} show={modal} onHide={()=>{
             setModal()
@@ -144,6 +156,8 @@ const AddVacationsModal = ({modal, setModal, item, setShouldUpdate})=>{
                                 type='date'
                                 placeholder={Translate[lang]?.return_day}
                                 bsSize="lg"
+                                min={formData.departure_day}
+                                max={maxDate}
                                 name='return_day'
                                 validate={{
                                     required: {

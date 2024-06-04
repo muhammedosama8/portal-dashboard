@@ -51,7 +51,7 @@ function DeleteModal(props) {
                             name ='date'
                             type='date'
                             value={deleteDate}
-                            min={`${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, '0')}-01`}
+                            // min={`${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, '0')}-01`}
                             max={`${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, '0')}-${date.getDate()}`}
                             validate={{
                                 required: {
