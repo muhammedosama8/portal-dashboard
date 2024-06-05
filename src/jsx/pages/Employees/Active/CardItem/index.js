@@ -7,6 +7,7 @@ import DeleteModal from "../../DeleteModal";
 
 const CardItem = ({item, setItem, index, setResignationModal, setAddModal, setShouldUpdate}) =>{
     const [deleteModal, setDeleteModal] = useState(false)
+    const [type, setType] = useState('')
     const Auth = useSelector(state=> state.auth?.auth)
     const lang = useSelector(state=> state.auth?.lang)
     const isExist = (data)=> Auth?.admin?.admin_roles?.includes(data)
@@ -53,7 +54,10 @@ const CardItem = ({item, setItem, index, setResignationModal, setAddModal, setSh
                             setItem(item)
                             setResignationModal(true)
                         }}> {Translate[lang]?.resignation}</Dropdown.Item>}
-                        {isExist("delete_employees") && <Dropdown.Item onClick={()=> setDeleteModal(true)}>{Translate[lang]?.delete}</Dropdown.Item>}
+                        {isExist("delete_employees") && <Dropdown.Item onClick={()=> {
+                            setDeleteModal(true)
+                            setType('delete')
+                        }}>{Translate[lang]?.delete}</Dropdown.Item>}
                     </Dropdown.Menu>
                 </Dropdown>}
             </td>
@@ -64,6 +68,7 @@ const CardItem = ({item, setItem, index, setResignationModal, setAddModal, setSh
                       modelService={employeesService}
                       onCloseModal={setDeleteModal}
                       setShouldUpdate={setShouldUpdate}
+                      type={type}
                     />}
             </tr>
     )

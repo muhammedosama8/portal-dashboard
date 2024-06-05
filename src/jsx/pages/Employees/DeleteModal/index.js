@@ -1,4 +1,4 @@
-import React ,{useState} from 'react'
+import React ,{useEffect, useState} from 'react'
 import { Col, Modal, Row } from "react-bootstrap";
 import PropTypes from "prop-types"
 import { toast } from 'react-toastify';
@@ -12,23 +12,42 @@ function DeleteModal(props) {
     const [loading, setLoading] = useState(false)
     const lang = useSelector(state=> state.auth.lang)
 
+    useEffect(()=>{
+        if(props.type === 'edit_delete_date'){
+            setDeleteDate(props.deletedItem?.delete_date.split('T')[0])
+        }
+    },[props])
+
     const handleDeletedItem = async () => {
         setLoading(true)
-        const { data: response } = await props.modelService.remove(props.deletedItem.id , { delete_date: deleteDate })
-        if(response?.status === 200){
-            props.setShouldUpdate(prev=> !prev)
-            toast.success(`${Translate[lang].deleted} ${Translate[lang].successfully}`)
-            setLoading(false)
-            return props.onCloseModal(false)
+        if(props.type === 'delete'){
+            const { data: response } = await props.modelService.remove(props.deletedItem.id , { delete_date: deleteDate })
+            if(response?.status === 200){
+                props.setShouldUpdate(prev=> !prev)
+                toast.success(`${Translate[lang].deleted} ${Translate[lang].successfully}`)
+                setLoading(false)
+                return props.onCloseModal(false)
+            }
+        } else {
+            const { data: response } = await props.modelService.updateDeleteDate(props.deletedItem.id , { delete_date: deleteDate })
+            if(response?.status === 200){
+                props.setShouldUpdate(prev=> !prev)
+                toast.success(`${Translate[lang].updated_successfully}`)
+                setLoading(false)
+                return props.onCloseModal(false)
+            }
         }
     }
 
     return (
         <Modal show={props.open}  onHide={()=> props.onCloseModal(false)} className={`${lang}`}>
             <div className="modal-header border-0">
-                <h5 className="modal-title mt-0" id="myModalLabel">
+                {props.type === 'delete' ? <h5 className="modal-title mt-0" id="myModalLabel">
                     <i className='la la-trash text-danger' style={{fontSize: '20px'}}></i> {Translate[lang].delete} {props.titleMsg}
-                </h5>
+                </h5> :
+                <h5 className="modal-title mt-0" id="myModalLabel">
+                    <i className='la la-edit' style={{fontSize: '20px'}}></i> {Translate[lang].edit} {Translate[lang].delete_date}
+                </h5>}
                 <button
                     type="button"
                     onClick={() => props.onCloseModal(false)}
@@ -41,9 +60,9 @@ function DeleteModal(props) {
             </div>
             <AvForm onValidSubmit={handleDeletedItem}>
             <div className="modal-body border-0">
-                <p>
+                {props.type === 'delete' && <p>
                     {Translate[lang].delete_message}
-                </p>
+                </p>}
                 <Row>
                     <Col md={6}>
                         <AvField
@@ -75,11 +94,11 @@ function DeleteModal(props) {
                 </button>
                 <button
                     type="submit"
-                    className="btn btn-danger waves-effect"
+                    className={`btn ${props.type === 'delete' ? 'btn-danger' : 'btn-warning' } waves-effect`}
                     disabled={loading ? true : false}
 
                 >
-                    {Translate[lang].delete}
+                    {props.type === 'delete' ? Translate[lang].delete : Translate[lang].edit}
             </button>
             </div>
             </AvForm>

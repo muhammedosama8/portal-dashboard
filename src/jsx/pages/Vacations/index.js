@@ -17,6 +17,7 @@ import './style.scss'
 import VacationsService from "../../../services/VacationsService";
 import AddVacationsModal from "./AddVacationsModal";
 import OnVacationCardItem from "./OnVacationCardItem";
+import OnVacationsService from "../../../services/OnVacationsService";
 
 const Vacations = () => {
   const tabs = ["leave_balance", "on_vaction"]
@@ -163,7 +164,7 @@ const Vacations = () => {
                       <strong>{Translate[lang]?.department}</strong>
                     </th>
                     <th>
-                      <strong>{Translate[lang].departureـday}</strong>
+                      <strong>{Translate[lang].departure_day}</strong>
                     </th>
                     <th>
                       <strong>{Translate[lang]?.return_day}</strong>
@@ -194,7 +195,7 @@ const Vacations = () => {
               {hasData === 0 && <NoData />}
               <Pagination
                   setData={setData}
-                  service={vacationsService}
+                  service={new OnVacationsService()}
                   shouldUpdate={shouldUpdate}
                   setHasData={setHasData}
                   setLoading={setLoading}

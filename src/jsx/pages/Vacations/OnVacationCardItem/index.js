@@ -18,12 +18,12 @@ const OnVacationCardItem = ({item, setItem, index, setAddModal, setShouldUpdate}
                 <strong>{item.id}</strong>
             </td>
             <td>
-                {item?.name}
+                {item?.employee?.name}
             </td>
-            <td>{item?.job_title}</td>
-            <td>{item?.department?.name}</td>
-            <td>{item?.departure_day}</td>
-            <td>{item?.return_day}</td>
+            <td>{item?.employee?.job_title}</td>
+            <td>{item?.employee?.department?.name}</td>
+            <td>{item?.departure_day ? item?.departure_day?.split('T')[0] : '-'}</td>
+            <td>{item?.return_day ? item?.return_day?.split('T')[0] : '-'}</td>
             <td>{Translate[lang][item?.reason]}</td>
             <td>{item?.number_of_days || "-"}</td>
             <td>
