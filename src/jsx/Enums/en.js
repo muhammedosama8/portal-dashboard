@@ -1,6 +1,7 @@
 export const English = {
   leave_balance: "Leave Balance", 
-  on_vaction: "On Vaction",
+  on_vaction: "On Vacation",
+  vacation_history: "Vacation History",
   leads: 'Leads',
   all: "All",
   cancellation_of_resignation: "Cancellation of resignation",

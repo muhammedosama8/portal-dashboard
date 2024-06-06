@@ -75,7 +75,8 @@ const Leads = () => {
           Translate[lang]?.client_name, 
           Translate[lang]?.client_phone, 
           Translate[lang]?.client_email, 
-          Translate[lang]?.reference
+          Translate[lang]?.reference,
+          Translate[lang]?.status
         ],
         lang,
         data.map(item => {
@@ -86,6 +87,7 @@ const Leads = () => {
             client_phone: item.client_phone,
             client_email: item.client_email,
             reference: item.reference,
+            status: item.status,
           };
         })
       )

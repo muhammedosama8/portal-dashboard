@@ -1,6 +1,7 @@
 export const Arabic = {
   leave_balance: "رصيد الإجازة", 
   on_vaction: "في الإجازة",
+  vacation_history: "تاريخ الإجازة",
   leads: 'قيادات',
   all: "الكل",
   cancellation_of_resignation: "إلغاء الاستقالة",

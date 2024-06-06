@@ -17,10 +17,12 @@ import './style.scss'
 import VacationsService from "../../../services/VacationsService";
 import AddVacationsModal from "./AddVacationsModal";
 import OnVacationCardItem from "./OnVacationCardItem";
+import OnVacationHistoryCardItem from "./OnVacationHistoryCardItem";
 import OnVacationsService from "../../../services/OnVacationsService";
+import VacationsHistoryService from "../../../services/VacationsHistoryService";
 
 const Vacations = () => {
-  const tabs = ["leave_balance", "on_vaction"]
+  const tabs = ["leave_balance", "on_vaction", "vacation_history"]
     const [data, setData] = useState([])
     const [modal, setModal] = useState(false)
     const [selectTab, setSelectTab] = useState('leave_balance')
@@ -196,6 +198,68 @@ const Vacations = () => {
               <Pagination
                   setData={setData}
                   service={new OnVacationsService()}
+                  shouldUpdate={shouldUpdate}
+                  setHasData={setHasData}
+                  setLoading={setLoading}
+                  search={search}
+              />
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>}
+      {selectTab === 'vacation_history' && <Row>
+        <Col lg={12}>
+          <Card>
+            <Card.Body className={`${hasData === 0 && 'text-center'} `}>
+            {loading && <div style={{height: '300px'}}>
+                <Loader />
+              </div>}
+
+              {(hasData === 1 && !loading) && <Table responsive>
+                <thead>
+                  <tr className='text-center'>
+                    <th>
+                      <strong>I.D</strong>
+                    </th>
+                    <th>
+                      <strong>{Translate[lang]?.employee_name}</strong>
+                    </th>
+                    <th>
+                      <strong>{Translate[lang]?.job_title}</strong>
+                    </th>
+                    <th>
+                      <strong>{Translate[lang]?.department}</strong>
+                    </th>
+                    <th>
+                      <strong>{Translate[lang].departure_day}</strong>
+                    </th>
+                    <th>
+                      <strong>{Translate[lang]?.return_day}</strong>
+                    </th>
+                    <th>
+                      <strong>{Translate[lang]?.reason}</strong>
+                    </th>
+                    <th>
+                      <strong>{Translate[lang]?.number_of_days}</strong>
+                    </th>
+                    <th></th>
+                  </tr>
+                </thead>
+
+                <tbody className="table-body">
+                    {data?.map((item, index) =>{
+                        return <OnVacationHistoryCardItem
+                            index= {index}
+                            key= {index}
+                            item={item}
+                        />
+                    })}
+                </tbody>
+              </Table>}
+              {hasData === 0 && <NoData />}
+              <Pagination
+                  setData={setData}
+                  service={new VacationsHistoryService()}
                   shouldUpdate={shouldUpdate}
                   setHasData={setHasData}
                   setLoading={setLoading}
