@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Dropdown } from "react-bootstrap";
+import { Badge, Button, Dropdown } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import ProjectsService from "../../../../services/ProjectsService";
 import DeleteModal from "../../../common/DeleteModal";
@@ -48,6 +48,15 @@ const CardItem = ({item, setItem, index, setAddModal, setShouldUpdate}) =>{
                     </a>
                 }) : '-'}
                 
+            </td>
+            <td>
+                <Badge
+                    variant={
+                        item?.type === "existing_projects" ? "outline-success" : "outline-secondary"
+                    }
+                    >
+                    {Translate[lang][item?.type] || '-'}
+                </Badge>
             </td>
             <td>
                 {(isExist('edit_projects') || isExist('delete_projects')) && <Dropdown>

@@ -44,56 +44,44 @@ const Server = () => {
     } 
 
     const printProjects = () => {
-      setLoading(true)
-      projectsService.getList((!!params.month.value || !!params.year.value) ? {
-        month: !!params.month.value ? params.month.value : '',
-        year: !!params.year.value ? params.year.value : ''
-      } : '').then(res=>{
-        if(res?.status === 200){
-          print(
-            Translate[lang]?.projects,
-            [ "id", 
-              Translate[lang]?.name, 
-              Translate[lang]?.department,
-              Translate[lang]?.client_name,
-              Translate[lang]?.client_phone,
-              Translate[lang]?.client_email,
-              Translate[lang]?.client_civil_id,
-              Translate[lang]?.works_day,
-              Translate[lang]?.contract_date,
-              Translate[lang]?.price,
-              Translate[lang]?.maintaince,
-            ],
-            lang,
-            res?.data?.data?.data.map(item => {
-              return {
-                id: item.id,
-                name: item.name,
-                department: item.department?.name,
-                client_name: item?.client_name,
-                client_phone: item?.phone,
-                client_email: item?.client_email,
-                client_civil_id: item?.client_civil_id,
-                works_day: item?.work_day,
-                contract_date: item?.contract_date?.split('T')[0],
-                price: item?.price,
-                maintaince: item?.maintenance
-              };
-            })
-          )
-        }
-        setLoading(false)
-      }).catch(()=> setLoading(false))
+      // setLoading(true)
+      // projectsService.getList((!!params.month.value || !!params.year.value) ? {
+      //   month: !!params.month.value ? params.month.value : '',
+      //   year: !!params.year.value ? params.year.value : ''
+      // } : '').then(res=>{
+      //   if(res?.status === 200){
+      //     print(
+      //       Translate[lang]?.server,
+      //       [ "id", 
+      //         Translate[lang]?.project_name, 
+      //         Translate[lang]?.contract_no,
+      //         Translate[lang]?.price,
+      //         Translate[lang]?.package_num
+      //       ],
+      //       lang,
+      //       res?.data?.data?.data.map(item => {
+      //         return {
+      //           id: item.id,
+      //           project_name: item.project.label,
+      //           contract_no: item.contract_no,
+      //           price: item?.price,
+      //           package_num: item?.package_num
+      //         };
+      //       })
+      //     )
+      //   }
+      //   setLoading(false)
+      // }).catch(()=> setLoading(false))
     }
 
     const getAll = () =>{
-      setLoading(true)
-      projectsService.getList()?.then(res=>{
-        if(res?.status === 200){
-          setData(res?.data?.data?.data)
-        }
-        setLoading(false)
-      }).catch(()=>setLoading(false))
+      // setLoading(true)
+      // projectsService.getList()?.then(res=>{
+      //   if(res?.status === 200){
+      //     setData(res?.data?.data?.data)
+      //   }
+      //   setLoading(false)
+      // }).catch(()=>setLoading(false))
     }
   return (
     <Fragment>
