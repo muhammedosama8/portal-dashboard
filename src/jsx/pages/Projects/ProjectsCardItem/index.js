@@ -6,7 +6,7 @@ import DeleteModal from "../../../common/DeleteModal";
 import { Translate } from "../../../Enums/Tranlate";
 import StartDayModal from "../StartDayModal";
 
-const CardItem = ({item, setItem, index, setAddModal, setShouldUpdate}) =>{
+const ProjectsCardItem = ({item, setItem, index, setAddModal, setShouldUpdate}) =>{
     const [deleteModal, setDeleteModal] = useState(false)
     const [startDayModal, setStartDayModal] = useState(false)
     const Auth = useSelector(state=> state.auth?.auth)
@@ -28,17 +28,11 @@ const CardItem = ({item, setItem, index, setAddModal, setShouldUpdate}) =>{
             <td>{item?.client_name}</td>
             <td>{item?.phone}</td>
             <td>{item?.client_email}</td>
+            <td>{item?.client_civil_id}</td>
+            <td>{item?.work_day}</td>
             <td>{!!item.contract_date ? item.contract_date.split('T')[0] : '-'}</td>
             <td>{item?.price}</td>
             <td>{item?.maintenance}</td>
-            <td>
-                {item?.maintaince_start_date ? 
-                    item?.maintaince_start_date : 
-                    <Button variant="primary" className='me-2 h-75' onClick={()=> setStartDayModal(true)}>
-                        {Translate[lang].add} {Translate[lang].start_day}
-                    </Button>}
-            </td>
-            <td>{item?.maintaince_end_date || '-'}</td>
             <td>
                 {item?.project_attachments?.length ? item?.project_attachments?.map(att=>{
                     return <a href={att.url} target='_blank'>
@@ -91,4 +85,4 @@ const CardItem = ({item, setItem, index, setAddModal, setShouldUpdate}) =>{
             </tr>
     )
 }
-export default CardItem;
+export default ProjectsCardItem;

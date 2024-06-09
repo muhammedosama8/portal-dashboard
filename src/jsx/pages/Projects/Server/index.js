@@ -142,6 +142,7 @@ const Server = () => {
                   <Col md={3} sm={3} className="d-flex align-items-end">
                     <Button 
                       type="button" 
+                      style={{padding: '.4rem 2rem'}}
                       variant="outline-secondary"
                       onClick={getAll}>{Translate[lang].all}</Button>
                   </Col>
