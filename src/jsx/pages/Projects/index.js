@@ -57,7 +57,6 @@ const Projects = () => {
             Translate[lang]?.projects,
             [ "id", 
               Translate[lang]?.name, 
-              Translate[lang]?.department,
               Translate[lang]?.client_name,
               Translate[lang]?.client_phone,
               Translate[lang]?.client_email,
@@ -66,13 +65,14 @@ const Projects = () => {
               Translate[lang]?.contract_date,
               Translate[lang]?.price,
               Translate[lang]?.maintaince,
+              Translate[lang]?.start_date,
+              Translate[lang]?.end_date,
             ],
             lang,
             res?.data?.data?.data.map(item => {
               return {
                 id: item.id,
                 name: item.name,
-                department: item.department?.name,
                 client_name: item?.client_name,
                 client_phone: item?.phone,
                 client_email: item?.client_email,
@@ -80,7 +80,9 @@ const Projects = () => {
                 works_day: item?.work_day,
                 contract_date: item?.contract_date?.split('T')[0],
                 price: item?.price,
-                maintaince: item?.maintenance
+                maintaince: item?.maintenance,
+                maintaince_start_date: item?.maintaince_start_date || '-',
+                maintaince_end_date: item?.maintaince_end_date || '-',
               };
             })
           )
