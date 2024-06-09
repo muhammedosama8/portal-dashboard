@@ -42,6 +42,8 @@ const Employees = () => {
               >
                 {Translate[lang][tab]}
                 </p>
+              } else {
+                return <></>
               }
             })}
           </div>

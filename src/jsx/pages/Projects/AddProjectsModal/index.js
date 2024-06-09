@@ -12,7 +12,12 @@ import BaseService from "../../../../services/BaseService";
 import Loader from "../../../common/Loader";
 import DepartmentService from "../../../../services/DepartmentService";
 
-const AddProjectsModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
+const AddProjectsModal = ({addModal, setAddModal, item, type, setShouldUpdate})=>{
+    const lang = useSelector(state=> state.auth.lang)
+    const types = [
+        {label: Translate[lang].existing_projects, value: "existing_projects"},
+        {label: Translate[lang].hosting_projects, value: "hosting_projects"},
+    ]
     const maintainces = [
         {label: '1', value: '1'},
         {label: '2', value: '2'},
@@ -26,6 +31,7 @@ const AddProjectsModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
         {label: '10', value: '10'},
     ]
     const [formData, setFormData] = useState({
+        type: {label: Translate[lang].existing_projects, value: "existing_projects"},
         name: '',
         price: "",
         department: '',
@@ -42,11 +48,16 @@ const AddProjectsModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
     const [loading, setLoading] = useState(false)
     const [departmentOptions, setDepartmentOptions] = useState([])
     const projectsService = new ProjectsService()
-    const lang = useSelector(state=> state.auth.lang)
 
     useEffect(() => {
         if(Object.keys(item)?.length === 0){
             setIsAdd(true)
+            if(!!type){
+                setFormData({
+                    ...formData,
+                    type: type
+                })
+            }
         } else {
             setIsAdd(false)
             setFormData({
@@ -163,6 +174,19 @@ const AddProjectsModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
             </Modal.Header>
             <Modal.Body>
                     <Row>
+                        <Col md={6}>
+                            <label className="text-label">
+                                {Translate[lang].type}
+                            </label>
+                            <Select
+                                placeholder={Translate[lang]?.select}
+                                options={types}
+                                value={formData.type}
+                                onChange={(e) => {
+                                    setFormData({...formData, type: e});
+                                }}
+                            />
+                        </Col>
                         <Col md={6}>
                             <AvField
                                 label={Translate[lang]?.name}
@@ -296,7 +320,7 @@ const AddProjectsModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
                                 onChange={(e) => setFormData({...formData, price: e.target.value})}
                             />
                         </Col>
-                        <Col md={6}>
+                        {formData?.type?.value === "existing_projects" && <Col md={6}>
                             <AvField
                                 label={Translate[lang]?.works_day}
                                 type='number'
@@ -313,7 +337,7 @@ const AddProjectsModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
                                 value={formData.works_day}
                                 onChange={(e) => setFormData({...formData, works_day: e.target.value})}
                             />
-                        </Col>
+                        </Col>}
                         <Col md={6}>
                             <label className="text-label">
                                 {Translate[lang].maintaince}

@@ -1,14 +1,12 @@
 import { useState } from "react";
-import { Button, Dropdown } from "react-bootstrap";
+import { Dropdown } from "react-bootstrap";
 import { useSelector } from "react-redux";
-import ProjectsService from "../../../../services/ProjectsService";
-import DeleteModal from "../../../common/DeleteModal";
-import { Translate } from "../../../Enums/Tranlate";
-import StartDayModal from "../StartDayModal";
+import ProjectsService from "../../../../../services/ProjectsService";
+import DeleteModal from "../../../../common/DeleteModal";
+import { Translate } from "../../../../Enums/Tranlate";
 
 const CardItem = ({item, setItem, index, setAddModal, setShouldUpdate}) =>{
     const [deleteModal, setDeleteModal] = useState(false)
-    const [startDayModal, setStartDayModal] = useState(false)
     const Auth = useSelector(state=> state.auth?.auth)
     const lang = useSelector(state=> state.auth?.lang)
     const isExist = (data)=> Auth?.admin?.admin_roles?.includes(data)
@@ -20,35 +18,13 @@ const CardItem = ({item, setItem, index, setAddModal, setShouldUpdate}) =>{
                 <strong>{item.id}</strong>
             </td>
             <td>
-                {item?.name}
+                {item?.project?.label}
             </td>
             <td>
-                {item?.department?.name}
+                {item?.contract_no}
             </td>
-            <td>{item?.client_name}</td>
-            <td>{item?.phone}</td>
-            <td>{item?.client_email}</td>
-            <td>{item?.client_civil_id}</td>
-            <td>{item?.work_day}</td>
-            <td>{!!item.contract_date ? item.contract_date.split('T')[0] : '-'}</td>
             <td>{item?.price}</td>
-            <td>{item?.maintenance}</td>
-            <td>
-                {item?.maintaince_start_date ? 
-                    item?.maintaince_start_date : 
-                    <Button variant="primary" className='me-2 h-75' onClick={()=> setStartDayModal(true)}>
-                        {Translate[lang].add} {Translate[lang].start_day}
-                    </Button>}
-            </td>
-            <td>{item?.maintaince_end_date || '-'}</td>
-            <td>
-                {item?.project_attachments?.length ? item?.project_attachments?.map(att=>{
-                    return <a href={att.url} target='_blank'>
-                        <i className="la la-file-pdf" style={{fontSize: '2.5rem'}}></i>
-                    </a>
-                }) : '-'}
-                
-            </td>
+            <td>{item?.package_num}</td>
             <td>
                 {(isExist('edit_projects') || isExist('delete_projects')) && <Dropdown>
                     <Dropdown.Toggle
@@ -72,15 +48,7 @@ const CardItem = ({item, setItem, index, setAddModal, setShouldUpdate}) =>{
                       modelService={projectsService}
                       onCloseModal={setDeleteModal}
                       setShouldUpdate={setShouldUpdate}
-            />}
-            {startDayModal && 
-                <StartDayModal
-                    addModal={startDayModal}
-                    item={item}
-                    setAddModal={()=> setStartDayModal(false)}
-                    setShouldUpdate={setShouldUpdate}
-                />
-            }
+                    />}
             </tr>
     )
 }

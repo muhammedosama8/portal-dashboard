@@ -1,4 +1,10 @@
 export const English = {
+  contract_no: "Contract No",
+  start_day: "Start Day",
+  package_num: "Package Num",
+  existing_projects: "Existing Projects",
+  hosting_projects: "Hosting Projects",
+  server: "Server",
   leave_balance: "Leave Balance", 
   on_vaction: "On Vacation",
   vacation_history: "Vacation History",
@@ -12,6 +18,7 @@ export const English = {
   lead_name: "Lead Name",
   reference: "Reference",
   revenues: "Revenues",
+  year: "Year",
   year_revenues: "Year Revenues",
   year_expenses: "Year Expenses",
   custody: "Custody",

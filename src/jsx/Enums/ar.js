@@ -1,4 +1,10 @@
 export const Arabic = {
+  contract_no: "رقم العقد",
+  start_day: "اضافه يوم البدء",
+  package_num: "رقم الحزمة",
+  existing_projects: "المشاريع القائمة",
+  hosting_projects: "المشاريع المستضيفة",
+  server: "الخادم",
   leave_balance: "رصيد الإجازة", 
   on_vaction: "في الإجازة",
   vacation_history: "تاريخ الإجازة",
@@ -13,6 +19,7 @@ export const Arabic = {
   reference: 'مرجع',
   revenues: "ايرادات",
   delete_date: "تاريخ الحذف",
+  year: "السنه",
   year_revenues: "الايرادات السنويه",
   custody: "العهده",
   expenses: "مصاريف",

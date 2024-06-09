@@ -19,11 +19,14 @@ const MonthDropDown = ({params, changeParams}) => {
         setMonthOptions([...remainingMonths])
     },[lang])
 
-    return <Select
-        placeholder={Translate[lang]?.select}
-        options={monthOptions}
-        value={params?.month}
-        onChange={(e) => changeParams(e, 'month')}
-    />
+    return <>
+        <label>{Translate[lang].month}</label>
+        <Select
+            placeholder={Translate[lang]?.select}
+            options={monthOptions}
+            value={params?.month}
+            onChange={(e) => changeParams(e, 'month')}
+        />
+    </>
 }
 export default MonthDropDown;

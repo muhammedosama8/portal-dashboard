@@ -8,24 +8,22 @@ import {
   Button,
 } from "react-bootstrap";
 import { useSelector } from "react-redux";
-import Loader from "../../common/Loader";
-import NoData from "../../common/NoData";
-import Pagination from "../../common/Pagination/Pagination";
-import { Translate } from "../../Enums/Tranlate";
+import Loader from "../../../common/Loader";
+import NoData from "../../../common/NoData";
+import Pagination from "../../../common/Pagination/Pagination";
+import { Translate } from "../../../Enums/Tranlate";
 import CardItem from "./CardItem";
-import './style.scss'
-import ProjectsService from "../../../services/ProjectsService";
-import AddProjectsModal from "./AddProjectsModal";
-import MonthDropDown from "../../Enums/MonthDropDown";
-import YearDropDown from "../../Enums/YearDropDown";
-import print from "../../Enums/Print";
-import Select from "react-select";
-import Server from "./Server";
+import '../style.scss'
+import ProjectsService from "../../../../services/ProjectsService";
+import MonthDropDown from "../../../Enums/MonthDropDown";
+import YearDropDown from "../../../Enums/YearDropDown";
+import print from "../../../Enums/Print";
+import AddServerModal from "./AddServerModal";
 
-const tabs = ['maintaince', 'server']
-const Projects = () => {
-  const [selectTab, setSelectTab] = useState('maintaince')
-    const [data, setData] = useState([])
+const Server = () => {
+    const [data, setData] = useState([
+      {id: 1, project: {label: 'proj 1', value: 1}, price: 123, contract_no: '1234321', package_num: 123}
+    ])
     const [addModal, setAddModal] = useState(false)
     const [item, setItem] = useState({})
     const [hasData, setHasData] = useState(1)
@@ -37,8 +35,7 @@ const Projects = () => {
     const isExist = (data) => Auth?.admin?.admin_roles?.includes(data);
     const [params, setParams] = useState({
       month: "",
-      year: "",
-      type: ""
+      year: ""
     })
     const projectsService = new ProjectsService()
 
@@ -100,29 +97,9 @@ const Projects = () => {
     }
   return (
     <Fragment>
-      <Card className="mb-3">
-        <Card.Body className="p-0">
-          <div className="tabs-div pb-0">
-            {tabs?.map((tab,index)=>{
-              return <p
-                key={index}
-                className='mb-0'
-                style={{
-                  color: tab === selectTab ? "var(--primary)" : "#7E7E7E",
-                  borderBottom: tab === selectTab ? "2px solid" : "none",
-                }}
-                onClick={() => setSelectTab(tab)}
-                >
-                  {Translate[lang][tab]}
-              </p>
-            })}
-          </div>
-         </Card.Body>
-      </Card>
 
-      {selectTab === 'maintaince' && <>
-        <Card className="mb-3">
-          <Card.Body className="d-flex justify-content-between p-3 align-items-center">
+    <Card className="mb-3">
+      <Card.Body className="d-flex justify-content-between p-3 align-items-center">
             <div className="input-group w-50">
               <input 
                   type="text" 
@@ -151,29 +128,17 @@ const Projects = () => {
                 setAddModal(true) 
               }}>
                 <i className="la la-plus mx-1"></i>
-                {Translate[lang]?.add} {Translate[lang]?.projects}
+                {Translate[lang]?.add} {Translate[lang]?.server}
               </Button>}
             </div>
-          </Card.Body >
-        </Card>
+      </Card.Body >
+    </Card>
         
-        <Row>
+    <Row>
           <Col lg={12}>
             <Card>
               <Card.Body className={`${hasData === 0 && 'text-center'} `}>
                 <Row className="mb-3">
-                  <Col md={3} sm={3}>
-                    <label>{Translate[lang].type}</label>
-                    <Select
-                        placeholder={Translate[lang]?.select}
-                        options={[
-                          {label: Translate[lang].existing_projects, value: "existing_projects"},
-                          {label: Translate[lang].hosting_projects, value: "hosting_projects"},
-                        ]}
-                        value={params?.type}
-                        onChange={(e) => changeParams(e, 'type')}
-                    />
-                  </Col>
                   <Col md={3} sm={3}>
                     <MonthDropDown
                       params={params} 
@@ -204,46 +169,16 @@ const Projects = () => {
                         <strong>I.D</strong>
                       </th>
                       <th>
-                        <strong>{Translate[lang]?.name}</strong>
-                      </th>
-                      {/* <th>
-                        <strong>{Translate[lang]?.cost}</strong>
-                      </th> */}
-                      <th>
-                        <strong>{Translate[lang]?.department}</strong>
+                        <strong>{Translate[lang]?.project_name}</strong>
                       </th>
                       <th>
-                        <strong>{Translate[lang]?.client_name}</strong>
-                      </th>
-                      <th>
-                        <strong>{Translate[lang]?.client_phone}</strong>
-                      </th>
-                      <th>
-                        <strong>{Translate[lang]?.client_email}</strong>
-                      </th>
-                      <th>
-                        <strong>{Translate[lang]?.client_civil_id}</strong>
-                      </th>
-                      <th>
-                        <strong>{Translate[lang]?.works_day}</strong>
-                      </th>
-                      <th>
-                        <strong>{Translate[lang]?.contract_date}</strong>
+                        <strong>{Translate[lang]?.contract_no}</strong>
                       </th>
                       <th>
                         <strong>{Translate[lang]?.price}</strong>
                       </th>
                       <th>
-                        <strong>{Translate[lang]?.maintaince}</strong>
-                      </th>
-                      <th>
-                        <strong>{Translate[lang]?.maintaince_start_date}</strong>
-                      </th>
-                      <th>
-                        <strong>{Translate[lang]?.maintaince_end_date}</strong>
-                      </th>
-                      <th>
-                        <strong>{Translate[lang]?.attachments}</strong>
+                        <strong>{Translate[lang]?.package_num}</strong>
                       </th>
                       <th></th>
                     </tr>
@@ -264,7 +199,7 @@ const Projects = () => {
                 </Table>
                 </>}
                 {hasData === 0 && <NoData />}
-                <Pagination
+                {/* <Pagination
                     setData={setData}
                     service={projectsService}
                     shouldUpdate={shouldUpdate}
@@ -275,26 +210,24 @@ const Projects = () => {
                     //   month: !!params.month?.value ? params.month.value : '',
                     //   year: !!params.year?.value ? params.year.value : '',
                     // }}
-                />
+                /> */}
               </Card.Body>
             </Card>
           </Col>
-        </Row>
-      </>}
+    </Row>
 
-      {selectTab === 'server' && <Server />}
 
-      {addModal && 
-        <AddProjectsModal
+    {addModal && 
+        <AddServerModal
           item={item} 
           addModal={addModal} 
           type={params?.type}
           setShouldUpdate={setShouldUpdate}
           setAddModal={()=> setAddModal(false)}
-      />}
+    />}
 
     </Fragment>
   );
 };
 
-export default Projects;
+export default Server;
