@@ -19,7 +19,7 @@ const MonthDropDown = ({params, changeParams}) => {
         setMonthOptions([...remainingMonths])
     },[lang])
 
-    return <div style={{textAlign: "left"}}>
+    return <>
         <label>{Translate[lang].month}</label>
         <Select
             placeholder={Translate[lang]?.select}
@@ -27,6 +27,6 @@ const MonthDropDown = ({params, changeParams}) => {
             value={params?.month}
             onChange={(e) => changeParams(e, 'month')}
         />
-    </div>
+    </>
 }
 export default MonthDropDown;
