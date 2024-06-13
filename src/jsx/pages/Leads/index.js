@@ -147,7 +147,7 @@ const Leads = () => {
                     changeParams={changeParams} 
                   />
                 </Col>
-                <Col md={2} sm={5}>
+                <Col md={2} sm={5} className="d-flex align-items-end">
                   <Button 
                     type="button" 
                     variant="outline-secondary"

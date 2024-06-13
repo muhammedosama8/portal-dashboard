@@ -125,7 +125,7 @@ const Server = () => {
     <Row>
           <Col lg={12}>
             <Card>
-              <Card.Body className={`${hasData === 0 && 'text-center'} `}>
+              <Card.Body>
                 <Row className="mb-3">
                   <Col md={3} sm={3}>
                     <MonthDropDown
@@ -187,7 +187,9 @@ const Server = () => {
                   </tbody>
                 </Table>
                 </>}
-                {hasData === 0 && <NoData />}
+                {(hasData === 0 && !loading) && <div className='text-center'>
+                  <NoData />
+                </div>}
                 {/* <Pagination
                     setData={setData}
                     service={projectsService}
