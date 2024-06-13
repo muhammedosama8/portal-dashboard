@@ -47,7 +47,7 @@ const Pagination = ({
       setLoading(false);
     });
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
-  }, [page, shouldUpdate, search, param?.month, param.year, param.type]);
+  }, [page, shouldUpdate, search, param?.month, param?.year, param?.type]);
 
   useEffect(() => {
     setPage(1);
