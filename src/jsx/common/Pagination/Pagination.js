@@ -30,8 +30,8 @@ const Pagination = ({
     if (!!type) params["type"] = type;
     if (!!search) params["search"] = search;
     if (!!param?.year) params["year"] = param?.year;
-    if (!!param.month) params["month"] = param?.month;
-    if (!!param.type) params["type"] = param?.type;
+    if (!!param?.month) params["month"] = param?.month;
+    if (!!param?.type) params["type"] = param?.type;
 
     service?.getList({ ...params }).then((res) => {
       if (res?.status === 200) {
