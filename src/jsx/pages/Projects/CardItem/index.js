@@ -32,16 +32,16 @@ const CardItem = ({item, setItem, index, setAddModal, setShouldUpdate}) =>{
             <td>{item?.price}</td>
             <td>{item?.maintenance}</td>
             <td>
-                {item?.maintaince_start_date ? 
-                    item?.maintaince_start_date : 
+                {item?.maintenance_start_date ? 
+                    <span className="cursor-pointer" onClick={()=> setStartDayModal(true)}>{item?.maintenance_start_date?.split("T")[0]}</span> : 
                     <Button variant="primary" className='me-2 h-75' onClick={()=> setStartDayModal(true)}>
                         {Translate[lang].add} {Translate[lang].start_day}
                     </Button>}
             </td>
-            <td>{item?.maintaince_end_date || '-'}</td>
+            <td>{item?.maintenance_end_date?.split("T")[0] || '-'}</td>
             <td>
                 {item?.project_attachments?.length ? item?.project_attachments?.map(att=>{
-                    return <a href={att.url} target='_blank'>
+                    return <a href={att.url} target='_blank' rel="noreferrer">
                         <i className="la la-file-pdf" style={{fontSize: '2.5rem'}}></i>
                     </a>
                 }) : '-'}

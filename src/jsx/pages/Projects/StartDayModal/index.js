@@ -15,41 +15,28 @@ const StartDayModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
     const [loading, setLoading] = useState(false)
     const projectsService = new ProjectsService()
 
-    useEffect(() => {
-        if(Object.keys(item)?.length === 0){
-            setIsAdd(true)
-        } else {
-            setIsAdd(false)
-            // setFormData({
-            //     id: item?.id,
-            //     name: item?.name,
-            // })
+    useEffect(()=>{
+        if(item){
+            setFormData({
+                start_day: item?.maintenance_end_date?.split("T")[0]
+            })
         }
-    },[item])
+    },[])
 
     const submit = (e) =>{
         e.preventDefault();
         let data ={ 
-            start_day: formData.start_day,
+            maintenance_start_date: formData.start_day,
         }
-
-        // if(isAdd){
-        //     projectsService.create(data)?.then(res=>{
-        //         if(res && res?.status === 201){
-        //             toast.success('Project Added Successfully')
-        //             setShouldUpdate(prev=> !prev)
-        //             setAddModal()
-        //         }
-        //     })
-        // } else {
-        //     projectsService.update(formData?.id, data)?.then(res=>{
-        //         if(res && res?.status === 200){
-        //             toast.success('Project Updated Successfully')
-        //             setShouldUpdate(prev=> !prev)
-        //             setAddModal()
-        //         }
-        //     })
-        // }
+        setLoading(true)
+        projectsService.startDateProject(item?.id, data)?.then(res=>{
+            if(res && res?.status === 201){
+                toast.success('Mintenance Added Successfully')
+                setShouldUpdate(prev=> !prev)
+                setAddModal()
+            }
+            setLoading(false)
+        })
     }
 
     return(
@@ -101,7 +88,7 @@ const StartDayModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
                     variant="primary" 
                     type='submit'
                     disabled={loading}
-                >{isAdd ? Translate[lang]?.add : Translate[lang]?.edit}</Button>
+                >{Translate[lang]?.edit}</Button>
             </Modal.Footer>
             </AvForm>
         </Modal>)

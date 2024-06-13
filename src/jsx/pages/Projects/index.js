@@ -25,7 +25,7 @@ import ProjectsCardItem from "./ProjectsCardItem";
 
 const tabs = ['projects', 'maintaince', 'server']
 const Projects = () => {
-  const [selectTab, setSelectTab] = useState('maintaince')
+  const [selectTab, setSelectTab] = useState('projects')
     const [data, setData] = useState([])
     const [addModal, setAddModal] = useState(false)
     const [item, setItem] = useState({})
@@ -68,6 +68,7 @@ const Projects = () => {
               Translate[lang]?.maintaince,
               Translate[lang]?.start_date,
               Translate[lang]?.end_date,
+              Translate[lang]?.type,
             ],
             lang,
             res?.data?.data?.data.map(item => {
@@ -82,8 +83,9 @@ const Projects = () => {
                 contract_date: item?.contract_date?.split('T')[0],
                 price: item?.price,
                 maintaince: item?.maintenance,
-                maintaince_start_date: item?.maintaince_start_date || '-',
-                maintaince_end_date: item?.maintaince_end_date || '-',
+                maintaince_start_date: item?.maintenance_start_date?.split('T')[0] || '-',
+                maintaince_end_date: item?.maintenance_end_date?.split('T')[0] || '-',
+                type: item?.type,
               };
             })
           )
@@ -249,7 +251,7 @@ const Projects = () => {
                   </tbody>
                 </Table>
                 </>}
-                {hasData === 0 && <NoData />}
+                {(hasData === 0 && !loading) && <NoData />}
                 <Pagination
                     setData={setData}
                     service={projectsService}
@@ -257,10 +259,10 @@ const Projects = () => {
                     setHasData={setHasData}
                     setLoading={setLoading}
                     search={search}
-                    // param={{
-                    //   month: !!params.month?.value ? params.month.value : '',
-                    //   year: !!params.year?.value ? params.year.value : '',
-                    // }}
+                    param={{
+                      month: !!params.month?.value ? params.month.value : '',
+                      year: !!params.year?.value ? params.year.value : '',
+                    }}
                 />
               </Card.Body>
             </Card>
@@ -354,9 +356,6 @@ const Projects = () => {
                       <th>
                         <strong>{Translate[lang]?.name}</strong>
                       </th>
-                      {/* <th>
-                        <strong>{Translate[lang]?.cost}</strong>
-                      </th> */}
                       <th>
                         <strong>{Translate[lang]?.department}</strong>
                       </th>
@@ -408,7 +407,7 @@ const Projects = () => {
                   </tbody>
                 </Table>
                 </>}
-                {hasData === 0 && <NoData />}
+                {(hasData === 0 && !loading) && <NoData />}
                 <Pagination
                     setData={setData}
                     service={projectsService}
@@ -416,10 +415,10 @@ const Projects = () => {
                     setHasData={setHasData}
                     setLoading={setLoading}
                     search={search}
-                    // param={{
-                    //   month: !!params.month?.value ? params.month.value : '',
-                    //   year: !!params.year?.value ? params.year.value : '',
-                    // }}
+                    param={{
+                      month: !!params.month?.value ? params.month.value : '',
+                      year: !!params.year?.value ? params.year.value : '',
+                    }}
                 />
               </Card.Body>
             </Card>

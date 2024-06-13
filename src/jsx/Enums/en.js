@@ -4,6 +4,7 @@ export const English = {
   package_num: "Package Num",
   existing_projects: "Existing Projects",
   hosting_projects: "Hosting Projects",
+  hosting: "Hosting",
   server: "Server",
   leave_balance: "Leave Balance", 
   on_vaction: "On Vacation",

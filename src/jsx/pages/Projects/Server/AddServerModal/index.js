@@ -15,6 +15,8 @@ const AddServerModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
         contract_no: '',
         price: "",
         package_num: '',
+        start_date: '',
+        end_date: '',
     })
     const [isAdd, setIsAdd] = useState(false)
     const [loading, setLoading] = useState(false)
@@ -159,6 +161,40 @@ const AddServerModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
                                 }}
                                 value={formData.package_num}
                                 onChange={(e) => setFormData({...formData, package_num: e.target.value})}
+                            />
+                        </Col>
+                        <Col md={6}>
+                            <AvField
+                                label={Translate[lang]?.start_date}
+                                type='date'
+                                placeholder={Translate[lang]?.start_date}
+                                bsSize="lg"
+                                name='start_date'
+                                validate={{
+                                    required: {
+                                        value: true,
+                                        errorMessage: Translate[lang].field_required
+                                    }
+                                }}
+                                value={formData.start_date}
+                                onChange={(e) => setFormData({...formData, start_date: e.target.value})}
+                            />
+                        </Col>
+                        <Col md={6}>
+                            <AvField
+                                label={Translate[lang]?.end_date}
+                                type='date'
+                                placeholder={Translate[lang]?.end_date}
+                                bsSize="lg"
+                                name='end_date'
+                                validate={{
+                                    required: {
+                                        value: true,
+                                        errorMessage: Translate[lang].field_required
+                                    }
+                                }}
+                                value={formData.end_date}
+                                onChange={(e) => setFormData({...formData, end_date: e.target.value})}
                             />
                         </Col>
                     </Row>

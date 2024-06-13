@@ -29,13 +29,13 @@ const ProjectsCardItem = ({item, setItem, index, setAddModal, setShouldUpdate}) 
             <td>{item?.phone}</td>
             <td>{item?.client_email}</td>
             <td>{item?.client_civil_id}</td>
-            <td>{item?.work_day}</td>
+            <td>{item?.work_day || '-'}</td>
             <td>{!!item.contract_date ? item.contract_date.split('T')[0] : '-'}</td>
             <td>{item?.price}</td>
             <td>{item?.maintenance}</td>
             <td>
                 {item?.project_attachments?.length ? item?.project_attachments?.map(att=>{
-                    return <a href={att.url} target='_blank'>
+                    return <a href={att.url} target='_blank' rel="noreferrer">
                         <i className="la la-file-pdf" style={{fontSize: '2.5rem'}}></i>
                     </a>
                 }) : '-'}
@@ -44,7 +44,7 @@ const ProjectsCardItem = ({item, setItem, index, setAddModal, setShouldUpdate}) 
             <td>
                 <Badge
                     variant={
-                        item?.type === "existing_projects" ? "outline-success" : "outline-secondary"
+                        item?.type === "new" ? "outline-success" : "outline-secondary"
                     }
                     >
                     {Translate[lang][item?.type] || '-'}

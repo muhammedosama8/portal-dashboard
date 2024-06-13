@@ -4,6 +4,7 @@ export const Arabic = {
   package_num: "رقم الحزمة",
   existing_projects: "المشاريع القائمة",
   hosting_projects: "المشاريع المستضيفة",
+  hosting: "مستضيفة",
   server: "الخادم",
   leave_balance: "رصيد الإجازة", 
   on_vaction: "في الإجازة",

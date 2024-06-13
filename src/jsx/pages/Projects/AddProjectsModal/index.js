@@ -63,6 +63,7 @@ const AddProjectsModal = ({addModal, setAddModal, item, type, setShouldUpdate})=
             setFormData({
                 id: item?.id,
                 name: item?.name,
+                type: item?.type === "new" ? {label: Translate[lang].existing_projects, value: "existing_projects"} : {label: Translate[lang].hosting_projects, value: "hosting_projects"},
                 price: item?.price,
                 department: {
                     label: item.department.name,
@@ -107,11 +108,12 @@ const AddProjectsModal = ({addModal, setAddModal, item, type, setShouldUpdate})=
             client_civil_id: formData.client_civil_id,
             contract_date: formData.contract_date,
             price: formData.price,
-            work_day: formData.works_day,
             maintenance: formData.maintaince.value,
             department_id: formData.department.value,
-            project_attachments: formData.contracts
+            project_attachments: formData.contracts,
+            type: formData?.type?.value === "existing_projects" ? "new" : "hosting"
         }
+        if(formData?.type?.value === "existing_projects") data['work_day']= formData.works_day
 
         if(isAdd){
             projectsService.create(data)?.then(res=>{

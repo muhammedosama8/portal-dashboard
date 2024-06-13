@@ -17,7 +17,7 @@ const YearDropDown = ({params, changeParams}) => {
         setYearOptions([...years])
     },[lang])
 
-    return <>
+    return <div style={{textAlign: "left"}}>
         <label className="d-block">{Translate[lang].year}</label>
         <Select
             placeholder={Translate[lang]?.select}
@@ -25,6 +25,6 @@ const YearDropDown = ({params, changeParams}) => {
             value={params?.year}
             onChange={(e) => changeParams(e, 'year')}
         />
-    </>
+    </div>
 }
 export default YearDropDown;

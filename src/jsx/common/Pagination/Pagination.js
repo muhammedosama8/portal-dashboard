@@ -25,11 +25,12 @@ const Pagination = ({
     let params = {
       offset: (page - 1) * 40,
       limit: 40,
-      isDeleted: isDeleted,
-      ...param
+      // isDeleted: isDeleted,
     };
     if (!!type) params["type"] = type;
     if (!!search) params["search"] = search;
+    if (!!param?.year) params["year"] = param?.year;
+    if (!!param.month) params["month"] = param?.month;
 
     service?.getList({ ...params }).then((res) => {
       if (res?.status === 200) {
@@ -45,7 +46,7 @@ const Pagination = ({
       setLoading(false);
     });
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
-  }, [page, isDeleted, shouldUpdate, search]);
+  }, [page, shouldUpdate, search, param?.month, param.year]);
 
   useEffect(() => {
     setPage(1);
