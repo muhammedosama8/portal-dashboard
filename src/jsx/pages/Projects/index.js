@@ -316,8 +316,8 @@ const Projects = () => {
                     <Select
                         placeholder={Translate[lang]?.select}
                         options={[
-                          {label: Translate[lang].existing_projects, value: "existing_projects"},
-                          {label: Translate[lang].hosting_projects, value: "hosting_projects"},
+                          {label: Translate[lang].existing_projects, value: "new"},
+                          {label: Translate[lang].hosting_projects, value: "hosting"},
                         ]}
                         value={params?.type}
                         onChange={(e) => changeParams(e, 'type')}
@@ -418,6 +418,7 @@ const Projects = () => {
                     param={{
                       month: !!params.month?.value ? params.month.value : '',
                       year: !!params.year?.value ? params.year.value : '',
+                      type: !!params.type?.value ? params.type.value : '',
                     }}
                 />
               </Card.Body>

@@ -31,6 +31,7 @@ const Pagination = ({
     if (!!search) params["search"] = search;
     if (!!param?.year) params["year"] = param?.year;
     if (!!param.month) params["month"] = param?.month;
+    if (!!param.type) params["type"] = param?.type;
 
     service?.getList({ ...params }).then((res) => {
       if (res?.status === 200) {
@@ -46,7 +47,7 @@ const Pagination = ({
       setLoading(false);
     });
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
-  }, [page, shouldUpdate, search, param?.month, param.year]);
+  }, [page, shouldUpdate, search, param?.month, param.year, param.type]);
 
   useEffect(() => {
     setPage(1);
