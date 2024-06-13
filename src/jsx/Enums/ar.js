@@ -1,6 +1,6 @@
 export const Arabic = {
   contract_no: "رقم العقد",
-  start_day: "اضافه يوم البدء",
+  start_day: "يوم البدء",
   package_num: "رقم الحزمة",
   existing_projects: "المشاريع القائمة",
   hosting_projects: "المشاريع المستضيفة",
