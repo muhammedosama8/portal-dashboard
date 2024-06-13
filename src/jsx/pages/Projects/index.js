@@ -116,7 +116,14 @@ const Projects = () => {
                   color: tab === selectTab ? "var(--primary)" : "#7E7E7E",
                   borderBottom: tab === selectTab ? "2px solid" : "none",
                 }}
-                onClick={() => setSelectTab(tab)}
+                onClick={() => {
+                  setSelectTab(tab)
+                  setParams({
+                    month: '',
+                    year: '',
+                    type: ''
+                  })
+                }}
                 >
                   {Translate[lang][tab]}
               </p>
