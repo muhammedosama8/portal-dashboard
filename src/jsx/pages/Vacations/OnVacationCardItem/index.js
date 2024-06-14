@@ -25,6 +25,7 @@ const OnVacationCardItem = ({item, setItem, index, setAddModal, setShouldUpdate}
             <td>{item?.departure_day ? item?.departure_day?.split('T')[0] : '-'}</td>
             <td>{item?.return_day ? item?.return_day?.split('T')[0] : '-'}</td>
             <td>{Translate[lang][item?.reason]}</td>
+            <td>{Translate[lang][item?.type]}</td>
             <td>{item?.number_of_days || "-"}</td>
             <td>
                 {/* {(isExist("edit_vacations") || isExist("delete_vacations")) && <Dropdown>

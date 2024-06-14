@@ -175,6 +175,9 @@ const Vacations = () => {
                       <strong>{Translate[lang]?.reason}</strong>
                     </th>
                     <th>
+                      <strong>{Translate[lang]?.type}</strong>
+                    </th>
+                    <th>
                       <strong>{Translate[lang]?.number_of_days}</strong>
                     </th>
                     <th></th>
@@ -238,6 +241,9 @@ const Vacations = () => {
                     </th>
                     <th>
                       <strong>{Translate[lang]?.reason}</strong>
+                    </th>
+                    <th>
+                      <strong>{Translate[lang]?.type}</strong>
                     </th>
                     <th>
                       <strong>{Translate[lang]?.number_of_days}</strong>
