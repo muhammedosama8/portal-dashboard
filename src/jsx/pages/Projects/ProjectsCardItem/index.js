@@ -31,6 +31,7 @@ const ProjectsCardItem = ({item, setItem, index, setAddModal, setShouldUpdate}) 
             <td>{item?.client_civil_id}</td>
             <td>{item?.work_day || '-'}</td>
             <td>{!!item.contract_date ? item.contract_date.split('T')[0] : '-'}</td>
+            <td>{item.contract_no || '-'}</td>
             <td>{item?.price}</td>
             <td>{item?.maintenance}</td>
             <td>

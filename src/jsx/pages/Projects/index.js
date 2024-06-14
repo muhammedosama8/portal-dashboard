@@ -74,6 +74,7 @@ const Projects = () => {
               Translate[lang]?.client_civil_id,
               Translate[lang]?.works_day,
               Translate[lang]?.contract_date,
+              Translate[lang]?.contract_no,
               Translate[lang]?.price,
               Translate[lang]?.maintaince,
               Translate[lang]?.start_date,
@@ -91,6 +92,7 @@ const Projects = () => {
                 client_civil_id: item?.client_civil_id,
                 works_day: item?.work_day,
                 contract_date: item?.contract_date?.split('T')[0],
+                contract_no: item?.contract_no || '-',
                 price: item?.price,
                 maintaince: item?.maintenance,
                 maintaince_start_date: item?.maintenance_start_date?.split('T')[0] || '-',
@@ -237,6 +239,9 @@ const Projects = () => {
                       </th>
                       <th>
                         <strong>{Translate[lang]?.contract_date}</strong>
+                      </th>
+                      <th>
+                        <strong>{Translate[lang]?.contract_no}</strong>
                       </th>
                       <th>
                         <strong>{Translate[lang]?.price}</strong>
@@ -386,6 +391,9 @@ const Projects = () => {
                       </th>
                       <th>
                         <strong>{Translate[lang]?.contract_date}</strong>
+                      </th>
+                      <th>
+                        <strong>{Translate[lang]?.contract_no}</strong>
                       </th>
                       <th>
                         <strong>{Translate[lang]?.price}</strong>

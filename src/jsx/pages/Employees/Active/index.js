@@ -43,7 +43,7 @@ const ActiveEmployees = () => {
         Translate[lang]?.personal_email,
         Translate[lang]?.company_email,
         Translate[lang]?.start_date,
-        Translate[lang]?.assets,
+        Translate[lang]?.custody,
       ]
       if(isExist("view_salaries")){
         rows.push(Translate[lang]?.salary)
@@ -152,7 +152,7 @@ const ActiveEmployees = () => {
                       <strong>{Translate[lang]?.salary}</strong>
                     </th>}
                     <th>
-                      <strong>{Translate[lang]?.assets}</strong>
+                      <strong>{Translate[lang]?.custody}</strong>
                     </th>
                     <th>
                       <strong>{Translate[lang]?.attachments}</strong>

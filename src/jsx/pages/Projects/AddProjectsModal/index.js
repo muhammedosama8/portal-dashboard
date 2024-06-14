@@ -42,6 +42,7 @@ const AddProjectsModal = ({addModal, setAddModal, item, type, setShouldUpdate})=
         client_email: "",
         client_civil_id: "",
         contract_date: "",
+        contract_no: "",
         contracts: [],
     })
     const [isAdd, setIsAdd] = useState(false)
@@ -79,6 +80,7 @@ const AddProjectsModal = ({addModal, setAddModal, item, type, setShouldUpdate})=
                 client_phone: item.phone,
                 client_civil_id: item.client_civil_id,
                 contract_date: item.contract_date.split('T')[0],
+                contract_no: item?.contract_no,
                 contracts: item.project_attachments?.map(res=> res?.url)
             })
         }
@@ -107,6 +109,7 @@ const AddProjectsModal = ({addModal, setAddModal, item, type, setShouldUpdate})=
             client_email: formData.client_email,
             client_civil_id: formData.client_civil_id,
             contract_date: formData.contract_date,
+            contract_no: formData?.contract_no,
             price: formData.price,
             maintenance: formData.maintaince.value,
             department_id: formData.department.value,
@@ -302,6 +305,23 @@ const AddProjectsModal = ({addModal, setAddModal, item, type, setShouldUpdate})=
                                 }}
                                 value={formData.contract_date}
                                 onChange={(e) => setFormData({...formData, contract_date: e.target.value})}
+                            />
+                        </Col>
+                        <Col md={6}>
+                            <AvField
+                                label={Translate[lang]?.contract_no}
+                                type='number'
+                                placeholder={Translate[lang]?.contract_no}
+                                bsSize="lg"
+                                name='contract_no'
+                                validate={{
+                                    required: {
+                                        value: true,
+                                        errorMessage: Translate[lang].field_required
+                                    }
+                                }}
+                                value={formData.contract_no}
+                                onChange={(e) => setFormData({...formData, contract_no: e.target.value})}
                             />
                         </Col>
                         <Col md={6}>

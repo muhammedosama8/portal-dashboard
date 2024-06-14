@@ -25,12 +25,6 @@ export const customRules= [
     ]
   },
   {
-    label: "users",
-    rules:[
-      {label: "Delete", value: 'delete_users'},
-    ]
-  },
-  {
     label: "custody",
     rules:[
       {label: "Add", value: 'add_custody'},

@@ -88,7 +88,7 @@ const AddAssetsModal = ({addModal, setAddModal, item, view, setShouldUpdate})=>{
         >
             <AvForm className='form-horizontal' onValidSubmit={submit}>
                 <Modal.Header>
-                    <Modal.Title>{isAdd ? Translate[lang]?.add : view ? Translate[lang]?.view : Translate[lang]?.edit} {Translate[lang]?.assets}</Modal.Title>
+                    <Modal.Title>{isAdd ? Translate[lang]?.add : view ? Translate[lang]?.view : Translate[lang]?.edit} {Translate[lang]?.custody}</Modal.Title>
                     <Button
                         variant=""
                         className="close"
@@ -101,7 +101,7 @@ const AddAssetsModal = ({addModal, setAddModal, item, view, setShouldUpdate})=>{
                     </Button>
                 </Modal.Header>
                 <Modal.Body>
-                    <label>{Translate[lang].assets}:</label>
+                    <label>{Translate[lang].custody}:</label>
                     <Row>
                         <Col md={4} sm={12}>
                             <Form.Check

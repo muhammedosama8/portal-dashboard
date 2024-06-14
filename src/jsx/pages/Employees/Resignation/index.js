@@ -41,7 +41,7 @@ const Resignation = () => {
         Translate[lang]?.personal_email,
         Translate[lang]?.company_email,
         Translate[lang]?.start_date,
-        Translate[lang]?.assets,
+        Translate[lang]?.custody,
       ]
       if(isExist("view_salaries")){
         rows.push(Translate[lang]?.salary)

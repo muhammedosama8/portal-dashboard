@@ -299,7 +299,7 @@ const AddEmployeesModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
                         </Col>
                         <Col md={12} className='mb-3'>
                             <label className="text-label">
-                                {Translate[lang].assets}
+                                {Translate[lang].custody}
                             </label>
                             <Select
                                 placeholder={Translate[lang]?.select}
