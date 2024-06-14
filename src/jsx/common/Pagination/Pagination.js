@@ -17,7 +17,6 @@ const Pagination = ({
 }) => {
   const [totalPages, setTotalPages] = useState();
   const [page, setPage] = useState(1);
-  const [pageShow, setPageShow] = useState(1);
   const lang = useSelector((state) => state.auth.lang);
 
   useEffect(() => {
@@ -25,7 +24,7 @@ const Pagination = ({
     let params = {
       offset: (page - 1) * 40,
       limit: 40,
-      // isDeleted: isDeleted,
+      ...param
     };
     if (!!type) params["type"] = type;
     if (!!search) params["search"] = search;
@@ -62,7 +61,6 @@ const Pagination = ({
               className="previous-button"
               onClick={() => {
                 setPage((prev) => parseInt(prev) - 1);
-                setPageShow(page - 1);
               }}
               disabled={parseInt(page) === 1}
             >
@@ -82,7 +80,6 @@ const Pagination = ({
                     <p
                       onClick={() => {
                         setPage(num);
-                        setPageShow(num);
                       }}
                       style={{
                         padding: "5px 10px",
@@ -103,7 +100,6 @@ const Pagination = ({
               className="next-button"
               onClick={() => {
                 setPage((prev) => parseInt(prev) + 1);
-                setPageShow(page + 1);
               }}
               disabled={parseInt(page) === totalPages}
             >
