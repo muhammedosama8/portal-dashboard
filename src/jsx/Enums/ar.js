@@ -1,4 +1,8 @@
 export const Arabic = {
+  provision: "توفير",
+  paid: "مدفوع",
+  not_paid: "غير مدفوع",
+  indemnity: "تعويض",
   contract_no: "رقم العقد",
   start_day: "يوم البدء",
   package_num: "رقم الحزمة",

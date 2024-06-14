@@ -4,11 +4,8 @@ import {AvField, AvForm} from "availity-reactstrap-validation";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import Select from "react-select";
-import uploadImg from '../../../../images/upload-img.png';
 import VacationsService from "../../../../services/VacationsService";
 import { Translate } from "../../../Enums/Tranlate";
-import Loader from "../../../common/Loader";
-import BaseService from "../../../../services/BaseService";
 import EmployeesService from "../../../../services/EmployeesService";
 
 const AddVacationsModal = ({modal, setModal, item, setShouldUpdate})=>{
@@ -17,16 +14,21 @@ const AddVacationsModal = ({modal, setModal, item, setShouldUpdate})=>{
         departure_day: '',
         return_day: "",
         reason: '',
+        type: '',
         number_of_days: ""
     })
+    const lang = useSelector(state=> state.auth.lang)
     const [reasonsOptions, setReasonsOptions] = useState([])
+    const typesOptions= [
+        {label: Translate[lang].paid, value: "paid"},
+        {label: Translate[lang].not_paid, value: "not_paid"},
+    ]
     const [employeesOptions, setEmployeesOptions] = useState([])
     const [isAdd, setIsAdd] = useState(false)
     const [loading, setLoading] = useState(false)
     const [maxDate, setMaxDate] = useState('');
     const vacationsService = new VacationsService()
     const employeesService = new EmployeesService()
-    const lang = useSelector(state=> state.auth.lang)
 
     useEffect(() => {
         if(Object.keys(item)?.length === 0){
@@ -200,6 +202,17 @@ const AddVacationsModal = ({modal, setModal, item, setShouldUpdate})=>{
                                 onChange={(e) => setFormData({...formData, number_of_days: e.target.value})}
                             />
                         </Col>}
+                        <Col md={6}>
+                            <label className="text-label">
+                                {Translate[lang].type}
+                            </label>
+                            <Select
+                                placeholder={Translate[lang]?.select}
+                                options={typesOptions}
+                                value={formData.type}
+                                onChange={(e) => setFormData({...formData, type: e})}
+                            />
+                        </Col>
                     </Row>
             </Modal.Body>
             <Modal.Footer>

@@ -4,7 +4,6 @@ import { Card } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { Translate } from "../../Enums/Tranlate";
 import './style.scss'
-import EmployeesService from "../../../services/EmployeesService";
 import Salaries from "../Salaries";
 import Vacations from "../Vacations";
 import Deduction from "../Deduction";
@@ -12,8 +11,9 @@ import ActiveEmployees from ".//Active";
 import Resignation from "./Resignation";
 import NoticePeriod from "./NoticePeriod";
 import DeletedEmployees from "./Deleted";
+import Provision from "../Provision";
 
-const tabs = ['employees', 'salaries', "vacations", "deduction"]
+const tabs = ['employees', 'salaries', "vacations", "deduction", "provision"]
 const employeesTabs = ['active', "notice_period", 'resignation', 'deleted']
 
 const Employees = () => {
@@ -22,7 +22,6 @@ const Employees = () => {
     const lang = useSelector(state=> state.auth?.lang)
     const Auth = useSelector((state) => state.auth?.auth);
     const isExist = (data) => Auth?.admin?.admin_roles?.includes(data);
-    const employeesService = new EmployeesService()
 
   return (
     <Fragment>
@@ -78,6 +77,7 @@ const Employees = () => {
       {(selectTab === 'salaries' && isExist(`view_salaries`)) && <Salaries />}
       {(selectTab === 'vacations' && isExist(`view_vacations`)) && <Vacations />}
       {(selectTab === 'deduction' && isExist(`view_deduction`)) && <Deduction />}
+      {(selectTab === 'provision' && isExist(`view_provision`)) && <Provision />}
     </Fragment>
   );
 };

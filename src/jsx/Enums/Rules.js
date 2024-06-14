@@ -94,6 +94,12 @@ export const customRules= [
     ]
   },
   {
+    label: "provision",
+    rules:[
+      {label: "View", value: 'view_provision'},
+    ]
+  },
+  {
     label: "vacations",
     rules:[
       {label: "Add", value: 'add_vacations'},

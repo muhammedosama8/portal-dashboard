@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
 import { useState } from "react";
 import {
   Row,
@@ -36,12 +36,22 @@ const Projects = () => {
     const lang = useSelector(state=> state.auth?.lang)
     const Auth = useSelector((state) => state.auth?.auth);
     const isExist = (data) => Auth?.admin?.admin_roles?.includes(data);
+    const [customParams, setCustomParams] = useState({})
     const [params, setParams] = useState({
       month: "",
       year: "",
       type: ""
     })
     const projectsService = new ProjectsService()
+
+    useEffect(()=>{
+      let data = []
+      if(!!params.month) data["month"] = params?.month?.value
+      if(!!params.year) data["year"] = params?.year?.value
+      if(!!params.type) data["type"] = params?.type?.value
+      setCustomParams({...data})
+      setShouldUpdate(prev => !prev)
+    },[params])
 
     const changeParams = (e, name) => {
       setParams({...params, [name]: e})
@@ -268,10 +278,7 @@ const Projects = () => {
                     setHasData={setHasData}
                     setLoading={setLoading}
                     search={search}
-                    param={{
-                      month: !!params.month?.value ? params.month.value : '',
-                      year: !!params.year?.value ? params.year.value : '',
-                    }}
+                    param={customParams}
                 />
               </Card.Body>
             </Card>
@@ -426,11 +433,7 @@ const Projects = () => {
                     setHasData={setHasData}
                     setLoading={setLoading}
                     search={search}
-                    param={{
-                      month: !!params.month?.value ? params.month.value : '',
-                      year: !!params.year?.value ? params.year.value : '',
-                      type: !!params.type?.value ? params.type.value : '',
-                    }}
+                    param={customParams}
                 />
               </Card.Body>
             </Card>

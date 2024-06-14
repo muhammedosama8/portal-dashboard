@@ -1,4 +1,8 @@
 export const English = {
+  provision: "Provision",
+  paid: "Paid",
+  not_paid: "Not Paid",
+  indemnity: "Indemnity",
   contract_no: "Contract No",
   start_day: "Start Day",
   package_num: "Package Num",
