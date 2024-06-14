@@ -14,16 +14,14 @@ import Pagination from "../../../common/Pagination/Pagination";
 import { Translate } from "../../../Enums/Tranlate";
 import CardItem from "./CardItem";
 import '../style.scss'
-import ProjectsService from "../../../../services/ProjectsService";
 import MonthDropDown from "../../../Enums/MonthDropDown";
 import YearDropDown from "../../../Enums/YearDropDown";
 import print from "../../../Enums/Print";
 import AddServerModal from "./AddServerModal";
+import ServerService from "../../../../services/ServerService";
 
 const Server = () => {
-    const [data, setData] = useState([
-      {id: 1, project: {label: 'proj 1', value: 1}, price: 123, contract_no: '1234321', package_num: 123}
-    ])
+    const [data, setData] = useState([])
     const [addModal, setAddModal] = useState(false)
     const [item, setItem] = useState({})
     const [hasData, setHasData] = useState(1)
@@ -37,51 +35,51 @@ const Server = () => {
       month: "",
       year: ""
     })
-    const projectsService = new ProjectsService()
+    const serverService = new ServerService()
 
     const changeParams = (e, name) => {
       setParams({...params, [name]: e})
     } 
 
     const printProjects = () => {
-      // setLoading(true)
-      // projectsService.getList((!!params.month.value || !!params.year.value) ? {
-      //   month: !!params.month.value ? params.month.value : '',
-      //   year: !!params.year.value ? params.year.value : ''
-      // } : '').then(res=>{
-      //   if(res?.status === 200){
-      //     print(
-      //       Translate[lang]?.server,
-      //       [ "id", 
-      //         Translate[lang]?.project_name, 
-      //         Translate[lang]?.contract_no,
-      //         Translate[lang]?.price,
-      //         Translate[lang]?.package_num
-      //       ],
-      //       lang,
-      //       res?.data?.data?.data.map(item => {
-      //         return {
-      //           id: item.id,
-      //           project_name: item.project.label,
-      //           contract_no: item.contract_no,
-      //           price: item?.price,
-      //           package_num: item?.package_num
-      //         };
-      //       })
-      //     )
-      //   }
-      //   setLoading(false)
-      // }).catch(()=> setLoading(false))
+      setLoading(true)
+      serverService.getList((!!params.month.value || !!params.year.value) ? {
+        month: !!params.month.value ? params.month.value : '',
+        year: !!params.year.value ? params.year.value : ''
+      } : '').then(res=>{
+        if(res?.status === 200){
+          print(
+            Translate[lang]?.server,
+            [ "id", 
+              Translate[lang]?.project_name, 
+              Translate[lang]?.contract_no,
+              Translate[lang]?.price,
+              Translate[lang]?.package_num
+            ],
+            lang,
+            res?.data?.data?.data.map(item => {
+              return {
+                id: item?.id,
+                project_name: item?.project?.name,
+                contract_no: item?.contract_no,
+                price: item?.price,
+                package_num: item?.package_num
+              };
+            })
+          )
+        }
+        setLoading(false)
+      }).catch(()=> setLoading(false))
     }
 
     const getAll = () =>{
-      // setLoading(true)
-      // projectsService.getList()?.then(res=>{
-      //   if(res?.status === 200){
-      //     setData(res?.data?.data?.data)
-      //   }
-      //   setLoading(false)
-      // }).catch(()=>setLoading(false))
+      setLoading(true)
+      serverService.getList()?.then(res=>{
+        if(res?.status === 200){
+          setData(res?.data?.data?.data)
+        }
+        setLoading(false)
+      }).catch(()=>setLoading(false))
     }
   return (
     <Fragment>
@@ -190,18 +188,18 @@ const Server = () => {
                 {(hasData === 0 && !loading) && <div className='text-center'>
                   <NoData />
                 </div>}
-                {/* <Pagination
+                <Pagination
                     setData={setData}
-                    service={projectsService}
+                    service={serverService}
                     shouldUpdate={shouldUpdate}
                     setHasData={setHasData}
                     setLoading={setLoading}
                     search={search}
-                    // param={{
-                    //   month: !!params.month?.value ? params.month.value : '',
-                    //   year: !!params.year?.value ? params.year.value : '',
-                    // }}
-                /> */}
+                    param={{
+                      month: !!params.month?.value ? params.month.value : '',
+                      year: !!params.year?.value ? params.year.value : '',
+                    }}
+                />
               </Card.Body>
             </Card>
           </Col>

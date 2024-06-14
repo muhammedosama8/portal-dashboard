@@ -1,16 +1,16 @@
 import { useState } from "react";
 import { Dropdown } from "react-bootstrap";
 import { useSelector } from "react-redux";
-import ProjectsService from "../../../../../services/ProjectsService";
 import DeleteModal from "../../../../common/DeleteModal";
 import { Translate } from "../../../../Enums/Tranlate";
+import ServerService from "../../../../../services/ServerService";
 
 const CardItem = ({item, setItem, index, setAddModal, setShouldUpdate}) =>{
     const [deleteModal, setDeleteModal] = useState(false)
     const Auth = useSelector(state=> state.auth?.auth)
     const lang = useSelector(state=> state.auth?.lang)
     const isExist = (data)=> Auth?.admin?.admin_roles?.includes(data)
-    const projectsService = new ProjectsService()
+    const serverService = new ServerService()
 
     return(
         <tr key={index} className='text-center'>
@@ -18,7 +18,7 @@ const CardItem = ({item, setItem, index, setAddModal, setShouldUpdate}) =>{
                 <strong>{item.id}</strong>
             </td>
             <td>
-                {item?.project?.label}
+                {item?.project?.name}
             </td>
             <td>
                 {item?.contract_no}
@@ -43,9 +43,9 @@ const CardItem = ({item, setItem, index, setAddModal, setShouldUpdate}) =>{
             </td>
             {deleteModal && <DeleteModal
                       open={deleteModal}
-                      titleMsg={item?.name}
+                      titleMsg={item?.project?.name}
                       deletedItem={item}
-                      modelService={projectsService}
+                      modelService={serverService}
                       onCloseModal={setDeleteModal}
                       setShouldUpdate={setShouldUpdate}
                     />}
