@@ -93,7 +93,7 @@ const Assets = () => {
       <Row>
         <Col lg={12}>
           <Card>
-            <Card.Body className={`${hasData === 0 && 'text-center'} `}>
+            <Card.Body>
             {loading && <div style={{height: '300px'}}>
                 <Loader />
               </div>}
@@ -133,7 +133,9 @@ const Assets = () => {
                     })}
                 </tbody>
               </Table>}
-              {hasData === 0 && <NoData />}
+              {(hasData === 0 && !loading) && <div className='text-center'>
+                <NoData />
+              </div>}
               <Pagination
                   setData={setData}
                   service={assetsService}

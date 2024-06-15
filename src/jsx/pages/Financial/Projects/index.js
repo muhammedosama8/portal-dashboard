@@ -18,6 +18,7 @@ import NoData from "../../../common/NoData";
 import Loader from "../../../common/Loader";
 import { Translate } from "../../../Enums/Tranlate";
 import Pagination from "../../../common/Pagination/Pagination";
+import print from "../../../Enums/Print";
 
 const Projects = () => {
     const [data, setData] = useState([])
@@ -57,6 +58,39 @@ const Projects = () => {
     }).catch(()=>setLoading(false))
   }
 
+  const printProjects = () => {
+    setLoading(true)
+    projectsService.getList((!!params.month.value || !!params.year.value) ? {
+      month: !!params.month.value ? params.month.value : '',
+      year: !!params.year.value ? params.year.value : ''
+    } : '').then(res=>{
+      if(res?.status === 200){
+        print(
+          Translate[lang]?.projects,
+          [ "id", 
+            Translate[lang]?.name, 
+            Translate[lang]?.department,
+            Translate[lang]?.client_name,
+            Translate[lang]?.client_phone,
+            Translate[lang]?.cost,
+          ],
+          lang,
+          res?.data?.data?.data.map(item => {
+            return {
+              id: item.id,
+              name: item.name,
+              department: item?.department?.name,
+              client_name: item?.client_name,
+              client_phone: item?.phone,
+              price: item?.price
+            };
+          })
+        )
+      }
+      setLoading(false)
+    }).catch(()=> setLoading(false))
+  }
+
   return (
     <Fragment>
       <Card className="mb-3">
@@ -77,7 +111,7 @@ const Projects = () => {
             ></div>
           </div>
           <div>
-            <Button variant='secondary' type="button" className='mx-2 h-75'>
+            <Button variant='secondary' onClick={printProjects} type="button" className='mx-2 h-75'>
               {Translate[lang].print}
             </Button>
           </div>
@@ -87,21 +121,21 @@ const Projects = () => {
       <Row>
         <Col lg={12}>
           <Card>
-            <Card.Body className={`${hasData === 0 && 'text-center'} `}>
-              <Row className="mb-3">
-                <Col md={2} sm={5}>
+            <Card.Body>
+              <Row className="mb-3" style={{alignItems: 'end'}}>
+                <Col md={3} sm={5}>
                   <MonthDropDown
                     params={params} 
                     changeParams={changeParams} 
                   />
                 </Col>
-                <Col md={2} sm={5}>
+                <Col md={3} sm={5}>
                   <YearDropDown
                     params={params} 
                     changeParams={changeParams} 
                   />
                 </Col>
-                <Col md={2} sm={5}>
+                <Col md={3} sm={5}>
                   <Button 
                     type="button" 
                     variant="outline-secondary"
@@ -152,7 +186,9 @@ const Projects = () => {
                     })}
                 </tbody>
               </Table>}
-              {hasData === 0 && <NoData />}
+              {(hasData === 0 && !loading) && <div className='text-center'>
+                <NoData />
+              </div>}
               <Pagination
                   setData={setData}
                   service={projectsService}
