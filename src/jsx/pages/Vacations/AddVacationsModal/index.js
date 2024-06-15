@@ -68,6 +68,7 @@ const AddVacationsModal = ({modal, setModal, item, setShouldUpdate})=>{
             departure_day: formData?.departure_day,
             return_day: formData?.return_day,
             reason: formData?.reason?.value,
+            type: formData?.type?.value
         }
         if(formData?.reason?.value === "emergency_leave") data["number_of_days"] = formData?.number_of_days
 

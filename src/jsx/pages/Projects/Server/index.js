@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
 import { useState } from "react";
 import {
   Row,
@@ -31,6 +31,7 @@ const Server = () => {
     const lang = useSelector(state=> state.auth?.lang)
     const Auth = useSelector((state) => state.auth?.auth);
     const isExist = (data) => Auth?.admin?.admin_roles?.includes(data);
+    const [customParams, setCustomParams] = useState({})
     const [params, setParams] = useState({
       month: "",
       year: ""
@@ -71,6 +72,14 @@ const Server = () => {
         setLoading(false)
       }).catch(()=> setLoading(false))
     }
+
+    useEffect(()=>{
+      let data = {}
+      if(!!params.month) data["month"] = params.month.value
+      if(!!params.year) data["year"] = params.year.value
+      setCustomParams(data)
+      setShouldUpdate(prev=> !prev)
+    },[params])
 
     const getAll = () =>{
       setLoading(true)
@@ -195,10 +204,7 @@ const Server = () => {
                     setHasData={setHasData}
                     setLoading={setLoading}
                     search={search}
-                    param={{
-                      month: !!params.month?.value ? params.month.value : '',
-                      year: !!params.year?.value ? params.year.value : '',
-                    }}
+                    param={customParams}
                 />
               </Card.Body>
             </Card>

@@ -7,6 +7,7 @@ import Select from "react-select";
 import ProjectsService from "../../../../../services/ProjectsService";
 import { Translate } from "../../../../Enums/Tranlate";
 import ServerService from "../../../../../services/ServerService";
+import MaintenanceProjectsService from "../../../../../services/MaintenanceProjectsService";
 
 const AddServerModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
     const lang = useSelector(state=> state.auth.lang)
@@ -21,11 +22,10 @@ const AddServerModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
     const [isAdd, setIsAdd] = useState(false)
     const [loading, setLoading] = useState(false)
     const [projectsOptions, setProjectsOptions] = useState([])
-    const projectsService = new ProjectsService()
     const serverService = new ServerService()
 
     useEffect(()=>{
-        projectsService.getList().then(res=>{
+        new MaintenanceProjectsService().getList().then(res=>{
             if(res.status === 200){
                 let data = res.data.data.data.map(project=>{
                     return{

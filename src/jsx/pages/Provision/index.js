@@ -15,6 +15,7 @@ import CardItem from "./CardItem";
 import './style.scss'
 import VacationsService from "../../../services/VacationsService";
 import IndemnityCardItem from "./IndemnityCardItem";
+import ProvisionService from "../../../services/ProvisionService";
 
 const Provision = () => {
   const tabs = ["provision", "indemnity"]
@@ -115,7 +116,7 @@ const Provision = () => {
               {hasData === 0 && <NoData />}
               <Pagination
                   setData={setData}
-                  service={vacationsService}
+                  service={new ProvisionService()}
                   shouldUpdate={shouldUpdate}
                   setHasData={setHasData}
                   setLoading={setLoading}

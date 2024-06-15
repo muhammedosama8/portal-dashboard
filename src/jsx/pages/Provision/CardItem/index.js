@@ -10,7 +10,7 @@ const CardItem = ({item, index}) =>{
             <td>{item?.job_title}</td>
             <td>{item?.department?.name}</td>
             <td>{item?.accrued_leave}</td>
-            <td>{item?.provision || '-'}</td>
+            <td>{Number.parseFloat(item?.provision_KWD).toFixed(3) || '-'}</td>
             </tr>
     )
 }

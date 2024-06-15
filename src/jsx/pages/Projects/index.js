@@ -22,6 +22,7 @@ import print from "../../Enums/Print";
 import Select from "react-select";
 import Server from "./Server";
 import ProjectsCardItem from "./ProjectsCardItem";
+import MaintenanceProjectsService from "../../../services/MaintenanceProjectsService";
 
 const tabs = ['projects', 'maintaince', 'server']
 const Projects = () => {
@@ -436,7 +437,7 @@ const Projects = () => {
                 </div>}
                 <Pagination
                     setData={setData}
-                    service={projectsService}
+                    service={new MaintenanceProjectsService()}
                     shouldUpdate={shouldUpdate}
                     setHasData={setHasData}
                     setLoading={setLoading}
