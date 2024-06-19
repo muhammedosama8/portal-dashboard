@@ -130,7 +130,7 @@ const AddServerModal = ({addModal, setAddModal, item, setShouldUpdate})=>{
                         <Col md={6}>
                             <AvField
                                 label={Translate[lang]?.contract_no}
-                                type='number'
+                                type='text'
                                 placeholder={Translate[lang]?.contract_no}
                                 bsSize="lg"
                                 name='contract_no'
