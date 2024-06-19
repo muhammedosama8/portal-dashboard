@@ -10,43 +10,26 @@ import NoData from "../../common/NoData";
 import Pagination from "../../common/Pagination/Pagination";
 import { Translate } from "../../Enums/Tranlate";
 import CardItem from "./CardItem";
+import PaymentLinkService from "../../../services/PaymentLinkService";
 
 const PaymentLink = () => {
-  const [price, setPrice] = useState("");
   const [url, setUrl] = useState("");
   const [copied, setCopied] = useState(false);
   const [shouldUpdate, setShouldUpdate] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [hasData, setHasData] = useState(false);
+  const [hasData, setHasData] = useState(null);
   const [data, setData] = useState([]);
   const [formData, setFormData] = useState({
-    total_price: '',
+    price: '',
     client_name: "",
-    country_code: "",
-    phone: "",
+    client_phone: "",
+    client_email: "",
     paymentType: ""
   });
-  const [countriesOptions, setCountriesOptions] = useState([])
   const [typesOptions, setTypesOptions] = useState([])
-  // const adminBuyService = new AdminBuyService();
+  const paymentLinkService = new PaymentLinkService();
   // const countryiesService = new CountryiesService()
   const lang = useSelector((state) => state.auth.lang);
-
-  useEffect(()=>{
-  //   countryiesService?.getList().then(res=>{
-  //     if(res && res?.status === 200){
-  //        let data = res.data.data?.map(item=>{
-  //           return{
-  //              label: `${lang === 'en' ? item.name_en : item.name_ar} (${item?.country_code || ''})`,
-  //              name_en: item.name_en,
-  //              country_code: item?.country_code,
-  //              type: item.type
-  //           }
-  //        })
-  //        setCountriesOptions(data)
-  //     }
-  //  })
-  },[])
 
   useEffect(()=>{
     setTypesOptions([
@@ -61,17 +44,16 @@ const PaymentLink = () => {
   const submit = () => {
     let data = { 
       ...formData ,
-      country_code: formData.country_code.country_code,
-      total_price: Number(formData.total_price),
+      price: Number(formData.price),
       paymentType: formData?.paymentType?.value
     };
     setLoading(true);
-    // adminBuyService.create(data).then((res) => {
-    //   if (res?.status === 201) {
-    //     setUrl(res?.data?.data);
-    //   }
-    //   setLoading(false);
-    // });
+    paymentLinkService.create(data).then((res) => {
+      if (res?.status === 201) {
+        setUrl(res?.data?.data);
+      }
+      setLoading(false);
+    });
   };
 
   const CopyToClipboardButton = ({ text }) => {
@@ -127,13 +109,29 @@ const PaymentLink = () => {
                 onChange={(e) => handleFormData(e)}
               />
             </Col>
-            <Col lg={3} md={6}>
+            <Col lg={4} md={6} >
+              <AvField
+                label={`${Translate[lang]?.email}`}
+                type="email"
+                placeholder={Translate[lang]?.email}
+                value={formData.client_email}
+                name="client_email"
+                validate={{
+                  required: {
+                    value: true,
+                    errorMessage: Translate[lang].field_required,
+                  },
+                }}
+                onChange={(e) => handleFormData(e)}
+              />
+            </Col>
+            <Col lg={4} md={6}>
               <AvField
                 label={`${Translate[lang]?.phone}`}
                 type="number"
                 placeholder={Translate[lang]?.phone}
-                value={formData.phone}
-                name="phone"
+                value={formData.client_phone}
+                name="client_phone"
                 validate={{
                   required: {
                     value: true,
@@ -153,13 +151,13 @@ const PaymentLink = () => {
                      onChange={(e)=> setFormData({...formData, country_code: e})}
                   />
             </Col> */}
-            <Col lg={2} md={6}>
+            <Col lg={4} md={6}>
               <AvField
                 label={`${Translate[lang]?.price}`}
                 type="number"
                 placeholder={Translate[lang]?.price}
-                value={formData.total_price}
-                name="total_price"
+                value={formData.price}
+                name="price"
                 min="0.0000000000001"
                 validate={{
                   required: {
@@ -170,7 +168,7 @@ const PaymentLink = () => {
                 onChange={(e) => handleFormData(e)}
               />
             </Col>
-            <Col lg={3} md={6}>
+            <Col lg={4} md={6}>
               <label className="text-label">{Translate[lang]?.type}</label>
                   <Select
                      value={formData?.paymentType}
@@ -230,6 +228,9 @@ const PaymentLink = () => {
                       <strong>{Translate[lang]?.customer_name}</strong>
                     </th>
                     <th>
+                      <strong>{Translate[lang]?.email}</strong>
+                    </th>
+                    <th>
                       <strong>{Translate[lang]?.phone}</strong>
                     </th>
                     <th>
@@ -256,13 +257,13 @@ const PaymentLink = () => {
                 </tbody>
               </Table>}
               {hasData === 0 && <NoData />}
-              {/* <Pagination
+              <Pagination
                   setData={setData}
-                  service={adminBuyService}
+                  service={paymentLinkService}
                   shouldUpdate={shouldUpdate}
                   setHasData={setHasData}
                   setLoading={setLoading}
-              /> */}
+              />
             </Card.Body>
     </Card>
     </>

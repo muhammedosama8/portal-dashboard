@@ -5,17 +5,18 @@ const CardItem = ({item, index}) =>{
                 {item.id}
             </td>
             <td>{item.client_name}</td>
+            <td>{item.client_email}</td>
             <td>
-                {item.country_code} {item.phone}
+                {item.client_phone}
             </td>
             <td>
-                {item.total_price}
+                {item.price}
             </td>
             <td>
-                {item.payment.TrackID}
+                {item.TrackID}
             </td>
             <td>
-                {item.payment.TranID}
+                {item.TranID}
             </td>
         </tr>
     )
