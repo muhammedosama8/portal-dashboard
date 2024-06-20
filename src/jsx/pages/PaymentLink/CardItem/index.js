@@ -18,6 +18,18 @@ const CardItem = ({item, index}) =>{
             <td>
                 {item.TranID}
             </td>
+            <td>
+                {item.PaymentID}
+            </td>
+            <td>
+                {item.invoice_id}
+            </td>
+            <td>
+                {item?.createdAt?.split("T")[0]}
+            </td>
+            <td>
+                {item.payment_type}
+            </td>
         </tr>
     )
 }

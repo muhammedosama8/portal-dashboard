@@ -242,6 +242,18 @@ const PaymentLink = () => {
                     <th>
                       <strong>{Translate[lang]?.tran_id}</strong>
                     </th>
+                    <th>
+                      <strong>{Translate[lang]?.payment}</strong>
+                    </th>
+                    <th>
+                      <strong>{Translate[lang]?.invoice_id}</strong>
+                    </th>
+                    <th>
+                      <strong>{Translate[lang]?.date}</strong>
+                    </th>
+                    <th>
+                      <strong>{Translate[lang]?.type}</strong>
+                    </th>
                   </tr>
                 </thead>
 

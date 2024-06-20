@@ -1,6 +1,9 @@
 export const Arabic = {
   provision: "توفير",
   paid: "مدفوع",
+  track_id: "Track ID",
+  tran_id: "Tran ID",
+  date: "اليوم",
   not_paid: "غير مدفوع",
   maintaince_start_date: "تاريخ بدأ الصيانه",
   maintaince_end_date: "تاريخ انتهاء الصيانه",

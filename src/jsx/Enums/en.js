@@ -1,5 +1,9 @@
 export const English = {
   provision: "Provision",
+  track_id: "Track ID",
+  tran_id: "Tran ID",
+  date: "Date",
+  type: "Type",
   paid: "Paid",
   not_paid: "Not Paid",
   indemnity: "Indemnity",
@@ -338,7 +342,7 @@ export const English = {
   confirm_des: "You can add another product by change some information",
   add_more_products: "Add More Same Product",
   reference_id: "Reference Id",
-  invoice_id: "Invoice Id",
+  invoice_id: "Invoice ID",
   post_date: "Post Date",
   createdAt: "CreatedAt",
   order_id: "Order Id",
