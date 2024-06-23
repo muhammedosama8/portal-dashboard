@@ -18,6 +18,12 @@ const AddProjectsModal = ({addModal, setAddModal, item, type, setShouldUpdate})=
         {label: Translate[lang].existing_projects, value: "existing_projects"},
         {label: Translate[lang].hosting_projects, value: "hosting_projects"},
     ]
+    const paymentOptions = [
+        {label: "Full Payment", value: "full_payment"},
+        {label: "Two Payment", value: "two_payment"},
+        {label: "Three Payment", value: "three_payment"},
+        {label: "Four Payment", value: "four_payment"},
+    ]
     const maintainces = [
         {label: '1', value: '1'},
         {label: '2', value: '2'},
@@ -43,6 +49,7 @@ const AddProjectsModal = ({addModal, setAddModal, item, type, setShouldUpdate})=
         client_civil_id: "",
         contract_date: "",
         contract_no: "",
+        payment_method: "",
         contracts: [],
     })
     const [isAdd, setIsAdd] = useState(false)
@@ -78,6 +85,7 @@ const AddProjectsModal = ({addModal, setAddModal, item, type, setShouldUpdate})=
                 client_name: item.client_name,
                 client_email: item.client_email,
                 client_phone: item.phone,
+                payment_method: paymentOptions?.find(res => res?.value === item?.payment_method) || '',
                 client_civil_id: item.client_civil_id,
                 contract_date: item.contract_date.split('T')[0],
                 contract_no: item?.contract_no,
@@ -112,6 +120,7 @@ const AddProjectsModal = ({addModal, setAddModal, item, type, setShouldUpdate})=
             contract_no: formData?.contract_no,
             price: formData.price,
             maintenance: formData.maintaince.value,
+            payment_method: formData.payment_method.value,
             department_id: formData.department.value,
             project_attachments: formData.contracts,
             type: formData?.type?.value === "existing_projects" ? "new" : "hosting"
@@ -340,6 +349,19 @@ const AddProjectsModal = ({addModal, setAddModal, item, type, setShouldUpdate})=
                                 }}
                                 value={formData.price}
                                 onChange={(e) => setFormData({...formData, price: e.target.value})}
+                            />
+                        </Col>
+                        <Col md={6}>
+                            <label className="text-label">
+                                {Translate[lang].payment_method}
+                            </label>
+                            <Select
+                                placeholder={Translate[lang]?.select}
+                                options={paymentOptions}
+                                value={formData.payment_method}
+                                onChange={(e) => {
+                                    setFormData({...formData, payment_method: e});
+                                }}
                             />
                         </Col>
                         {formData?.type?.value === "existing_projects" && <Col md={6}>
