@@ -233,6 +233,7 @@ export const English = {
   has_amount: "Has Amount",
   amount: "Amount",
   available_amount: "Available Amount",
+  kwd: "KWD",
   payment_method: "Payment Method",
   total_price: "Total Price",
   sub_price: "Sub Price",

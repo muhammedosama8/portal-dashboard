@@ -15,8 +15,8 @@ import Pagination from "../../common/Pagination/Pagination";
 import { Translate } from "../../Enums/Tranlate";
 import CardItem from "./CardItem";
 import './style.scss'
-import PaymentService from "../../../services/PaymentService";
 import PaymentModal from "./PaymentModal";
+import ProjectsPaymentService from "../../../services/ProjectsPaymentService";
 
 const Payment = () => {
     const [paymentOptions, setPaymentOptions] = useState([
@@ -40,7 +40,7 @@ const Payment = () => {
     const [loading, setLoading] = useState(false)
     const [shouldUpdate, setShouldUpdate] = useState(false)
     const lang = useSelector(state=> state.auth?.lang)
-    const paymentService = new PaymentService()
+    const projectsService = new ProjectsPaymentService()
 
   return (
     <Fragment>
@@ -98,7 +98,7 @@ const Payment = () => {
                       <strong>{Translate[lang]?.client_phone}</strong>
                     </th>
                     <th>
-                      <strong>{Translate[lang]?.payment}</strong>
+                      <strong>{Translate[lang]?.payment_method}</strong>
                     </th>
                     {/* <th></th> */}
                   </tr>
@@ -118,14 +118,14 @@ const Payment = () => {
                 </tbody>
               </Table>}
               {hasData === 0 && <NoData />}
-              {/* <Pagination
+              <Pagination
                   setData={setData}
-                  service={paymentService}
+                  service={projectsService}
                   shouldUpdate={shouldUpdate}
                   setHasData={setHasData}
                   setLoading={setLoading}
                   search={search}
-              /> */}
+              />
             </Card.Body>
           </Card>
         </Col>

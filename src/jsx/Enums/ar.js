@@ -234,6 +234,7 @@ export const Arabic = {
   amount: "الكميه",
   available_amount: "الكميه المتاحه",
   payment_method: "طريقه الدفع",
+  kwd: "دينار كويتي",
   total_price: "السعر الكلي",
   sub_price: "السعر الجزئي",
   total: "الكلي",

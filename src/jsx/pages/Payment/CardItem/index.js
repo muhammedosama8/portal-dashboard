@@ -17,46 +17,25 @@ const CardItem = ({item, setItem, index, setAddModal, setShouldUpdate}) =>{
                 <strong>{item.id}</strong>
             </td>
             <td>
-                {item?.project_name}
+                {item?.name}
             </td>
             <td>{item.price}</td>
             <td>{item.client_name}</td>
-            <td>{item.client_phone}</td>
+            <td>{item.phone}</td>
             <td>
-                <Button 
-                    variant="outline-primary"
+                {item?.payment_method ? <Button 
+                    variant="secondary"
                     onClick={()=>{
                         setItem(item)
                         setAddModal(true)
                     }}
+                    style={{
+                        textTransform: 'capitalize'
+                    }}
                 >
-                    {item?.payment || '-'}
-                </Button>
+                    {item?.payment_method}
+                </Button> : '-'}
             </td>
-            {/* <td>
-                <Dropdown>
-                    <Dropdown.Toggle
-                        className="light sharp i-false"
-                    >
-                        <i className="la la-ellipsis-v" style={{fontSize: '27px'}}></i>
-                    </Dropdown.Toggle>
-                    <Dropdown.Menu>
-                        <Dropdown.Item onClick={()=> {
-                            setItem(item)
-                            setAddModal(true)
-                        }}> {Translate[lang]?.edit}</Dropdown.Item>
-                        <Dropdown.Item onClick={()=> setDeleteModal(true)}>{Translate[lang]?.delete}</Dropdown.Item>
-                    </Dropdown.Menu>
-                </Dropdown>
-            </td> */}
-            {/* {deleteModal && <DeleteModal
-                      open={deleteModal}
-                      titleMsg={item?.product_name}
-                      deletedItem={item}
-                      modelService={productsService}
-                      onCloseModal={setDeleteModal}
-                      setShouldUpdate={setShouldUpdate}
-                    />} */}
             </tr>
     )
 }

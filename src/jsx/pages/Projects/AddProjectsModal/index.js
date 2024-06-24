@@ -19,10 +19,10 @@ const AddProjectsModal = ({addModal, setAddModal, item, type, setShouldUpdate})=
         {label: Translate[lang].hosting_projects, value: "hosting_projects"},
     ]
     const paymentOptions = [
-        {label: "Full Payment", value: "full_payment"},
-        {label: "Two Payment", value: "two_payment"},
-        {label: "Three Payment", value: "three_payment"},
-        {label: "Four Payment", value: "four_payment"},
+        {label: "Full Payment", value: "full"},
+        {label: "Two Payment", value: "two"},
+        {label: "Three Payment", value: "three"},
+        {label: "Four Payment", value: "four"},
     ]
     const maintainces = [
         {label: '1', value: '1'},
@@ -85,7 +85,6 @@ const AddProjectsModal = ({addModal, setAddModal, item, type, setShouldUpdate})=
                 client_name: item.client_name,
                 client_email: item.client_email,
                 client_phone: item.phone,
-                payment_method: paymentOptions?.find(res => res?.value === item?.payment_method) || '',
                 client_civil_id: item.client_civil_id,
                 contract_date: item.contract_date.split('T')[0],
                 contract_no: item?.contract_no,
@@ -120,7 +119,6 @@ const AddProjectsModal = ({addModal, setAddModal, item, type, setShouldUpdate})=
             contract_no: formData?.contract_no,
             price: formData.price,
             maintenance: formData.maintaince.value,
-            payment_method: formData.payment_method.value,
             department_id: formData.department.value,
             project_attachments: formData.contracts,
             type: formData?.type?.value === "existing_projects" ? "new" : "hosting"
@@ -128,6 +126,7 @@ const AddProjectsModal = ({addModal, setAddModal, item, type, setShouldUpdate})=
         if(formData?.type?.value === "existing_projects") data['work_day']= formData.works_day
 
         if(isAdd){
+            data['payment_method'] = formData?.payment_method?.value
             projectsService.create(data)?.then(res=>{
                 if(res && res?.status === 201){
                     toast.success('Project Added Successfully')
@@ -351,7 +350,7 @@ const AddProjectsModal = ({addModal, setAddModal, item, type, setShouldUpdate})=
                                 onChange={(e) => setFormData({...formData, price: e.target.value})}
                             />
                         </Col>
-                        <Col md={6}>
+                        {isAdd && <Col md={6}>
                             <label className="text-label">
                                 {Translate[lang].payment_method}
                             </label>
@@ -363,7 +362,7 @@ const AddProjectsModal = ({addModal, setAddModal, item, type, setShouldUpdate})=
                                     setFormData({...formData, payment_method: e});
                                 }}
                             />
-                        </Col>
+                        </Col>}
                         {formData?.type?.value === "existing_projects" && <Col md={6}>
                             <AvField
                                 label={Translate[lang]?.works_day}
