@@ -103,6 +103,15 @@ export const customRules= [
     ]
   },
   {
+    label: "sick",
+    rules:[
+      {label: "Add", value: 'add_sick'},
+      // {label: "Edit", value: 'edit_sick'},
+      // {label: "Delete", value: 'delete_sick'},
+      {label: "View", value: 'view_sick'},
+    ]
+  },
+  {
     label: "expenses",
     rules:[
       {label: "Add", value: 'add_expenses'},
