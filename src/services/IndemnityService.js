@@ -1,11 +1,10 @@
 import BaseService from "./BaseService";
 import { API_BASE_URL_ENV } from "../jsx/common/common";
 
-const apiEndpoint = API_BASE_URL_ENV() + "/employee/sickHistory";
+const apiEndpoint = API_BASE_URL_ENV() + "/employee/indemnity";
 
-export default class SickHistoryService extends BaseService {
+export default class IndemnityService extends BaseService {
   constructor() {
     super(apiEndpoint);
   }
-
 }

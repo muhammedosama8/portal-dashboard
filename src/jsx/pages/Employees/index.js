@@ -14,7 +14,7 @@ import DeletedEmployees from "./Deleted";
 import Provision from "../Provision";
 import Sick from "../Sick";
 
-const tabs = ['employees', 'salaries', "vacations", "deduction", "provision", "sick"]
+const tabs = ['employees', 'salaries', "vacations", "deduction", "provision", "sick_leave"]
 const employeesTabs = ['active', "notice_period", 'resignation', 'deleted']
 
 const Employees = () => {
@@ -79,7 +79,7 @@ const Employees = () => {
       {(selectTab === 'vacations' && isExist(`view_vacations`)) && <Vacations />}
       {(selectTab === 'deduction' && isExist(`view_deduction`)) && <Deduction />}
       {(selectTab === 'provision' && isExist(`view_provision`)) && <Provision />}
-      {(selectTab === 'sick' && isExist(`view_sick`)) && <Sick />}
+      {(selectTab === 'sick_leave' && isExist(`view_sick_leave`)) && <Sick />}
     </Fragment>
   );
 };

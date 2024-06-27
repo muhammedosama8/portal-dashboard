@@ -103,12 +103,12 @@ export const customRules= [
     ]
   },
   {
-    label: "sick",
+    label: "sick_leave",
     rules:[
-      {label: "Add", value: 'add_sick'},
+      {label: "Add", value: 'add_sick_leave'},
       // {label: "Edit", value: 'edit_sick'},
       // {label: "Delete", value: 'delete_sick'},
-      {label: "View", value: 'view_sick'},
+      {label: "View", value: 'view_sick_leave'},
     ]
   },
   {

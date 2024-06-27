@@ -1,23 +1,24 @@
-import { useSelector } from "react-redux";
-import { Translate } from "../../../Enums/Tranlate";
-
 const IndemnityCardItem = ({item, index}) =>{
-    const lang = useSelector(state=> state.auth?.lang)
-
     return(
         <tr key={index} className='text-center'>
             <td>
                 <strong>{item.id}</strong>
             </td>
             <td>
-                {item?.employee?.name}
+                {item?.name}
             </td>
-            <td>{item?.employee?.job_title}</td>
-            <td>{item?.employee?.department?.name}</td>
-            <td>{item?.departure_day ? item?.departure_day?.split('T')[0] : '-'}</td>
-            <td>{item?.return_day ? item?.return_day?.split('T')[0] : '-'}</td>
-            <td>{Translate[lang][item?.reason]}</td>
-            <td>{item?.number_of_days || "-"}</td>
+            <td>{item?.job_title}</td>
+            <td>{item?.department?.name}</td>
+            <td>{item?.start_date?.split('T')[0]}</td>
+            <td>{item?.civil_id}</td>
+            <td>{item?.accrued_leave}</td>
+            <td>{item?.salary}</td>
+            <td>{item?.dailyIndemnity}</td>
+            <td>{item?.exceedingYearsIndemnity}</td>
+            <td>{item?.first5YearsIndemnity}</td>
+            <td>{item?.monthlyIndemnity}</td>
+            <td>{item?.paidLeaveBalanceAmount}</td>
+            <td>{item?.totalIndemnity}</td>
             </tr>
     )
 }

@@ -375,5 +375,11 @@ export const Arabic = {
   september: 'سبتمبر', 
   october: 'أكتوبر', 
   november: 'نوفمبر', 
-  december: 'ديسمبر'
+  december: 'ديسمبر',
+  daily_indemnity: "التعويض اليومي",
+  exceeding_years_indemnity: "تعويض السنوات التجاوز",
+  first5YearsIndemnity: "تعويض السنوات الخمس الأولى",
+  monthly_indemnity: "التعويض الشهري",
+  paid_leave_balance_amount: "مبلغ رصيد الإجازة المدفوعة",
+  total_indemnity: "التعويض الإجمالي",
 };

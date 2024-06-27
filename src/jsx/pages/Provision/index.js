@@ -16,6 +16,7 @@ import './style.scss'
 import VacationsService from "../../../services/VacationsService";
 import IndemnityCardItem from "./IndemnityCardItem";
 import ProvisionService from "../../../services/ProvisionService";
+import IndemnityService from "../../../services/IndemnityService";
 
 const Provision = () => {
   const tabs = ["provision", "indemnity"]
@@ -26,7 +27,6 @@ const Provision = () => {
     const [loading, setLoading] = useState(false)
     const [shouldUpdate, setShouldUpdate] = useState(false)
     const lang = useSelector(state=> state.auth?.lang)
-    const vacationsService = new VacationsService()
 
   return (
     <Fragment>
@@ -113,7 +113,7 @@ const Provision = () => {
                     })}
                 </tbody>
               </Table>}
-              {hasData === 0 && <NoData />}
+              {(hasData === 0 && !loading) && <NoData />}
               <Pagination
                   setData={setData}
                   service={new ProvisionService()}
@@ -150,18 +150,35 @@ const Provision = () => {
                       <strong>{Translate[lang]?.department}</strong>
                     </th>
                     <th>
-                      <strong>{Translate[lang].departure_day}</strong>
+                      <strong>{Translate[lang]?.start_date}</strong>
                     </th>
                     <th>
-                      <strong>{Translate[lang]?.return_day}</strong>
+                      <strong>{Translate[lang].civil_id}</strong>
                     </th>
                     <th>
-                      <strong>{Translate[lang]?.reason}</strong>
+                      <strong>{Translate[lang]?.accrued_leave}</strong>
                     </th>
                     <th>
-                      <strong>{Translate[lang]?.number_of_days}</strong>
+                      <strong>{Translate[lang]?.salary}</strong>
                     </th>
-                    <th></th>
+                    <th>
+                      <strong>{Translate[lang]?.daily_indemnity}</strong>
+                    </th>
+                    <th>
+                      <strong>{Translate[lang]?.exceeding_years_indemnity}</strong>
+                    </th>
+                    <th>
+                      <strong>{Translate[lang]?.first5YearsIndemnity}</strong>
+                    </th>
+                    <th>
+                      <strong>{Translate[lang]?.monthly_indemnity}</strong>
+                    </th>
+                    <th>
+                      <strong>{Translate[lang]?.paid_leave_balance_amount}</strong>
+                    </th>
+                    <th>
+                      <strong>{Translate[lang]?.total_indemnity}</strong>
+                    </th>
                   </tr>
                 </thead>
 
@@ -175,15 +192,15 @@ const Provision = () => {
                     })}
                 </tbody>
               </Table>}
-              {hasData === 0 && <NoData />}
-              {/* <Pagination
+              {(hasData === 0 && !loading)&& <NoData />}
+              <Pagination
                   setData={setData}
-                  service={new OnVacationsService()}
+                  service={new IndemnityService()}
                   shouldUpdate={shouldUpdate}
                   setHasData={setHasData}
                   setLoading={setLoading}
                   search={search}
-              /> */}
+              />
             </Card.Body>
           </Card>
         </Col>

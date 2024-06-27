@@ -377,5 +377,11 @@ export const English = {
   september: 'September', 
   october: 'October', 
   november: 'November', 
-  december: 'December'
+  december: 'December',
+  daily_indemnity: "Daily Indemnity",
+  exceeding_years_indemnity: "Exceeding Years Indemnity",
+  first5YearsIndemnity: "First 5 Years Indemnity",
+  monthly_indemnity: "Monthly Indemnity",
+  paid_leave_balance_amount: "Paid Leave Balance Amount",
+  total_indemnity: "Total Indemnity",
 };
