@@ -32,7 +32,7 @@ const CardItem = ({item, setItem, index, setResignationModal, setAddModal, setSh
             <td>
                 {item.employee_attach?.length > 0 ? item.employee_attach?.map((att=>(
                     <a href={att.url} target='_black' rel="noreferrer">
-                        <img src={att.url} alt='attachment' width='40' height='40' style={{marginRight: '4px',marginLeft: '4px',}} />
+                        <i className="la la-file-pdf" style={{fontSize: '2.5rem'}}></i>
                     </a>
                 ))) : '-'}
             </td>

@@ -35,7 +35,7 @@ const ActiveEmployees = () => {
 
     const printProjects = () => {
       setLoading(true)
-      let rows = [ "id", 
+      let rows = [
         Translate[lang]?.name, 
         Translate[lang]?.civil_id,
         Translate[lang]?.job_title,
@@ -56,7 +56,6 @@ const ActiveEmployees = () => {
             lang,
             res?.data?.data?.data.map(item => {
               let info = {
-                id: item.id,
                 name: item.name,
                 civil_id: item.civil_id,
                 job_title: item.job_title,
