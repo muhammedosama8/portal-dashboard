@@ -42,7 +42,7 @@ const CardItem = ({item, setItem, index, setAddModal, setShouldUpdate}) =>{
             <td>{item?.maintenance_end_date?.split("T")[0] || '-'}</td>
             <td>
                 {item?.project_attachments?.length ? item?.project_attachments?.map(att=>{
-                    return <a href={att.url} target='_blank' rel="noreferrer">
+                    return <a href={att?.url} target='_blank' rel="noreferrer">
                         <i className="la la-file-pdf" style={{fontSize: '2.5rem'}}></i>
                     </a>
                 }) : '-'}

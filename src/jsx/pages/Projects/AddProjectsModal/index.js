@@ -146,6 +146,9 @@ const AddProjectsModal = ({addModal, setAddModal, item, type, setShouldUpdate})=
     }
 
     const fileHandler = (e) => {
+        if(e.target.files?.length === 0){
+            return
+        }
         setLoading(true)
         let files = e.target.files
         const filesData = Object.values(files)
@@ -153,7 +156,7 @@ const AddProjectsModal = ({addModal, setAddModal, item, type, setShouldUpdate})=
         if (filesData?.length) {
             new BaseService().postUpload(filesData[0]).then(res=>{
                 if(res?.status === 200){
-                    setFormData({...formData, contracts: [res?.data?.url ]})
+                    setFormData({...formData, contracts: [...formData?.contracts,res?.data?.url ]})
                 }
                 setLoading(false)
             }).catch(()=> setLoading(false))
@@ -425,7 +428,7 @@ const AddProjectsModal = ({addModal, setAddModal, item, type, setShouldUpdate})=
                                         style={{fontSize: '1.2rem'}}
                                         onClick={()=> deleteImg(index)}
                                     ></i>
-                                    <a href={contract} target='_blank' className="w-100 h-100">
+                                    <a href={contract} target='_blank' className="w-100 h-100" rel="noreferrer">
                                         <i className="la la-file-pdf" style={{fontSize: '8rem'}}></i>
                                     </a>
                                 </div>
