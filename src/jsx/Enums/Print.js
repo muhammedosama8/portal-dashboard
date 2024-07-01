@@ -62,12 +62,12 @@ const print = (title, headRow, lang, data) =>{
             </head>
             <body style="direction: ${lang==='en' ? 'ltr' : 'rtl'}; font-family: Cairo, sans-serif; margin: 0; padding: 0">
                 <div style='text-align: left'>
-                    <img src=${logo} alt='logo' style="height: 100px; margin-top: 24px; margin-left: 24px" />  
+                    <img src=${logo} alt='logo' style="height: 100px; margin-top: 24px; margin-left: 30px" />  
                 </div>  
                 ${page}
                 <div style="position: fixed; bottom: 0; left: 0;
                     width: 100%; text-align: left;
-                    padding: 0.5cm 0; margin-left: 24px;
+                    padding: 0.5cm 0; margin-left: 30px;
                     margin-top: 24px; background: #fff;
                     border-top: 1px solid #000;
                 ">
