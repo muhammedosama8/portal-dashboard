@@ -38,7 +38,7 @@ const print = (title, headRow, lang, data) =>{
 
     let page = `
     <div style="min-height: 100vh; margin-top: 3rem; margin-bottom: 1rem">
-    <div style="width: 98%; margin: auto">
+    <div style="width: 98%; margin: auto;margin-bottom: 7rem">
     <table style='width: 100%;'>
         <thead>
             <tr>
@@ -67,12 +67,12 @@ const print = (title, headRow, lang, data) =>{
                 ${page}
                 <div style="position: fixed; bottom: 0; left: 0;
                     width: 100%; text-align: left;
-                    font-size: 12px; padding: 0.5cm 0;
+                    padding: 0.5cm 0; margin-left: 24px;
                     margin-top: 24px; background: #fff;
                     border-top: 1px solid #000;
                 ">
-                    <p style='margin-bottom: 4px; margin-top: 0'>info@cloudliftsolution.com</p>
-                    <p style='margin-bottom: 4px; margin-top: 0'>www.cloudliftsolution.com</p>
+                    <p style='margin-bottom: 8px; margin-top: 0'>info@cloudliftsolution.com</p>
+                    <p style='margin-bottom: 8px; margin-top: 0'>www.cloudliftsolution.com</p>
                     <p style='margin: 0'>Office# 26, 7th floor, Jawharat Al Khaleej, Fahad al Salem street, Kuwait City.</p>
                 </div>
             </body>
