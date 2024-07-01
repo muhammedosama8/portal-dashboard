@@ -1,3 +1,5 @@
+import logo from '../../images/logo-bg.png'
+
 const print = (title, headRow, lang, data) =>{
     let printWindow = window.open("", "_blank");
     let rowsData= ``
@@ -54,10 +56,25 @@ const print = (title, headRow, lang, data) =>{
     let htmlCode = `
         <html>
             <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
                 <title>${title}</title>
             </head>
             <body style="direction: ${lang==='en' ? 'ltr' : 'rtl'}; font-family: Cairo, sans-serif; margin: 0; padding: 0">
+                <div style='text-align: left'>
+                    <img src=${logo} alt='logo' style="height: 100px; margin-top: 24px; margin-left: 24px" />  
+                </div>  
                 ${page}
+                <div style="position: fixed; bottom: 0; left: 0;
+                    width: 100%; text-align: left;
+                    font-size: 12px; padding: 0.5cm 0;
+                    margin-top: 24px; background: #fff;
+                    border-top: 1px solid #000;
+                ">
+                    <p style='margin-bottom: 4px; margin-top: 0'>info@cloudliftsolution.com</p>
+                    <p style='margin-bottom: 4px; margin-top: 0'>www.cloudliftsolution.com</p>
+                    <p style='margin: 0'>Office# 26, 7th floor, Jawharat Al Khaleej, Fahad al Salem street, Kuwait City.</p>
+                </div>
             </body>
         </html>
     `;
