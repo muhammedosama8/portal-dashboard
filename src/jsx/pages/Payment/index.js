@@ -20,7 +20,8 @@ import ProjectsPaymentService from "../../../services/ProjectsPaymentService";
 
 const Payment = () => {
     const [paymentOptions, setPaymentOptions] = useState([
-      {label: 'One Payment', value: 'one'},
+      {label: 'Select', value: ''},
+      {label: 'One Payment', value: 'full'},
       {label: 'Two Payment', value: 'two'},
       {label: 'Three Payment', value: 'three'},
       {label: 'Four Payment', value: 'four'},
@@ -66,7 +67,10 @@ const Payment = () => {
                 placeholder={Translate[lang]?.select}
                 options={paymentOptions}
                 value={paymentSelected}
-                onChange={(e) => setPaymentSelected(e)}
+                onChange={(e) => {
+                  setPaymentSelected(e)
+                  setShouldUpdate(prev => !prev)
+                }}
             />
           </div>
         </Card.Body >
@@ -123,6 +127,9 @@ const Payment = () => {
                   service={projectsService}
                   shouldUpdate={shouldUpdate}
                   setHasData={setHasData}
+                  param={paymentSelected?.value ? {
+                    payment_method: paymentSelected?.value
+                  } : ''}
                   setLoading={setLoading}
                   search={search}
               />
