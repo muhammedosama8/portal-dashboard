@@ -50,6 +50,10 @@ const ActiveEmployees = () => {
       }
       employeesService.getList().then(res=>{
         if(res?.status === 200){
+          if(res?.data?.data?.data?.length === 0){
+            setLoading(false)
+            return
+          }
           print(
             Translate[lang]?.employees,
             rows,

@@ -110,7 +110,7 @@ const Deduction = () => {
       <Row>
         <Col lg={12}>
           <Card>
-            <Card.Body className={`${hasData === 0 && 'text-center'} `}>
+            <Card.Body>
               <Row className="mb-3">
                 <Col md={2} sm={5}>
                   <MonthDropDown
@@ -163,7 +163,9 @@ const Deduction = () => {
                     })}
                 </tbody>
               </Table>}
-              {hasData === 0 && <NoData />}
+              {hasData === 0 && <div className='text-center'>
+                <NoData />
+              </div>}
               <Pagination
                   setData={setData}
                   service={deductionService}

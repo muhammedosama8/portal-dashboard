@@ -63,10 +63,10 @@ const print = (title, headRow, lang, data) =>{
     `;
     printWindow.document.write(htmlCode);
 
-    // printWindow.document.close();
+    printWindow.document.close();
 
-    // setTimeout(() => {
-    //   printWindow.print();
-    // }, 2500);
+    setTimeout(() => {
+      printWindow.print();
+    }, 1500);
 }
 export default print

@@ -54,18 +54,24 @@ const Salaries = () => {
         year: params.year.value,
       }).then(res=>{
         if(res?.status === 200){
+          if(res?.data?.data?.data?.length === 0){
+            setLoading(false)
+            return
+          }
           print(
             Translate[lang]?.salary,
             [ "id", 
               Translate[lang]?.employee_name, 
-              Translate[lang]?.salary
+              Translate[lang]?.salary,
+              Translate[lang]?.payroll_salary
             ],
             lang,
             res?.data?.data?.data.map(item => {
               return {
                 id: item.id,
                 name: item.name,
-                salary: item.salary,
+                salary: Number.parseFloat(item.salary).toFixed(3),
+                payroll_salary: Number.parseFloat(item.salary_after_deduction).toFixed(3)
               };
             })
           )
@@ -107,7 +113,7 @@ const Salaries = () => {
       <Row>
         <Col lg={12}>
           <Card>
-            <Card.Body className={`${hasData === 0 && 'text-center'} `}>
+            <Card.Body>
               <Row className="mb-3">
                 <Col md={2} sm={5}>
                   <MonthDropDown 
@@ -158,7 +164,9 @@ const Salaries = () => {
                 </tbody>
               </Table>
               </>}
-              {hasData === 0 && <NoData />}
+              {hasData === 0 && <div className='text-center'> 
+                <NoData />
+              </div>}
               <Pagination
                   setData={setData}
                   service={salariesService}

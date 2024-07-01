@@ -68,29 +68,40 @@ const Leads = () => {
     }
 
     const printProjects = () => {
-      print(
-        Translate[lang]?.leads,
-        [ "id", 
-          Translate[lang]?.lead_name, 
-          Translate[lang]?.client_name, 
-          Translate[lang]?.client_phone, 
-          Translate[lang]?.client_email, 
-          Translate[lang]?.reference,
-          Translate[lang]?.status
-        ],
-        lang,
-        data.map(item => {
-          return {
-            id: item.id,
-            name: item.lead_name,
-            client_name: item.client_name,
-            client_phone: item.client_phone,
-            client_email: item.client_email,
-            reference: item.reference,
-            status: item.status,
-          };
-        })
-      )
+      leadService.getList({
+        month: params.month.value,
+        year: params.year.value,
+      }).then(res => {
+        if(res?.status === 200){
+          if(res?.data?.data?.data?.length === 0){
+            setLoading(false)
+            return
+          }
+          print(
+            Translate[lang]?.leads,
+            [ "id", 
+              Translate[lang]?.lead_name, 
+              Translate[lang]?.client_name, 
+              Translate[lang]?.client_phone, 
+              Translate[lang]?.client_email, 
+              Translate[lang]?.reference,
+              Translate[lang]?.status
+            ],
+            lang,
+            res?.data?.data?.data?.map(item => {
+              return {
+                id: item.id,
+                name: item.lead_name,
+                client_name: item.client_name,
+                client_phone: item.client_phone,
+                client_email: item.client_email,
+                reference: item.reference,
+                status: item.status,
+              };
+            })
+          )
+        }
+      })
     }
   return (
     <Fragment>
@@ -133,7 +144,7 @@ const Leads = () => {
       <Row>
         <Col lg={12}>
           <Card>
-            <Card.Body className={`${hasData === 0 && 'text-center'} `}>
+            <Card.Body>
               <Row className="mb-3">
                 <Col md={2} sm={5}>
                   <MonthDropDown
@@ -202,7 +213,9 @@ const Leads = () => {
                     })}
                 </tbody>
               </Table>}
-              {hasData === 0 && <NoData />}
+              {hasData === 0 && <div className='text-center'> 
+                <NoData />
+              </div>}
               <Pagination
                   setData={setData}
                   service={leadService}

@@ -99,7 +99,7 @@ const Resignation = () => {
           </div>
           <div>
             <Button 
-              variant='primary' 
+              variant='secondary' 
               className='mx-2 h-75'
               onClick={printProjects}
             >

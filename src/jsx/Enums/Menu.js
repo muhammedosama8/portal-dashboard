@@ -15,14 +15,6 @@ export const MenuList = [
     to: "rules",
     text: "rules",
   },
-  // Users
-  // {
-  //   title: "Users",
-  //   classsChange: "mm-collapse",
-  //   iconStyle: <i className="la la-users"></i>,
-  //   to: "users",
-  //   text: "users",
-  // },
   // Custody
   {
     title: "Custody",
@@ -80,13 +72,13 @@ export const MenuList = [
     text: "payment",
   },
   // Financial
-  {
-    title: "Financial",
-    classsChange: "mm-collapse",
-    iconStyle: <i className="la la-pie-chart"></i>,
-    to: "financial",
-    text: "financial",
-  },
+  // {
+  //   title: "Financial",
+  //   classsChange: "mm-collapse",
+  //   iconStyle: <i className="la la-pie-chart"></i>,
+  //   to: "financial",
+  //   text: "financial",
+  // },
   // Setting
 //   {
 //     title:'control',

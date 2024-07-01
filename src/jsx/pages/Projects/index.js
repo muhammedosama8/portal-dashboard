@@ -98,7 +98,7 @@ const Projects = () => {
                 maintaince: item?.maintenance,
                 maintaince_start_date: item?.maintenance_start_date?.split('T')[0] || '-',
                 maintaince_end_date: item?.maintenance_end_date?.split('T')[0] || '-',
-                type: item?.type,
+                type: Translate[lang][item?.type],
               };
             })
           )
