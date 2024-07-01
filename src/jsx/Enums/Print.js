@@ -1,4 +1,4 @@
-import logo from '../../images/logo-bg.png'
+import logo from '../../images/logo-color.svg'
 
 const print = (title, headRow, lang, data) =>{
     let printWindow = window.open("", "_blank");
